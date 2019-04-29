@@ -1,0 +1,28 @@
+.lgc_haserror {
+    border-color: #e9170e;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(233, 13, 17, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(233, 13, 17, 0.6);
+}
+
+.lgc_mainform {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 3;
+}
+
+.lgc_mainform input, select {
+    text-align: right;
+    width: 200px;
+    margin-left: auto;
+    height: 32px;
+}
+
+.lgc_mainform button {
+    margin-top: 32px;
+}
+
+.lgc_mainform label {
+    width: 250px;
+}
