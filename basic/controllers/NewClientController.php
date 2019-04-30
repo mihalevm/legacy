@@ -28,35 +28,67 @@ class NewClientController extends Controller {
         }
 
         $model = new NewClientForm();
+        $bcard = $model->getFirstFreeCard();
 
         return $this->render('index',[
             'model' => $model,
             'cSize' => $model->getAllCSize(),
             'fSize' => $model->getAllFSize(),
+            'cnum'  => $bcard['cnum'],
+            'bblnc' => $bcard['bsumm'],
         ]);
     }
 
-    public function actionGenerate(){
+    public function actionCreate(){
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);
         }
 
         $r = Yii::$app->request;
         $res = 0;
-        $model = new CreateCardForm();
+        $model = new NewClientForm();
 
-        if (null !== $r->post('bn') && null !== $r->post('en')){
-            $balance = (null !== $r->post('b')?intval($r->post('b')):0);
-            $days    = (null !== $r->post('d')?intval($r->post('d')):0);
-
-            for ($i = intval($r->post('bn')); $i <= intval($r->post('en')); $i++) {
-                $model->addNewCard($i, $balance, $days);
-            }
-
-            $res = $model->getLastCardNumber();
+        if (null !== $r->post('cnum')){
+            $res = $model->createNewUser(
+                $r->post('cnum'),
+                $r->post('fio'),
+                $r->post('phone'),
+                $r->post('birth'),
+                $r->post('sex'),
+                $r->post('ctype'),
+                $r->post('csize'),
+                $r->post('fsize')
+            );
         }
 
         return $this->_sendJSONAnswer($res);
     }
+
+    public function actionUpdate(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
+
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new NewClientForm();
+
+        if (null !== $r->post('cnum') && null != $r->post('uid')){
+            $res = $model->updateNewUser(
+                $r->post('uid'),
+                $r->post('cnum'),
+                $r->post('fio'),
+                $r->post('phone'),
+                $r->post('birth'),
+                $r->post('sex'),
+                $r->post('ctype'),
+                $r->post('csize'),
+                $r->post('fsize')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
 
 }

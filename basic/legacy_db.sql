@@ -23,25 +23,26 @@ CREATE TABLE IF NOT EXISTS `lgc_bcards` (
   `bsumm` float NOT NULL default '0' COMMENT 'Бонусный баланс',
   `days` int(11) NOT NULL default '0' COMMENT 'Срок действия карты',
   `disabled` char(1) NOT NULL default 'N' COMMENT 'Признак блокировки',
+  `is_used` char(1) default 'N' COMMENT 'Признак использования карты',
   PRIMARY KEY  (`cid`),
   UNIQUE KEY `unq_cnum` (`cnum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица бонусных карт';
 
--- Дамп данных таблицы legacy.lgc_bcards: ~0 rows (приблизительно)
+-- Дамп данных таблицы legacy.lgc_bcards: ~12 rows (приблизительно)
 /*!40000 ALTER TABLE `lgc_bcards` DISABLE KEYS */;
-INSERT INTO `lgc_bcards` (`cid`, `cdate`, `cnum`, `bsumm`, `days`, `disabled`) VALUES
-	(1, '2019-04-29 14:23:50', 1, 0, 0, 'N'),
-	(2, '2019-04-29 14:23:50', 2, 0, 0, 'N'),
-	(3, '2019-04-29 14:36:36', 3, 0, 0, 'N'),
-	(4, '2019-04-29 14:36:36', 4, 0, 0, 'N'),
-	(5, '2019-04-29 14:36:36', 5, 0, 0, 'N'),
-	(6, '2019-04-29 14:38:32', 6, 0, 0, 'N'),
-	(7, '2019-04-29 14:38:38', 7, 0, 0, 'N'),
-	(8, '2019-04-29 14:44:59', 8, 10, 33, 'N'),
-	(9, '2019-04-29 14:44:59', 9, 10, 33, 'N'),
-	(10, '2019-04-29 14:44:59', 10, 10, 33, 'N'),
-	(11, '2019-04-29 14:49:13', 11, 0, 0, 'N'),
-	(12, '2019-04-29 14:49:13', 12, 0, 0, 'N');
+INSERT INTO `lgc_bcards` (`cid`, `cdate`, `cnum`, `bsumm`, `days`, `disabled`, `is_used`) VALUES
+	(1, '2019-04-29 14:23:50', 1, 0, 0, 'N', 'Y'),
+	(2, '2019-04-29 14:23:50', 2, 0, 0, 'N', 'Y'),
+	(3, '2019-04-29 14:36:36', 3, 0, 0, 'N', 'Y'),
+	(4, '2019-04-29 14:36:36', 4, 0, 0, 'N', 'Y'),
+	(5, '2019-04-29 14:36:36', 5, 0, 0, 'N', 'Y'),
+	(6, '2019-04-29 14:38:32', 6, 0, 0, 'N', 'Y'),
+	(7, '2019-04-29 14:38:38', 7, 0, 0, 'N', 'Y'),
+	(8, '2019-04-29 14:44:59', 8, 10, 33, 'N', 'N'),
+	(9, '2019-04-29 14:44:59', 9, 10, 33, 'N', 'N'),
+	(10, '2019-04-29 14:44:59', 10, 10, 33, 'N', 'N'),
+	(11, '2019-04-29 14:49:13', 11, 0, 0, 'N', 'N'),
+	(12, '2019-04-29 14:49:13', 12, 0, 0, 'N', 'N');
 /*!40000 ALTER TABLE `lgc_bcards` ENABLE KEYS */;
 
 -- Дамп структуры для таблица legacy.lgc_btransactions
@@ -78,6 +79,16 @@ CREATE TABLE IF NOT EXISTS `lgc_clients` (
 
 -- Дамп данных таблицы legacy.lgc_clients: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `lgc_clients` DISABLE KEYS */;
+INSERT INTO `lgc_clients` (`uid`, `cdate`, `fio`, `phone`, `birthday`, `sex`, `style`, `did`, `fid`, `cid`) VALUES
+	(3, '2019-04-30 11:06:52', 'Михалев Максим', '79039589783', '0000-00-00', 1, 'Свой стиль', 3, 13, 1),
+	(4, '2019-04-30 11:25:04', 'Михалев Максим', '79039589783', '0000-00-00', 1, 'fhhhhhhhhf', 1, 1, 2),
+	(5, '2019-04-30 11:26:19', 'Михалев Максим', '79039589783', '0000-00-00', 1, 'fhhhhhhhhf', 1, 1, 2),
+	(6, '2019-04-30 11:37:10', 'Михалев Максим', '79039589783', '1979-01-10', 1, 'fhhhhhhhhf', 1, 1, 2),
+	(7, '2019-04-30 11:40:53', 'Михалев Максим', '33333333333', '2001-10-02', 1, 'gfgdfgd', 1, 1, 3),
+	(8, '2019-04-30 11:49:52', 'Михалев Максим', '66666666666', NULL, 1, 'еукеупкепук', 1, 1, 4),
+	(9, '2019-04-30 11:59:35', 'Михалев Максим', '66666666666', '2014-05-10', 1, '46545645', 1, 1, 5),
+	(10, '2019-04-30 12:04:57', '', '', '0000-00-00', 1, '', 1, 1, 6),
+	(11, '2019-04-30 12:12:38', 'Михалев Максим', '79039589783', '1979-01-10', 1, 'eeeeee', 3, 13, 7);
 /*!40000 ALTER TABLE `lgc_clients` ENABLE KEYS */;
 
 -- Дамп структуры для таблица legacy.lgc_dsize
@@ -87,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `lgc_dsize` (
   PRIMARY KEY  (`did`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица словаря размера одежды';
 
--- Дамп данных таблицы legacy.lgc_dsize: ~0 rows (приблизительно)
+-- Дамп данных таблицы legacy.lgc_dsize: ~11 rows (приблизительно)
 /*!40000 ALTER TABLE `lgc_dsize` DISABLE KEYS */;
 INSERT INTO `lgc_dsize` (`did`, `value`) VALUES
 	(1, '40'),
@@ -110,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `lgc_fsize` (
   PRIMARY KEY  (`fid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица словаря размера обуви';
 
--- Дамп данных таблицы legacy.lgc_fsize: ~0 rows (приблизительно)
+-- Дамп данных таблицы legacy.lgc_fsize: ~13 rows (приблизительно)
 /*!40000 ALTER TABLE `lgc_fsize` DISABLE KEYS */;
 INSERT INTO `lgc_fsize` (`fid`, `value`) VALUES
 	(1, '35'),

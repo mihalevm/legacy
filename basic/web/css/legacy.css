@@ -5,22 +5,74 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(233, 13, 17, 0.6);
 }
 
-.lgc_mainform {
+.lgc_mainform, .lgc_searchform {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
     line-height: 3;
 }
 
+.lgc_searchresult {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.lgc_searchresulttable {
+    border-radius: 5px;
+}
+
+.lgc_searchresulttable tbody{
+    cursor: pointer;
+}
+
+.lgc_searchresulttable thead tr {
+    background-color: lightgrey;
+}
+
+.lgc_searchform {
+    text-align: center;
+}
+
+.lgc_searchform label {
+    width: 100%;
+    display: ruby;
+}
+
+.lgc_searchform label i {
+    line-height: 2;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    width: 39px;
+    margin-right: -9px;
+    height: 32px;
+    background-color: lightgray;
+}
+.lgc_searchform input {
+    text-align: right;
+    width: 100%;
+    margin-left: auto;
+    height: 32px;
+    display: initial;
+    border-radius: 4px;
+    border: 1px solid lightgray;
+}
+
+
 .lgc_mainform input, select {
     text-align: right;
     width: 200px;
     margin-left: auto;
     height: 32px;
+    display: initial;
+    border-radius: 4px;
+    border: 1px solid lightgray;
 }
 
 .lgc_mainform button {
     margin-top: 32px;
+    margin-right: 32px;
 }
 
 .lgc_mainform label {
