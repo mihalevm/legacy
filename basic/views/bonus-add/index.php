@@ -1,0 +1,49 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\MaskedInput;
+use yii\bootstrap\Button;
+
+$this->title = 'Зачисление бонусов';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="site-login">
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
+    <div class="lgc_mainform">
+        <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true']); ?><br/>
+        <label>Доступно бонусов: </label> <?= Html::textInput('cur_bcumm', $client_params['bsumm'], ['disabled' => 'true']); ?><br/>
+        <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999']); ?><br/>
+        <label>Сумма бонусных баллов: </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?><br/>
+        <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
+
+        <?= Button::widget(['label' => 'Зачислить','options' => ['name' => 'addbonus', 'class' => 'btn-sm btn-warning pull-right', 'onclick' => 'bonus.add()',],]);?>
+    </div>
+    <?php
+    $list_isnot_empty = sizeof($client_last_transaction)>0;
+    ?>
+    <div id="list_transaction" class="lgc_searchresult" style="display: <?=$list_isnot_empty?'block':'none'?>">
+        <label>Последние покупки клиента</label><br>
+        <table class="table table-hover lgc_searchresulttable">
+            <thead>
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Сумма</th>
+                <th scope="col">Бонусы</th>
+                <th scope="col">Описание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($client_last_transaction as $item){
+                $item['bsumm'] = $item['ttype'] == 'a' ? $item['bsumm'] : -$item['bsumm'];
+                echo '<tr><th scope="row">'.$item['tdate'].'</th><td>'.$item['summ'].'</td><td>'.$item['bsumm'].'</td><td>'.$item['tdesc'].'</td></tr>';
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+    <div id="list_empty" class="lgc_searchresult" style="display: <?=!$list_isnot_empty?'block':'none'?>">
+        <label>Список покупок пуст.</label><br>
+    </div>
+</div>
