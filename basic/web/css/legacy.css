@@ -37,15 +37,15 @@
 
 .lgc_searchform label {
     width: 100%;
-    display: ruby;
+    display: inline-flex;
 }
 
 .lgc_searchform label i {
     line-height: 2;
     border: 1px solid lightgray;
     border-radius: 5px;
-    width: 39px;
-    margin-right: -9px;
+    width: 42px;
+    margin-right: -5px;
     height: 32px;
     background-color: lightgray;
 }
@@ -71,8 +71,9 @@
 }
 
 .lgc_mainform button {
-    margin-top: 32px;
-    margin-right: 32px;
+    margin-top: 10px;
+    margin-right: 23%;
+    width: 150px;
 }
 
 .lgc_mainform label {

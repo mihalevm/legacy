@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Стиль одежды: </label><?= Html::textInput('ctype', null, ['placeholder' => 'Тип одежды']); ?><br/>
         <label>Размер одежды: </label><?= Html::dropDownList('csize', null, $cSize) ?><br/>
         <label>Размер обуви: </label><?= Html::dropDownList('fsize', null, $fSize) ?><br/>
-        <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-lg btn-primary pull-right', 'onclick' => 'newclient.create()',],]);?>
-        <?= Button::widget(['label' => 'Списать','options' => ['disabled'=>'', 'name' => 'subbonus', 'class' => 'btn-lg btn-danger pull-right', 'onclick' => 'newclient.create()',],]);?>
-        <?= Button::widget(['label' => 'Зачислить','options' => ['disabled'=>'', 'name' => 'addbonus', 'class' => 'btn-lg btn-warning pull-right', 'onclick' => 'newclient.create()',],]);?>
+        <?= Button::widget(['label' => 'Списать','options' => ['disabled'=>'', 'name' => 'subbonus', 'class' => 'btn-sm btn-danger pull-right', 'onclick' => 'newclient.bonussub()',],]);?>
+        <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary pull-right', 'onclick' => 'newclient.create()',],]);?>
+        <?= Button::widget(['label' => 'Зачислить','options' => ['disabled'=>'', 'name' => 'addbonus', 'class' => 'btn-sm btn-warning pull-right', 'onclick' => 'newclient.bonusadd()',],]);?>
     </div>
 </div>

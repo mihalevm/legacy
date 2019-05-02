@@ -98,6 +98,8 @@ class NewClientForm extends Model {
     }
 
     public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
+        $birth = (strlen($birth) == 0 ? null: $birth);
+
         $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%m.%d.%y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
