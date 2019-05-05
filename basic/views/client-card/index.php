@@ -7,7 +7,7 @@ use yii\bootstrap\Button;
 $this->title = 'Редактирование клиента';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+<div>
     <h1><?= Html::encode($this->title) ?></h1>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
@@ -21,9 +21,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Размер одежды: </label><?= Html::dropDownList('csize', $client_params['did'], $cSize) ?><br/>
         <label>Размер обуви: </label><?= Html::dropDownList('fsize', $client_params['fid'], $fSize) ?><br/>
 
-        <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary pull-right', 'onclick' => 'newclient.create()',],]);?>
-        <?= Button::widget(['label' => 'Списать','options' => ['name' => 'subbonus', 'class' => 'btn-sm btn-danger pull-right', 'onclick' => 'newclient.bonussub()',],]);?>
-        <?= Button::widget(['label' => 'Покупки','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary pull-right', 'onclick' => '',],]);?>
-        <?= Button::widget(['label' => 'Зачислить','options' => ['name' => 'addbonus', 'class' => 'btn-sm btn-warning pull-right', 'onclick' => 'newclient.bonusadd()',],]);?>
+        <div class="lgc_form_control">
+            <span>
+        <?= Button::widget(['label' => 'Покупки','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary', 'onclick' => 'newclient.transactions()',],]);?>
+            </span>
+            <span>
+        <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary', 'onclick' => 'newclient.create()',],]);?>
+            </span>
+        </div>
+        <div class="lgc_form_control">
+            <span>
+        <?= Button::widget(['label' => 'Списать','options' => ['name' => 'subbonus', 'class' => 'btn-sm btn-danger', 'onclick' => 'newclient.bonussub()',],]);?>
+            </span>
+            <span>
+        <?= Button::widget(['label' => 'Зачислить','options' => ['name' => 'addbonus', 'class' => 'btn-sm btn-warning', 'onclick' => 'newclient.bonusadd()',],]);?>
+            </span>
+        </div>
     </div>
 </div>

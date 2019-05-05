@@ -7,7 +7,7 @@ use yii\bootstrap\Button;
 $this->title = 'Зачисление бонусов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+<div>
     <h1><?= Html::encode($this->title) ?></h1>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
@@ -16,8 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999']); ?><br/>
         <label>Сумма бонусных баллов: </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?><br/>
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
-
+        <div class="lgc_form_control">
+            <span>
+                <div style="width: 150px; display: table-cell"></div>
+            </span>
+            <span>
         <?= Button::widget(['label' => 'Зачислить','options' => ['name' => 'addbonus', 'class' => 'btn-sm btn-warning pull-right', 'onclick' => 'bonus.add()',],]);?>
+            </span>
+        </div>
     </div>
     <?php
     $list_isnot_empty = sizeof($client_last_transaction)>0;

@@ -28,7 +28,8 @@
 }
 
 .lgc_searchresulttable thead tr {
-    background-color: lightgrey;
+    background-color: #f0dbe4;
+    border-color: #f0dbe4;
 }
 
 .lgc_searchform {
@@ -42,12 +43,12 @@
 
 .lgc_searchform label i {
     line-height: 2;
-    border: 1px solid lightgray;
+    border: 1px solid #f0dbe4;
     border-radius: 5px;
     width: 42px;
     margin-right: -5px;
     height: 32px;
-    background-color: lightgray;
+    background-color: #f0dbe4;
 }
 .lgc_searchform input {
     text-align: right;
@@ -56,7 +57,7 @@
     height: 32px;
     display: initial;
     border-radius: 4px;
-    border: 1px solid lightgray;
+    border: 1px solid #f0dbe4;
 }
 
 
@@ -72,10 +73,66 @@
 
 .lgc_mainform button {
     margin-top: 10px;
-    margin-right: 23%;
+    /*margin-right: 23%;*/
     width: 150px;
 }
 
+.lgc_form_control {
+    text-align: center;
+    max-width: 450px;
+    min-width: 170px;
+}
+
+.lgc_form_control span {
+    margin-left: 30px;
+}
+
+
 .lgc_mainform label {
     width: 250px;
+    white-space: nowrap;
+}
+
+.input-group {
+    width: 200px;
+    float: right;
+}
+
+.filter {
+
+}
+
+.filter button {
+    margin-top: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.navbar-inverse {
+    background: linear-gradient(45deg, #c36f92, #7e3553);
+    border-color: transparent;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #f7edf1;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #f7edf1;
+}
+
+.footer {
+    background-color: #f0dbe4;
+}
+
+.lgc_login_label{
+    float: left;
+    line-height: 2;
+    width: 150px;
+}
+
+.site-login {
+    padding-left: 25%;
+    text-align: center;
 }

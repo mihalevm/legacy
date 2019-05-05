@@ -98,8 +98,11 @@ var newclient = function(){
         bonussub : function () {
             var uid   = parseInt($("input[name='uid']").val());
             window.location.href = window.location.origin+'/bonus-sub?u='+uid;
+        },
+        transactions : function () {
+            var uid   = parseInt($("input[name='uid']").val());
+            window.location.href = window.location.origin+'/transactions?u='+uid;
         }
-
     };
 }();
 
@@ -122,7 +125,7 @@ var search = function() {
                         {s: $("input[name='spattern']").val()},
                         function (data) {
                             $(data).each(function (item, obj) {
-                                $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected('+obj.uid+')"><th scope="row">'+obj.fio+'</th><td>'+obj.phone+'</td><td>'+obj.cnum+'</td><td>'+obj.bsumm+'</td><td><i class="fa fa-plus-square" style="color: green;" aria-hidden="true" onclick="event.stopPropagation();search.goadd('+obj.uid+')"/>&nbsp;<i class="fa fa-minus-square"  style="color: red;" aria-hidden="true" onclick="event.stopPropagation();search.gosub('+obj.uid+')"/></td></tr>');
+                                $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected('+obj.uid+')"><th scope="row">'+obj.fio+'</th><td>'+obj.phone+'</td><td>'+obj.cnum+'</td><td>'+obj.bsumm+'</td><td><i class="fa fa-plus-square" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd('+obj.uid+')"/>&nbsp;<i class="fa fa-minus-square"  style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub('+obj.uid+')"/></td></tr>');
                             });
                         }
                     );
@@ -230,5 +233,16 @@ var bonus = function() {
             $('#list_transaction').show();
             $('#list_empty').hide();
         },
+    };
+}();
+
+var transaction = function() {
+    return {
+        refresh: function () {
+            var sd  = $('#transactionsform-sdate').val();
+            var ed  = $('#transactionsform-edate').val();
+            var uid = parseInt($("input[name='uid']").val());
+            $.pjax({url: window.location.origin+window.location.pathname+'?u='+uid+'&s='+sd+'&e='+ed, container:"#transactions_list", timeout:2e3});
+        }
     };
 }();

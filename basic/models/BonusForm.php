@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 
 
 /**
@@ -18,90 +17,6 @@ class BonusForm extends Model {
 
     function __construct () {
         $this->db_conn = Yii::$app->db;
-    }
-
-    public function getLastCardNumber () {
-        $arr = ($this->db_conn->createCommand("select max(cnum) as last_max_num from lgc_bcards")
-            ->queryAll())[0];
-
-        return $arr['last_max_num'];
-    }
-
-    public function addNewCard ($id, $balance, $days) {
-        $this->db_conn->createCommand("insert into lgc_bcards (cnum, bsumm, days) values (:cnum, :bsumm, :days)")
-            ->bindValue(':cnum', $id)
-            ->bindValue(':bsumm', $balance)
-            ->bindValue(':days', $days)
-            ->execute();
-
-        return $this->db_conn->getLastInsertID();
-    }
-
-    public function getAllCSize (){
-        $arr = $this->db_conn->createCommand("select did, value from lgc_dsize order by value")
-            ->queryAll();
-
-        $arr = ArrayHelper::map($arr,'did','value');
-
-        return $arr;
-    }
-
-    public function getAllFSize (){
-        $arr = $this->db_conn->createCommand("select fid, value from lgc_fsize order by value")
-            ->queryAll();
-
-        $arr = ArrayHelper::map($arr,'fid','value');
-
-        return $arr;
-    }
-
-    public function getFirstFreeCard (){
-        $arr = ($this->db_conn->createCommand("SELECT cnum, bsumm FROM lgc_bcards WHERE is_used = 'N' LIMIT 1")
-            ->queryAll())[0];
-
-        return $arr;
-    }
-
-    private function setCardUsed ($cid) {
-        $this->db_conn->createCommand("update lgc_bcards set is_used='Y' where cid=:cid")
-            ->bindValue(':cid', $cid)
-            ->execute();
-    }
-
-    public function createNewUser ($cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
-        $cid = $this->getCardId($cnum);
-
-        $this->db_conn->createCommand("insert into lgc_clients (fio, phone, birthday, sex, style, did, fid, cid) values (:fio, :phone, str_to_date(:birthday, '%m.%d.%y'), :sex, :style, :did, :fid, :cid)")
-            ->bindValue(':fio', $fio)
-            ->bindValue(':phone', $phone)
-            ->bindValue(':birthday', $birth)
-            ->bindValue(':sex', $sex)
-            ->bindValue(':style', $ctype)
-            ->bindValue(':did', $csize)
-            ->bindValue(':fid', $fsize)
-            ->bindValue(':cid', $cid)
-            ->execute();
-
-        $uid = $this->db_conn->getLastInsertID();
-
-        $this->setCardUsed($cid);
-
-        return $uid;
-    }
-
-    public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
-        $birth = (strlen($birth) == 0 ? null: $birth);
-
-        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%m.%d.%y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
-            ->bindValue(':fio', $fio)
-            ->bindValue(':phone', $phone)
-            ->bindValue(':birthday', $birth)
-            ->bindValue(':sex', $sex)
-            ->bindValue(':style', $ctype)
-            ->bindValue(':did', $csize)
-            ->bindValue(':fid', $fsize)
-            ->bindValue(':uid', $uid)
-            ->execute();
     }
 
 // Bonus transaction part
@@ -160,7 +75,7 @@ class BonusForm extends Model {
     }
 
     public function getLastStat ($uid) {
-        $arr = $this->db_conn->createCommand("select date_format(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid order by tid limit 5")
+        $arr = $this->db_conn->createCommand("select date_format(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid order by tid desc limit 5")
             ->bindValue(':uid', $uid)
             ->queryAll();
 

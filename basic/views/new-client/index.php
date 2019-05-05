@@ -7,7 +7,7 @@ use yii\bootstrap\Button;
 $this->title = 'Создание клиента';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+<div>
     <h1><?= Html::encode($this->title) ?></h1>
     <?= Html::textInput('uid', null, ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
@@ -20,8 +20,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Стиль одежды: </label><?= Html::textInput('ctype', null, ['placeholder' => 'Тип одежды']); ?><br/>
         <label>Размер одежды: </label><?= Html::dropDownList('csize', null, $cSize) ?><br/>
         <label>Размер обуви: </label><?= Html::dropDownList('fsize', null, $fSize) ?><br/>
-        <?= Button::widget(['label' => 'Списать','options' => ['disabled'=>'', 'name' => 'subbonus', 'class' => 'btn-sm btn-danger pull-right', 'onclick' => 'newclient.bonussub()',],]);?>
-        <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary pull-right', 'onclick' => 'newclient.create()',],]);?>
-        <?= Button::widget(['label' => 'Зачислить','options' => ['disabled'=>'', 'name' => 'addbonus', 'class' => 'btn-sm btn-warning pull-right', 'onclick' => 'newclient.bonusadd()',],]);?>
+        <div class="lgc_form_control">
+            <span>
+                <div style="width: 150px; display: table-cell"></div>
+            </span>
+            <span>
+        <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary', 'onclick' => 'newclient.create()',],]);?>
+            </span>
+        </div>
+        <div class="lgc_form_control">
+            <span>
+        <?= Button::widget(['label' => 'Списать','options' => ['disabled'=>'', 'name' => 'subbonus', 'class' => 'btn-sm btn-danger', 'onclick' => 'newclient.bonussub()',],]);?>
+            </span>
+            <span>
+        <?= Button::widget(['label' => 'Зачислить','options' => ['disabled'=>'', 'name' => 'addbonus', 'class' => 'btn-sm btn-warning', 'onclick' => 'newclient.bonusadd()',],]);?>
+            </span>
+        </div>
     </div>
 </div>

@@ -7,13 +7,12 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = 'Вход';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<div class="site-login">
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -25,19 +24,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Пользователь:', ['class'=>"lgc_login_label"]) ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'password')->passwordInput()->label('Пароль:', ['class'=>"lgc_login_label"]) ?>
 
         <?= $form->field($model, 'rememberMe')->checkbox([
             'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
+        ])->label('Запомнить сессию') ?>
 
-        <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-            </div>
-        </div>
-
+    <div class="lgc_form_control">
+            <span>
+                <div style="width: 150px; display: table-cell"></div>
+            </span>
+        <span>
+                <?= Html::submitButton('Вход', ['class' => 'btn btn-primary ', 'name' => 'login-button']) ?>
+            </span>
+    </div>
+</div>
     <?php ActiveForm::end(); ?>
 </div>

@@ -7,7 +7,7 @@ use yii\bootstrap\Button;
 $this->title = 'Поиск клиента';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+<div>
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="lgc_searchform">
         <label>
