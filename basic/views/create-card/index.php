@@ -11,7 +11,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="lgc_mainform">
 <?php
-    echo Html::label('Номер последний карты: '.$LastCard, null,['name'=>'last_num'] );
+    echo Html::label('Номер последний карты: ');
+    echo Html::textInput('last_num', $LastCard, ['disabled' => 'true', "class" => "lgc_ro_input"]);
     echo '<br/>';
     echo Html::label('Начало диапазона:');
     echo MaskedInput::widget(['name' => 'sid','mask' => '9999',]);

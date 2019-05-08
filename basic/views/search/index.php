@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="lgc_searchform">
         <label>
         <i class="fa fa-search" aria-hidden="true"></i>
-        <?=Html::textInput('spattern', null, ['placeholder' => 'Поиск', 'onkeyup' => 'search.newsearch()']); ?>
+        <?=Html::textInput('spattern', null, ['placeholder' => 'ФИО, номер тел., номер карты', 'onkeyup' => 'search.newsearch()']); ?>
         </label>
     </div>
     <div class="lgc_searchresult">

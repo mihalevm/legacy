@@ -12,7 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
-        <label>Клиент: <?=$client_params['fio']?></label><br/>
+        <label>Клиент:</label>
+        <?= Html::textInput('cnum', $client_params['fio'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?>
         <div class="filter">
 <?php
     echo '<label class="control-label">Начало периода</label>';

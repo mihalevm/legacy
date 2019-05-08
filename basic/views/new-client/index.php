@@ -11,8 +11,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?= Html::textInput('uid', null, ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
-        <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $cnum, ['disabled' => 'true']); ?><br/>
-        <label>Доступно бонусов: </label> <?= Html::textInput('cnum', $bblnc, ['disabled' => 'true']); ?><br/>
+        <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $cnum, ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
+        <label>Доступно бонусов: </label> <?= Html::textInput('cnum', $bblnc, ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>ФИО: </label> <?= Html::textInput('fio', null, ['placeholder' => 'ФИО Клиента']); ?><br/>
         <label>Номер телефона: </label> <?=MaskedInput::widget(['name' => 'phone','mask' => '9-999-999-99-99',]); ?><br/>
         <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.99',]);?><br/>

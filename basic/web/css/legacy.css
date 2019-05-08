@@ -69,6 +69,7 @@
     display: initial;
     border-radius: 4px;
     border: 1px solid lightgray;
+    float: right;
 }
 
 .lgc_mainform button {
@@ -79,7 +80,7 @@
 
 .lgc_form_control {
     text-align: center;
-    max-width: 450px;
+    max-width: 100%;
     min-width: 170px;
 }
 
@@ -91,6 +92,12 @@
 .lgc_mainform label {
     width: 250px;
     white-space: nowrap;
+}
+
+.lgc_ro_input {
+    background-color: transparent;
+    border: none !important;
+    font-weight: 600;
 }
 
 .input-group {

@@ -11,8 +11,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
-        <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true']); ?><br/>
-        <label>Доступно бонусов: </label> <?= Html::textInput('cur_bcumm', $client_params['bsumm'], ['disabled' => 'true']); ?><br/>
+        <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
+        <label>Доступно бонусов: </label> <?= Html::textInput('cur_bcumm', $client_params['bsumm'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['onkeyup' => 'bonus.subcalc()']]); ?><br/>
         <label>Сумма бонусных баллов(<20%): </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?><br/>
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </tbody>
         </table>
     </div>
-    <div id="list_empty" class="lgc_searchresult" style="display: <?=!$list_isnot_empty?'block':'none'?>">
+    <div id="list_empty" class="lgc_searchresult" style="text-align: center; display: <?=!$list_isnot_empty?'block':'none'?>">
         <label>Список покупок пуст.</label><br>
     </div>
 </div>
