@@ -123,9 +123,17 @@ class NewClientForm extends Model {
     }
 
     public function checkNewCard($cnum) {
-        $arr = ($this->db_conn->createCommand("SELECT bsumm, is_used, disabled, days FROM lgc_bcards WHERE cnum=:cnum")
+        $arr = NULL;
+
+        $arr = $this->db_conn->createCommand("SELECT bsumm, is_used, disabled, days FROM lgc_bcards WHERE cnum=:cnum")
             ->bindValue(':cnum', $cnum)
-            ->queryAll())[0];
+            ->queryAll();
+
+        if (sizeof($arr)>0) {
+            $arr = $arr[0];
+        }else{
+            $arr = NULL;
+        }
 
         return $arr;
     }
