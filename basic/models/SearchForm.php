@@ -20,7 +20,7 @@ class SearchForm extends Model {
 
     public function Search ($sp) {
         $sp = strtolower($sp);
-        $arr = $this->db_conn->createCommand("SELECT c.uid, c.fio, c.phone, b.cnum, b.bsumm FROM lgc_clients c, lgc_bcards b WHERE c.cid=b.cid AND ( lower(c.fio) LIKE '%".$sp."%' OR c.phone LIKE '%".$sp."%' OR b.cnum LIKE '%".$sp."%')")
+        $arr = $this->db_conn->createCommand("SELECT c.uid, c.fio, c.phone, b.cnum, b.bsumm FROM lgc_clients c, lgc_bcards b WHERE c.cid=b.cid and c.disabled='N' AND ( lower(c.fio) LIKE '%".$sp."%' OR c.phone LIKE '%".$sp."%' OR b.cnum LIKE '%".$sp."%')")
             ->queryAll();
 
         return $arr;

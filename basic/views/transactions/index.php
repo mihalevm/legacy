@@ -55,17 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'layout' => "{items}<div align='right'>{pager}</div>",
         'rowOptions' => function ($model, $key, $index, $grid) {
             return [
-/*
-                'class'      => $index&1 ? 'tg-attr-item-one':'tg-attr-item-two',
-                'data-aid'   => $model['aid'],
-                'data-atype'   => $model['atype'],
-                'data-aname' => $model['aname'],
-                'data-adesc' => $model['adesc'],
-                'data-title' => $model['title'],
-                'data-test'  => $model['test'],
-                'onclick'    => 'attreditor.setActiveItem(this);'
-tdate, summ, bsumm, tdesc, ttype
-*/
             ];
         },
         'columns' => [
@@ -83,6 +72,9 @@ tdate, summ, bsumm, tdesc, ttype
                 'format' => 'ntext',
                 'attribute'=>'bsumm',
                 'label'=>'Бонусы',
+                'value' => function($data){
+                    return $data['ttype'] == 's' ? -$data['bsumm']:$data['bsumm'];
+                }
             ],
             [
                 'format' => 'ntext',

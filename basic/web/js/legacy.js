@@ -48,11 +48,13 @@ var createcard = function(){
 }();
 
 var newclient = function(){
+    var timerId = null;
+    var nCard   = 0;
+
     return {
         create : function () {
-            $("input[name='cnum']").removeClass('lgc_haserror');
-
-            var cnum  = parseInt($("input[name='cnum']").val());
+            var cnum  = parseInt($("input[name='cnum']").inputmask('unmaskedvalue'));
+            var bblnc = parseInt($("input[name='bblnc']").inputmask('unmaskedvalue'));
             var fio   = $("input[name='fio']").val();
             var phone = $("input[name='phone']").inputmask('unmaskedvalue');
             var birth = $("input[name='birth']").val();
@@ -62,7 +64,7 @@ var newclient = function(){
             var fsize = $("select[name='fsize']").val();
             var uid   = parseInt($("input[name='uid']").val());
 
-            if (cnum) {
+            if (cnum && !$("input[name='cnum']").hasClass('lgc_haserror')) {
                 if ( uid > 0 ){
                     $.post(
                         window.location.origin+window.location.pathname+'/update',
@@ -76,7 +78,7 @@ var newclient = function(){
                 } else {
                     $.post(
                         window.location.href+'/create',
-                        { cnum:cnum, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize },
+                        { cnum:cnum, bb:bblnc, nc:nCard, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize },
                         function (uid) {
                             if ( parseInt(uid) > 0 ) {
                                 $("input[name='uid']").val(uid);
@@ -102,6 +104,54 @@ var newclient = function(){
         transactions : function () {
             var uid   = parseInt($("input[name='uid']").val());
             window.location.href = window.location.origin+'/transactions?u='+uid;
+        },
+        newcard : function () {
+            var card_number = $("input[name='cnum']").inputmask('unmaskedvalue');
+            if (timerId) {clearTimeout(timerId);}
+
+            $("input[name='cnum']").removeClass('lgc_haserror');
+            $("input[name='bblnc']").val(0);
+            nCard = 0;
+
+            if ( parseInt(card_number) > 0 ) {
+                timerId = setTimeout(function () {
+                    $.post(
+                        window.location.origin+window.location.pathname+'/newcard',
+                        {c: card_number},
+                        function (data) {
+                            if (null != data) {
+                                if (data.is_used == 'Y'){
+                                    $("input[name='cnum']").addClass('lgc_haserror');
+                                    $.notify({	message: 'Данная карта уже назначена другому клиенту' },{	type: 'danger', delay:10000, offset:{x:0, y:100}, placement: {from: "top",align: "center"},});
+                                    return;
+                                }
+                                if (data.disabled == 'Y'){
+                                    $.notify({	message: 'Данная карта заблокирована и не может быть использована' },{	type: 'danger', delay:10000, offset:{x:0, y:100},placement: {from: "top",align: "center"},});
+                                    $("input[name='cnum']").addClass('lgc_haserror');
+                                    return;
+                                }
+                                $("input[name='bblnc']").val(data.bsumm);
+                                $.notify({	message: 'Карта найдена' },{	type: 'success', delay:10000, offset:{x:0, y:100},placement: {from: "top",align: "center"},});
+                            } else {
+                                $.notify({	message: 'Карта будет создана' },{	type: 'info', delay:10000, offset:{x:0, y:100},placement: {from: "top",align: "center"},});
+                                nCard = 1;
+                            }
+                        }
+                    );
+                }, 1000);
+            }
+        },
+        delete_client : function () {
+            var uid = parseInt($("input[name='uid']").val());
+            $.post(
+                window.location.origin+window.location.pathname+'/delete',
+                {u: uid},
+                function (data) {
+                    window.location.href = '/';
+                }
+            )
+
+            console.log(uid);
         }
     };
 }();

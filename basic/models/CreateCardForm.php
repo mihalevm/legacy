@@ -34,4 +34,11 @@ class CreateCardForm extends Model {
 
         return $this->db_conn->getLastInsertID();
     }
+
+    public function updateBonusBalance ($cid, $balance) {
+        $this->db_conn->createCommand("update lgc_bcards set bsumm=:bsumm where cid=:cid")
+            ->bindValue(':cid', $cid)
+            ->bindValue(':bsumm', $balance)
+            ->execute();
+    }
 }

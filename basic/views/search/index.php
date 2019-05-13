@@ -1,8 +1,5 @@
 <?php
-
 use yii\helpers\Html;
-use yii\widgets\MaskedInput;
-use yii\bootstrap\Button;
 
 $this->title = 'Поиск клиента';
 $this->params['breadcrumbs'][] = $this->title;

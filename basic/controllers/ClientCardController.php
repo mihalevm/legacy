@@ -69,5 +69,21 @@ class ClientCardController extends Controller {
         return $this->_sendJSONAnswer($res);
     }
 
+    public function actionDelete(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
 
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new ClientCardForm();
+
+        if (null !== $r->post('u')){
+            $res = $model->DeleteUser(
+                $r->post('u')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
 }

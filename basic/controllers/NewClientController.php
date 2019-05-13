@@ -28,14 +28,14 @@ class NewClientController extends Controller {
         }
 
         $model = new NewClientForm();
-        $bcard = $model->getFirstFreeCard();
+//        $bcard = $model->getFirstFreeCard();
 
         return $this->render('index',[
             'model' => $model,
             'cSize' => $model->getAllCSize(),
             'fSize' => $model->getAllFSize(),
-            'cnum'  => $bcard['cnum'],
-            'bblnc' => $bcard['bsumm'],
+//            'cnum'  => $bcard['cnum'],
+//            'bblnc' => $bcard['bsumm'],
         ]);
     }
 
@@ -51,6 +51,8 @@ class NewClientController extends Controller {
         if (null !== $r->post('cnum')){
             $res = $model->createNewUser(
                 $r->post('cnum'),
+                $r->post('bb'),
+                $r->post('nc'),
                 $r->post('fio'),
                 $r->post('phone'),
                 $r->post('birth'),
@@ -85,6 +87,22 @@ class NewClientController extends Controller {
                 $r->post('csize'),
                 $r->post('fsize')
             );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
+    public function actionNewcard(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
+
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new NewClientForm();
+
+        if (null !== $r->post('c') && intval($r->post('c'))>0 ) {
+            $res = $model->checkNewCard($r->post('c'));
         }
 
         return $this->_sendJSONAnswer($res);

@@ -63,7 +63,7 @@
 
 .lgc_mainform input, select {
     text-align: right;
-    width: 200px;
+    width: 215px;
     margin-left: auto;
     height: 32px;
     display: initial;
@@ -98,6 +98,26 @@
     background-color: transparent;
     border: none !important;
     font-weight: 600;
+}
+
+.lgc_deleteclient {
+    width: 100%;
+    background-color: #f0dbe4;
+    border-radius: 5px;
+    line-height: 2;
+}
+
+.lgc_deleteclient i {
+    float: right;
+    margin: 9px;
+    cursor: pointer;
+    color: #803755;
+}
+
+.lgc_deleteclient label {
+    font-weight: 100;
+    margin-left: 5px;
+    font-style: italic;
 }
 
 .input-group {

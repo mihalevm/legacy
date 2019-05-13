@@ -61,4 +61,9 @@ class ClientCardForm extends Model {
 
     }
 
+    public function DeleteUser ($uid) {
+        $this->db_conn->createCommand("update lgc_clients set disabled='Y' where uid=:uid")
+            ->bindValue(':uid', $uid)
+            ->execute();
+    }
 }

@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use app\models\CreateCardForm;
 
 
 /**
@@ -54,14 +55,14 @@ class NewClientForm extends Model {
 
         return $arr;
     }
-
+/*
     public function getFirstFreeCard (){
         $arr = ($this->db_conn->createCommand("SELECT cnum, bsumm FROM lgc_bcards WHERE is_used = 'N' LIMIT 1")
             ->queryAll())[0];
 
         return $arr;
     }
-
+*/
     private function getCardId ($cnum){
         $arr = ($this->db_conn->createCommand("SELECT cid FROM lgc_bcards WHERE cnum=:cnum")
             ->bindValue(':cnum', $cnum)
@@ -76,8 +77,16 @@ class NewClientForm extends Model {
             ->execute();
     }
 
-    public function createNewUser ($cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
-        $cid = $this->getCardId($cnum);
+    public function createNewUser ($cnum, $bblnc, $nc, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
+        $cid = NULL;
+        $birth = (strlen($birth) == 0 ? null: $birth);
+        $new_card = new CreateCardForm();
+
+        if (intval($nc) == 1){
+            $cid = $new_card->addNewCard($cnum, $bblnc, 0);
+        } else {
+            $cid = $this->getCardId($cnum);
+        }
 
         $this->db_conn->createCommand("insert into lgc_clients (fio, phone, birthday, sex, style, did, fid, cid) values (:fio, :phone, str_to_date(:birthday, '%m.%d.%y'), :sex, :style, :did, :fid, :cid)")
             ->bindValue(':fio', $fio)
@@ -93,6 +102,7 @@ class NewClientForm extends Model {
         $uid = $this->db_conn->getLastInsertID();
 
         $this->setCardUsed($cid);
+        $new_card->updateBonusBalance($cid, $bblnc);
 
         return $uid;
     }
@@ -112,4 +122,11 @@ class NewClientForm extends Model {
             ->execute();
     }
 
+    public function checkNewCard($cnum) {
+        $arr = ($this->db_conn->createCommand("SELECT bsumm, is_used, disabled, days FROM lgc_bcards WHERE cnum=:cnum")
+            ->bindValue(':cnum', $cnum)
+            ->queryAll())[0];
+
+        return $arr;
+    }
 }
