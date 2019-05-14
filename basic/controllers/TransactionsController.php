@@ -79,5 +79,43 @@ class TransactionsController extends Controller {
         return $this->_sendJSONAnswer($res);
     }
 
+    public function actionGettransaction(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
 
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new TransactionsForm();
+
+        if (null !== $r->post('t')){
+            $res = $model->GetTransaction(
+                $r->post('t')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
+    public function actionSavetransaction(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
+
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new TransactionsForm();
+
+        if (null !== $r->post('t')){
+            $res = $model->setTransaction(
+                $r->post('t'),
+                $r->post('bo'),
+                $r->post('s'),
+                $r->post('bs'),
+                $r->post('d')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
 }

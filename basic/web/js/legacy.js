@@ -287,12 +287,62 @@ var bonus = function() {
 }();
 
 var transaction = function() {
+    var edit_tid = null;
+
     return {
         refresh: function () {
             var sd  = $('#transactionsform-sdate').val();
             var ed  = $('#transactionsform-edate').val();
             var uid = parseInt($("input[name='uid']").val());
             $.pjax({url: window.location.origin+window.location.pathname+'?u='+uid+'&s='+sd+'&e='+ed, container:"#transactions_list", timeout:2e3});
+        },
+        save : function () {
+            var bo = $("input[name='bonus_op']:checked").val()
+            var s  = parseInt($("input[name='summ']").inputmask('unmaskedvalue'));
+            var bs = parseInt($("input[name='bsumm']").inputmask('unmaskedvalue'));
+            var d  = $("input[name='descr']").val();
+
+            $("input[name='summ']").removeClass('lgc_haserror');
+            $("input[name='bsumm']").removeClass('lgc_haserror');
+
+            if (isNaN(s)){
+                $("input[name='summ']").addClass('lgc_haserror');
+                return;
+            }
+
+            if (isNaN(bs)){
+                $("input[name='bsumm']").addClass('lgc_haserror');
+                return;
+            }
+
+            $.post(
+                window.location.origin+window.location.pathname+'/savetransaction',
+                {t:edit_tid, bo:bo, s:s, bs:bs, d:d},
+                function (data) {
+                    $('#editTransaction').modal('hide');
+                }
+            );
+        },
+        edit: function (tid) {
+            edit_tid = tid;
+
+            $('#editTransaction').on('hidden.bs.modal', function (e) {
+                transaction.refresh();
+                edit_tid = null;
+            })
+
+            $.post(
+                window.location.origin+window.location.pathname+'/gettransaction',
+                {t:tid},
+                function (data) {
+                    $("input[name='pay_date']").val(data.tdate);
+                    $("input[name='summ']").val(data.summ);
+                    $("input[name='bsumm']").val(data.bsumm);
+                    $("input[name='descr']").val(data.tdesc);
+                    $("input[name=bonus_op][value=" + data.ttype + "]").prop('checked', true);
+                    $('#editTransaction').modal('show');
+                }
+            );
         }
     };
 }();

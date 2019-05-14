@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Button;
 use yii\widgets\Pjax;
 use kartik\date\DatePicker;
+use yii\widgets\MaskedInput;
 
 $this->title = 'История покупок';
 $this->params['breadcrumbs'][] = $this->title;
@@ -80,10 +81,51 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'ntext',
                 'attribute'=>'tdesc',
                 'label'=>'Описание',
-            ]
+            ],
+            [
+                'format'      => 'raw',
+                'label'       => '<i class="fa fa-cog" aria-hidden="true"></i>',
+                'encodeLabel' => false,
+                'value'       => function($data){
+                    return '<div class="lgc_tedit" onclick="transaction.edit('.$data['tid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div>';
+                }
+
+            ],
         ],
     ]);
    Pjax::end();
 ?>
+    </div>
+</div>
+
+<div class="modal fade" id="editTransaction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Редактирование покупки</h4>
+            </div>
+            <div class="modal-body">
+                <div class="lgc_tform">
+                    <div><label>Дата покупки:</label><?=Html::textInput('pay_date', '', ['disabled' => 'true', "class" => "lgc_ro_input"]); ?></div>
+                    <div><label>Сумма покупки:</label><?=MaskedInput::widget(['name' => 'summ','mask' => '999999']); ?></div>
+                    <div><label>Бонусных баллов:</label><?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?></div>
+                    <div><label>Описание покупки:</label><?=Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?></div>
+                    <div class="lgc_ttype">
+                        <label>Бонусы:</label>
+                        <div class="radio">
+                            <label><input type="radio" name="bonus_op" value="a" checked>Зачисление</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="bonus_op" value="s">Списание</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" onclick="transaction.save()">Сохранить</button>
+            </div>
+        </div>
     </div>
 </div>

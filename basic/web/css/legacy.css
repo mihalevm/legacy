@@ -120,6 +120,47 @@
     font-style: italic;
 }
 
+.lgc_tedit {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    color: #7e3553;
+}
+
+.lgc_tform {
+    width: 98%;
+    line-height: 3;
+    display: grid;
+}
+
+.lgc_tform input {
+    float: right;
+    width: 300px;
+    text-align: right;
+    line-height: 2;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
+
+.lgc_tform label {
+
+}
+
+.lgc_ttype {
+
+}
+
+.lgc_ttype div {
+    line-height: 1;
+    text-align: right;
+    width: 60%;
+    margin-top: -30px;
+}
+
+.lgc_ttype div label {
+    width: 85px;
+}
+
 .input-group {
     width: 200px;
     float: right;
