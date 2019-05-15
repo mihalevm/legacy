@@ -7,7 +7,12 @@ use kartik\date\DatePicker;
 use yii\widgets\MaskedInput;
 
 $this->title = 'История покупок';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = [
+    'template' => "<li>{link}</li><li>".$this->title."</li>\n",
+    'label'    => "Клиент ".$client_params['fio'],
+    'url'      => ['/client-card?u='.$client_params['uid']]
+];
+
 ?>
 <div>
     <h1><?= Html::encode($this->title) ?></h1>

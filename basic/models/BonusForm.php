@@ -30,7 +30,7 @@ class BonusForm extends Model {
     }
 
     public function getClientParams ($uid) {
-        $arr = ($this->db_conn->createCommand("select c.uid, b.cnum, b.bsumm from lgc_clients c, lgc_bcards b where c.cid=b.cid and c.uid=:uid")
+        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, b.cnum, b.bsumm from lgc_clients c, lgc_bcards b where c.cid=b.cid and c.uid=:uid")
             ->bindValue(':uid', $uid)
             ->queryAll())[0];
 

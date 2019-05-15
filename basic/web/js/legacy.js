@@ -65,6 +65,7 @@ var newclient = function(){
             var uid   = parseInt($("input[name='uid']").val());
 
             if (cnum && !$("input[name='cnum']").hasClass('lgc_haserror')) {
+                $('.loader').css('visibility', 'visible');
                 if ( uid > 0 ){
                     $.post(
                         window.location.origin+window.location.pathname+'/update',
@@ -74,7 +75,9 @@ var newclient = function(){
                                 $("input[name='uid']").val(uid);
                             }
                         }
-                    );
+                    ).always(function() {
+                        $('.loader').css('visibility', 'hidden');
+                    });
                 } else {
                     $.post(
                         window.location.href+'/create',
@@ -87,7 +90,9 @@ var newclient = function(){
                                 $("button[name='addbonus']").prop('disabled', false);
                             }
                         }
-                    );
+                    ).always(function() {
+                        $('.loader').css('visibility', 'hidden');
+                    });
                 }
             } else {
                 $("input[name='cnum']").addClass('lgc_haserror');
@@ -115,6 +120,8 @@ var newclient = function(){
 
             if ( parseInt(card_number) > 0 ) {
                 timerId = setTimeout(function () {
+                    $('.loader').css('visibility', 'visible');
+                    $("button[name='newusersave']").prop('disabled',true);
                     $.post(
                         window.location.origin+window.location.pathname+'/newcard',
                         {c: card_number},
@@ -137,7 +144,10 @@ var newclient = function(){
                                 nCard = 1;
                             }
                         }
-                    );
+                    ).always(function () {
+                        $("button[name='newusersave']").prop('disabled',false);
+                        $('.loader').css('visibility', 'hidden');
+                    });
                 }, 1000);
             }
         },
@@ -170,15 +180,22 @@ var search = function() {
             $('.table-hover > tbody:last-child').empty();
             if ($("input[name='spattern']").val().length > 0 ) {
                 timerId = setTimeout(function () {
+                    $('.loader').css('visibility', 'visible');
                     $.post(
                         window.location.origin + '/search/newsearch',
                         {s: $("input[name='spattern']").val()},
                         function (data) {
-                            $(data).each(function (item, obj) {
-                                $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected('+obj.uid+')"><th scope="row">'+obj.fio+'</th><td>'+obj.phone+'</td><td>'+obj.cnum+'</td><td>'+obj.bsumm+'</td><td><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd('+obj.uid+')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub('+obj.uid+')"/></td></tr>');
-                            });
+                            if (data.length > 0) {
+                                $(data).each(function (item, obj) {
+                                    $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected('+obj.uid+')"><th scope="row">'+obj.fio+'</th><td>'+obj.phone+'</td><td>'+obj.cnum+'</td><td>'+obj.bsumm+'</td><td><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd('+obj.uid+')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub('+obj.uid+')"/></td></tr>');
+                                });
+                            } else {
+                                $('.table-hover > tbody:last-child').append('<tr><td colspan="5" style="text-align: center;">Ничего не найдено</td></tr>');
+                            }
                         }
-                    );
+                    ).always(function() {
+                        $('.loader').css('visibility', 'hidden');
+                    });
                 }, 1000);
             }
         },

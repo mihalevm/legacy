@@ -5,7 +5,12 @@ use yii\widgets\MaskedInput;
 use yii\bootstrap\Button;
 
 $this->title = 'Списание бонусов';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = [
+    'template' => "<li>{link}</li><li>".$this->title."</li>\n",
+    'label'    => 'Клиент '.$client_params['fio'],
+    'url'      => ['/client-card?u='.$client_params['uid']]
+];
+
 ?>
 <div>
     <h1><?= Html::encode($this->title) ?></h1>

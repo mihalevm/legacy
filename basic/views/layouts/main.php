@@ -70,6 +70,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+        <div class="loader loader_right_top"></div></li>
         <?= $content ?>
     </div>
 </div>
@@ -77,7 +78,6 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-right">&copy; Legacy <?= date('Y') ?></p>
-<!--        <p class="pull-right">--><?//= Yii::powered() ?><!--</p>-->
     </div>
 </footer>
 
