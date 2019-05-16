@@ -16,7 +16,6 @@ $config = [
     'defaultRoute' => 'search',
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'dBq_AM2X1yrr_lW3jN3-Ark8_JIRoE36',
         ],
         'cache' => [
@@ -27,7 +26,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'search/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

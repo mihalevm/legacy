@@ -25,14 +25,4 @@ class SearchForm extends Model {
 
         return $arr;
     }
-
-    public function addNewCard ($id, $balance, $days) {
-        $this->db_conn->createCommand("insert into lgc_bcards (cnum, bsumm, days) values (:cnum, :bsumm, :days)")
-            ->bindValue(':cnum', $id)
-            ->bindValue(':bsumm', $balance)
-            ->bindValue(':days', $days)
-            ->execute();
-
-        return $this->db_conn->getLastInsertID();
-    }
 }

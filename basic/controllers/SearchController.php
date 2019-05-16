@@ -34,6 +34,18 @@ class SearchController extends Controller {
         ]);
     }
 
+    public function actionError() {
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
+
+        $model = new SearchForm();
+
+        return $this->render('error',[
+            'model' => $model,
+        ]);
+    }
+
     public function actionNewsearch(){
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);

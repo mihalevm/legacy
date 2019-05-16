@@ -1,5 +1,4 @@
 var createcard = function(){
-
     return {
         start : function () {
             var has_error = false;
@@ -77,6 +76,8 @@ var newclient = function(){
                         }
                     ).always(function() {
                         $('.loader').css('visibility', 'hidden');
+                    }).fail(function() {
+                        window.location.href = 'search/error';
                     });
                 } else {
                     $.post(
@@ -92,6 +93,8 @@ var newclient = function(){
                         }
                     ).always(function() {
                         $('.loader').css('visibility', 'hidden');
+                    }).fail(function() {
+                        window.location.href = 'search/error';
                     });
                 }
             } else {
@@ -147,6 +150,8 @@ var newclient = function(){
                     ).always(function () {
                         $("button[name='newusersave']").prop('disabled',false);
                         $('.loader').css('visibility', 'hidden');
+                    }).fail(function() {
+                        window.location.href = 'search/error';
                     });
                 }, 1000);
             }
@@ -159,9 +164,9 @@ var newclient = function(){
                 function (data) {
                     window.location.href = '/';
                 }
-            )
-
-            console.log(uid);
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
         }
     };
 }();
@@ -195,6 +200,8 @@ var search = function() {
                         }
                     ).always(function() {
                         $('.loader').css('visibility', 'hidden');
+                    }).fail(function() {
+                        window.location.href = 'search/error';
                     });
                 }, 1000);
             }
@@ -243,7 +250,9 @@ var bonus = function() {
                             bonus.addtransaction('a');
                         }
                     }
-                );
+                ).fail(function() {
+                    window.location.href = 'search/error';
+                });
             }
 
         },
@@ -277,7 +286,9 @@ var bonus = function() {
                             bonus.addtransaction('s');
                         }
                     }
-                );
+                ).fail(function() {
+                    window.location.href = 'search/error';
+                });
             }
 
         },
@@ -338,7 +349,9 @@ var transaction = function() {
                 function (data) {
                     $('#editTransaction').modal('hide');
                 }
-            );
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
         },
         edit: function (tid) {
             edit_tid = tid;
@@ -359,7 +372,9 @@ var transaction = function() {
                     $("input[name=bonus_op][value=" + data.ttype + "]").prop('checked', true);
                     $('#editTransaction').modal('show');
                 }
-            );
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
         }
     };
 }();
