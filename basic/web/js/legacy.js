@@ -306,6 +306,7 @@ var bonus = function() {
             var max_bsumm = parseInt(summ*0.2);
             bsumm = bsumm > max_bsumm ? max_bsumm : bsumm;
             $("input[name='bsumm']").val(bsumm);
+            bonus.payCalcSub();
         },
         addtransaction: function (type) {
             var summ  = parseInt($("input[name='summ']").val());
@@ -319,6 +320,11 @@ var bonus = function() {
             $('#list_transaction').show();
             $('#list_empty').hide();
         },
+        payCalcSub: function () {
+            var summ  = parseInt($("input[name='summ']").val());
+            var bsumm = parseInt($("input[name='bsumm']").val());
+            $("input[name='pay_summ']").val(summ-bsumm);
+        }
     };
 }();
 

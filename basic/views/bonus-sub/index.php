@@ -18,8 +18,9 @@ $this->params['breadcrumbs'][] = [
     <div class="lgc_mainform">
         <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Доступно бонусов: </label> <?= Html::textInput('cur_bcumm', $client_params['bsumm'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
+        <label>Сумма к оплате: </label> <?= Html::textInput('pay_summ', '0', ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['onkeyup' => 'bonus.subcalc()']]); ?><br/>
-        <label>Сумма бонусных баллов(<20%): </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?><br/>
+        <label>Сумма бонусных баллов(<20%): </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999', 'options'=>['onkeyup' => 'bonus.payCalcSub()']]); ?><br/>
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
         <div class="lgc_form_control">
             <span>
