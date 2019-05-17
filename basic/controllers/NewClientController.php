@@ -28,14 +28,9 @@ class NewClientController extends Controller {
         }
 
         $model = new NewClientForm();
-//        $bcard = $model->getFirstFreeCard();
-
         return $this->render('index',[
-            'model' => $model,
             'cSize' => $model->getAllCSize(),
             'fSize' => $model->getAllFSize(),
-//            'cnum'  => $bcard['cnum'],
-//            'bblnc' => $bcard['bsumm'],
         ]);
     }
 

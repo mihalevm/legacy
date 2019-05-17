@@ -63,6 +63,14 @@ var newclient = function(){
             var fsize = $("select[name='fsize']").val();
             var uid   = parseInt($("input[name='uid']").val());
 
+            var birth_test = birth.split('.');
+            var birth_to_date = new Date(birth_test[2],birth_test[1]-1,birth_test[0]);
+            $("input[name='birth']").removeClass('lgc_haserror');
+            if (birth_test[2] != birth_to_date.getFullYear() || birth_test[1] != birth_to_date.getMonth()+1 || birth_test[0] != birth_to_date.getDate()){
+                $("input[name='birth']").addClass('lgc_haserror');
+                return;
+            }
+
             if (cnum && !$("input[name='cnum']").hasClass('lgc_haserror')) {
                 $('.loader').css('visibility', 'visible');
                 if ( uid > 0 ){

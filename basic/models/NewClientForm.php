@@ -88,7 +88,7 @@ class NewClientForm extends Model {
             $cid = $this->getCardId($cnum);
         }
 
-        $this->db_conn->createCommand("insert into lgc_clients (fio, phone, birthday, sex, style, did, fid, cid) values (:fio, :phone, str_to_date(:birthday, '%m.%d.%y'), :sex, :style, :did, :fid, :cid)")
+        $this->db_conn->createCommand("insert into lgc_clients (fio, phone, birthday, sex, style, did, fid, cid) values (:fio, :phone, str_to_date(:birthday, '%m.%d.%Y'), :sex, :style, :did, :fid, :cid)")
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
             ->bindValue(':birthday', $birth)
@@ -110,7 +110,7 @@ class NewClientForm extends Model {
     public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
         $birth = (strlen($birth) == 0 ? null: $birth);
 
-        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%m.%d.%y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
+        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%m.%d.%Y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
             ->bindValue(':birthday', $birth)

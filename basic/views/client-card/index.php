@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Доступно бонусов: </label> <?= Html::textInput('cnum', $client_params['bsumm'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>ФИО: </label> <?= Html::textInput('fio', $client_params['fio'], ['placeholder' => 'ФИО Клиента']); ?><br/>
         <label>Номер телефона: </label> <?=MaskedInput::widget(['name' => 'phone','mask' => '9-999-999-99-99', 'value'=>$client_params['phone']]); ?><br/>
-        <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.99','value'=>$client_params['birthday']]);?><br/>
+        <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.9999','value'=>$client_params['birthday']]);?><br/>
         <label>Пол: </label> <?= Html::dropDownList('sex', $client_params['sex'], ['1' => 'Мужской', '0' => 'Женский']) ?><br/>
         <label>Стиль одежды: </label><?= Html::textInput('ctype', $client_params['style'], ['placeholder' => 'Тип одежды']); ?><br/>
         <label>Размер одежды: </label><?= Html::dropDownList('csize', $client_params['did'], $cSize) ?><br/>

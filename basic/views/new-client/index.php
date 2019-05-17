@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Доступно бонусов: </label><?=MaskedInput::widget(['name' => 'bblnc','mask' => '999999', 'value'=>'0']);?><br/>
         <label>ФИО: </label> <?= Html::textInput('fio', null, ['placeholder' => 'ФИО Клиента']); ?><br/>
         <label>Номер телефона: </label> <?=MaskedInput::widget(['name' => 'phone','mask' => '9-999-999-99-99',]); ?><br/>
-        <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.99',]);?><br/>
+        <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.9999',]);?><br/>
         <label>Пол: </label> <?= Html::dropDownList('sex', null, ['1' => 'Мужской', '0' => 'Женский']) ?><br/>
         <label>Стиль одежды: </label><?= Html::textInput('ctype', null, ['placeholder' => 'Тип одежды']); ?><br/>
         <label>Размер одежды: </label><?= Html::dropDownList('csize', null, $cSize) ?><br/>
