@@ -40,7 +40,7 @@ class ClientCardForm extends Model {
     public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
         $birth = (strlen($birth) == 0 ? null: $birth);
 
-        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%m.%d.%Y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
+        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%d.%m.%Y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
             ->bindValue(':birthday', $birth)
