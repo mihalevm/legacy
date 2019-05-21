@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <th scope="col">Телефон</th>
                 <th scope="col">Номер карты</th>
                 <th scope="col">Баланс</th>
-                <th scope="col"><i class="fa fa-cog" aria-hidden="true"></i></th>
+                <th scope="col" style="text-align: center"><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             </thead>
             <tbody>
