@@ -15,23 +15,18 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class LegacyAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+
     public $css = [
-        'css/site.css',
-        'css/legacy.css',
     ];
 
     public $js = [
+        '/js/legacy.js'
     ];
 
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-        'yii2mod\notify\AnimateAsset',
-        'yii2mod\notify\BootstrapNotifyAsset',
-        'rmrevin\yii\fontawesome\AssetBundle',
     ];
 }
