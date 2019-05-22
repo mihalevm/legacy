@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = [
                 'label'       => '<i class="fa fa-cog" aria-hidden="true"></i>',
                 'encodeLabel' => false,
                 'value'       => function($data){
-                    return '<div class="lgc_tedit" onclick="transaction.edit('.$data['tid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div>';
+                    return '<div class="lgc_tedit" title="Редактирование оплаты" onclick="transaction.edit('.$data['tid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div><div class="lgc_tedit" title="Удаление оплаты" onclick="transaction.show_confirm_dialog('.$data['tid'].')"><i class="fa fa-times" aria-hidden="true"></i></div>';
                 }
 
             ],
@@ -130,6 +130,20 @@ $this->params['breadcrumbs'][] = [
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                 <button type="button" class="btn btn-primary" onclick="transaction.save()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align: center">
+                Удалить оплату ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="transaction.delete()">Удалить</button>
             </div>
         </div>
     </div>

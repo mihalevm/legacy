@@ -118,4 +118,23 @@ class TransactionsController extends Controller {
 
         return $this->_sendJSONAnswer($res);
     }
+
+    public function actionDeltransaction(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
+
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new TransactionsForm();
+
+        if (null !== $r->post('t')){
+            $res = $model->DelTransaction(
+                $r->post('t')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
 }

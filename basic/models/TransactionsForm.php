@@ -89,4 +89,35 @@ class TransactionsForm extends Model {
 
         return 1;
     }
+
+    public function DelTransaction ($tid) {
+        $transaction = $this->getTransaction($tid);
+        $cid         = $transaction['cid'];
+        $operation   = $transaction['ttype'];
+        $bonus       = $transaction['bsumm'];
+
+        $current_bsumm = ($this->db_conn->createCommand("select bsumm from lgc_bcards where cid=:cid")
+            ->bindValue(':cid', $cid)
+            ->queryAll())[0];
+
+        $current_bsumm = $current_bsumm['bsumm'];
+
+        if ($operation == 'a'){
+            $current_bsumm = $current_bsumm-$bonus;
+        }
+        if ($operation == 's'){
+            $current_bsumm = $current_bsumm+$bonus;
+        }
+
+        $this->db_conn->createCommand("delete from lgc_btransactions where tid=:tid")
+            ->bindValue(':tid', $tid)
+            ->execute();
+
+        $this->db_conn->createCommand("update lgc_bcards set bsumm=:bsumm where cid=:cid")
+            ->bindValue(':bsumm', $current_bsumm)
+            ->bindValue(':cid', $cid)
+            ->execute();
+
+        return 1;
+    }
 }

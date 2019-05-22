@@ -396,6 +396,23 @@ var transaction = function() {
             ).fail(function() {
                 window.location.href = 'search/error';
             });
+        },
+        show_confirm_dialog: function (tid) {
+            $('#confirm_delete').modal('show');
+            edit_tid = tid;
+        },
+        delete: function () {
+            $.post(
+                window.location.origin+window.location.pathname+'/deltransaction',
+                {t:edit_tid},
+                function () {
+                    transaction.refresh();
+                    edit_tid = null;
+                }
+            ).fail(function() {
+//                window.location.href = 'search/error';
+                edit_tid = null;
+            });
         }
     };
 }();
