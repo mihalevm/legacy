@@ -308,6 +308,13 @@ var bonus = function() {
             $("input[name='bsumm']").val(bsumm);
             bonus.payCalcSub();
         },
+        addcalc: function (){
+            var summ   = parseInt($("input[name='summ']").val());
+            var bprcnt = parseInt($("select[name='bprcnt']").val());
+            var bsumm  = Math.floor(summ * bprcnt/100);
+
+            $("input[name='bsumm']").val(bsumm);
+        },
         addtransaction: function (type) {
             var summ  = parseInt($("input[name='summ']").val());
             var bsumm = parseInt($("input[name='bsumm']").val());
