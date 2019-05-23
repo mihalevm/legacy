@@ -256,6 +256,10 @@ var bonus = function() {
                             var cur_bsumm = parseInt($("input[name='cur_bcumm']").val());
                             $("input[name='cur_bcumm']").val(cur_bsumm+bsumm);
                             bonus.addtransaction('a');
+                            $('button[name=addbonus]').prop('disabled', true);
+                            setTimeout(function () {
+                                window.location.href = window.location.origin+'/client-card?u='+uid;
+                            }, 1000);
                         }
                     }
                 ).fail(function() {
@@ -292,13 +296,16 @@ var bonus = function() {
                             cur_bsumm = cur_bsumm-bsumm > 0 ? cur_bsumm-bsumm :  0;
                             $("input[name='cur_bcumm']").val(cur_bsumm);
                             bonus.addtransaction('s');
+                            $('button[name=addbonus]').prop('disabled', true);
+                            setTimeout(function () {
+                                window.location.href = window.location.origin+'/client-card?u='+uid;
+                            }, 1000);
                         }
                     }
                 ).fail(function() {
                     window.location.href = 'search/error';
                 });
             }
-
         },
         subcalc: function () {
             var bsumm = parseInt($("input[name='cur_bcumm']").val());
@@ -410,8 +417,8 @@ var transaction = function() {
                     edit_tid = null;
                 }
             ).fail(function() {
-//                window.location.href = 'search/error';
                 edit_tid = null;
+                window.location.href = 'search/error';
             });
         }
     };
