@@ -182,6 +182,8 @@ var newclient = function(){
 
 var search = function() {
     var timerId = null;
+    var item_per_page = 10;
+    var requested_users = null;
 
     return {
         userselected:function(uid){
@@ -191,17 +193,33 @@ var search = function() {
         newsearch: function () {
             if (timerId) {clearTimeout(timerId);}
             $('.table-hover > tbody:last-child').empty();
+            $('.lgc_search_pager').empty();
             if ($("input[name='spattern']").val().length > 0 ) {
                 timerId = setTimeout(function () {
                     $('.loader').css('visibility', 'visible');
+                    requested_users = null;
                     $.post(
                         window.location.origin + '/search/newsearch',
                         {s: $("input[name='spattern']").val()},
                         function (data) {
                             if (data.length > 0) {
-                                $(data).each(function (item, obj) {
-                                    $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected('+obj.uid+')"><td scope="row">'+obj.fio+'</td><td>'+obj.phone+'</td><td>'+obj.cnum+'</td><td>'+obj.bsumm+'</td><td><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd('+obj.uid+')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub('+obj.uid+')"/></td></tr>');
-                                });
+                                requested_users = data;
+                                search.setPage(null, 1);
+                                var page_cnt = data.length/item_per_page;
+                                page_cnt = page_cnt - Math.floor(page_cnt) > 0 ? Math.floor(page_cnt) + 1 : Math.floor(page_cnt);
+                                if (page_cnt > 1) {
+                                    var i = 1;
+                                    var page_item = '';
+                                    while (i <= page_cnt){
+                                        if (i == 1){
+                                            page_item = page_item+'<label class="lgc_page_active" onclick="search.setPage(this,'+i+')">'+i+'</label>';
+                                        } else {
+                                            page_item = page_item+'<label onclick="search.setPage(this,'+i+')">'+i+'</label>';
+                                        }
+                                        i++;
+                                    }
+                                    $('.lgc_search_pager').append(page_item);
+                                }
                             } else {
                                 $('.table-hover > tbody:last-child').append('<tr><td colspan="5" style="text-align: center;">Ничего не найдено</td></tr>');
                             }
@@ -213,6 +231,16 @@ var search = function() {
                     });
                 }, 1000);
             }
+        },
+        setPage: function(obj, pid) {
+            $('.table-hover > tbody:last-child').empty();
+            $('.lgc_page_active').removeClass('lgc_page_active');
+            $(obj).addClass('lgc_page_active');
+            $(requested_users).each(function (item, obj) {
+                if (item >= (pid-1)*item_per_page && item < (pid-1)*item_per_page+item_per_page) {
+                    $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected(' + obj.uid + ')"><td scope="row">' + obj.fio + '</td><td>' + obj.phone + '</td><td>' + obj.cnum + '</td><td>' + obj.bsumm + '</td><td><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd(' + obj.uid + ')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub(' + obj.uid + ')"/></td></tr>');
+                }
+            });
         },
         goadd:function (uid) {
             window.event.cancelBubble = true;

@@ -26,5 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <tbody>
             </tbody>
         </table>
+        <div class="lgc_search_pager"></div>
     </div>
 </div>

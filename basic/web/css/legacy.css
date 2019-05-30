@@ -164,6 +164,25 @@
     width: 85px;
 }
 
+.lgc_search_pager {
+    text-align: right;
+}
+
+.lgc_search_pager label {
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+    background-color: #f0dbe4;
+    text-align: center;
+    padding: 6px;
+    margin: 5px;
+    border-radius: 4px;
+}
+
+.lgc_page_active {
+    background-color: #da7ca6 !important;
+}
+
 .input-group {
     width: 200px;
     float: right;
