@@ -177,10 +177,30 @@
     padding: 6px;
     margin: 5px;
     border-radius: 4px;
+    opacity: 0.8;
+}
+
+
+.lgc_search_pager label:hover {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
 }
 
 .lgc_page_active {
     background-color: #da7ca6 !important;
+}
+
+.lgc_search_control {
+    text-align: center;
+}
+
+.lgc_search_control i {
+    opacity: 0.5;
+}
+
+.lgc_search_control i:hover {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
 }
 
 .input-group {

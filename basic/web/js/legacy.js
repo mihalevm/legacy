@@ -192,7 +192,9 @@ var search = function() {
 
         newsearch: function () {
             if (timerId) {clearTimeout(timerId);}
+            $('.table-hover > tbody:last-child').fadeOut()
             $('.table-hover > tbody:last-child').empty();
+            $('.lgc_search_pager').fadeOut();
             $('.lgc_search_pager').empty();
             if ($("input[name='spattern']").val().length > 0 ) {
                 timerId = setTimeout(function () {
@@ -219,10 +221,12 @@ var search = function() {
                                         i++;
                                     }
                                     $('.lgc_search_pager').append(page_item);
+                                    $('.lgc_search_pager').fadeIn();
                                 }
                             } else {
                                 $('.table-hover > tbody:last-child').append('<tr><td colspan="5" style="text-align: center;">Ничего не найдено</td></tr>');
                             }
+                            $('.table-hover > tbody:last-child').fadeIn();
                         }
                     ).always(function() {
                         $('.loader').css('visibility', 'hidden');
@@ -233,14 +237,19 @@ var search = function() {
             }
         },
         setPage: function(obj, pid) {
-            $('.table-hover > tbody:last-child').empty();
-            $('.lgc_page_active').removeClass('lgc_page_active');
-            $(obj).addClass('lgc_page_active');
-            $(requested_users).each(function (item, obj) {
-                if (item >= (pid-1)*item_per_page && item < (pid-1)*item_per_page+item_per_page) {
-                    $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected(' + obj.uid + ')"><td scope="row">' + obj.fio + '</td><td>' + obj.phone + '</td><td>' + obj.cnum + '</td><td>' + obj.bsumm + '</td><td><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd(' + obj.uid + ')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub(' + obj.uid + ')"/></td></tr>');
+            $('.table-hover > tbody:last-child').fadeOut('slow',
+                function () {
+                    $('.table-hover > tbody:last-child').empty();
+                    $('.lgc_page_active').removeClass('lgc_page_active');
+                    $(obj).addClass('lgc_page_active');
+                    $(requested_users).each(function (item, obj) {
+                        if (item >= (pid-1)*item_per_page && item < (pid-1)*item_per_page+item_per_page) {
+                            $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected(' + obj.uid + ')"><td scope="row">' + obj.fio + '</td><td>' + obj.phone + '</td><td>' + obj.cnum + '</td><td>' + obj.bsumm + '</td><td class="lgc_search_control"><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd(' + obj.uid + ')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub(' + obj.uid + ')"/></td></tr>');
+                        }
+                    });
+                    $('.table-hover > tbody:last-child').fadeIn();
                 }
-            });
+            );
         },
         goadd:function (uid) {
             window.event.cancelBubble = true;
