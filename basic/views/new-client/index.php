@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div>
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br/>
     <?= Html::textInput('uid', null, ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
         <label>Номер бонусной карты: </label><?=MaskedInput::widget(['name' => 'cnum','mask' => '99999','options'=>[ 'onkeyup'=>'newclient.newcard()']]);?><br/>

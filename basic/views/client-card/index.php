@@ -8,7 +8,7 @@ $this->title = 'Редактирование клиента';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br/>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
         <div class="lgc_deleteclient"><label>Удалить клиента</label><i class="fa fa-times-circle" aria-hidden="true" data-toggle="modal" data-target="#confirm_delete"></i></div>
@@ -48,8 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 Удалить клиента ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
                 <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="newclient.delete_client()">Удалить</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
             </div>
         </div>
     </div>

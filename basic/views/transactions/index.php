@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = [
 
 ?>
 <div>
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br/>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
         <label>Клиент:</label>
@@ -89,6 +89,7 @@ $this->params['breadcrumbs'][] = [
             ],
             [
                 'format'      => 'raw',
+                'headerOptions' => ['style'=>'text-align:center;',],
                 'label'       => '<i class="fa fa-cog" aria-hidden="true"></i>',
                 'encodeLabel' => false,
                 'value'       => function($data){
@@ -104,7 +105,7 @@ $this->params['breadcrumbs'][] = [
 </div>
 
 <div class="modal fade" id="editTransaction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -128,8 +129,8 @@ $this->params['breadcrumbs'][] = [
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-primary" onclick="transaction.save()">Сохранить</button>
+                <button type="button" class="btn btn-success" onclick="transaction.save()">Сохранить</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
             </div>
         </div>
     </div>
@@ -142,8 +143,8 @@ $this->params['breadcrumbs'][] = [
                 Удалить оплату ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
                 <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="transaction.delete()">Удалить</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = [
         ];
 ?>
 <div>
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br/>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
         <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>

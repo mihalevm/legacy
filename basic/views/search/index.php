@@ -5,7 +5,7 @@ $this->title = 'Поиск клиента';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br/>
     <div class="lgc_searchform">
         <label>
         <i class="fa fa-search" aria-hidden="true"></i>
