@@ -21,7 +21,6 @@
         "rmrevin/yii2-fontawesome": "~3.3",
         "yiisoft/yii2-jui": "*",
         "kartik-v/yii2-widget-datepicker": "dev-master",
-        "yiisoft/yii2-bootstrap4": "^2.0",
         "yii2mod/yii2-bootstrap-notify": "*"
     },
     "require-dev": {

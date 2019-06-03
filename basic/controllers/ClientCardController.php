@@ -40,6 +40,7 @@ class ClientCardController extends Controller {
             'cSize' => $model->getAllCSize(),
             'fSize' => $model->getAllFSize(),
             'client_params' => $client_params,
+            'dStyle' => $model->getUnqStyles(),
         ]);
     }
 

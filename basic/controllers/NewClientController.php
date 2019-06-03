@@ -29,8 +29,9 @@ class NewClientController extends Controller {
 
         $model = new NewClientForm();
         return $this->render('index',[
-            'cSize' => $model->getAllCSize(),
-            'fSize' => $model->getAllFSize(),
+            'cSize'  => $model->getAllCSize(),
+            'fSize'  => $model->getAllFSize(),
+            'dStyle' => $model->getUnqStyles(),
         ]);
     }
 

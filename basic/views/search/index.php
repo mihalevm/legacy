@@ -7,10 +7,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div>
     <br/>
     <div class="lgc_searchform">
-        <label>
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <?=Html::textInput('spattern', null, ['placeholder' => 'ФИО, номер тел., номер карты', 'onkeyup' => 'search.newsearch()']); ?>
-        </label>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default disabled" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+            <?=Html::textInput('spattern', null, ['placeholder' => 'ФИО, номер тел., номер карты', 'onkeyup' => 'search.newsearch()']); ?>
+        </div>
     </div>
     <div class="lgc_searchresult">
         <table class="table table-hover lgc_searchresulttable">

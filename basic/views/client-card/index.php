@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Номер телефона: </label> <?=MaskedInput::widget(['name' => 'phone','mask' => '9-999-999-99-99', 'value'=>$client_params['phone']]); ?><br/>
         <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.9999','value'=>$client_params['birthday']]);?><br/>
         <label>Пол: </label> <?= Html::dropDownList('sex', $client_params['sex'], ['1' => 'Мужской', '0' => 'Женский']) ?><br/>
-        <label>Стиль одежды: </label><?= Html::textInput('ctype', $client_params['style'], ['placeholder' => 'Тип одежды']); ?><br/>
+        <label>Стиль одежды: </label><?= Html::textInput('ctype', $client_params['style'], ['placeholder' => 'Тип одежды','list' => 'dress_style']); ?><br/>
         <label>Размер одежды: </label><?= Html::dropDownList('csize', $client_params['did'], $cSize) ?><br/>
         <label>Размер обуви: </label><?= Html::dropDownList('fsize', $client_params['fid'], $fSize) ?><br/>
 
@@ -54,3 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+
+<datalist id="dress_style">
+    <?php
+    foreach ($dStyle as $item){
+        echo '<option value="'.$item['style'].'">';
+    }
+    ?>
+</datalist>

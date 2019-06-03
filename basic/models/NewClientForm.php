@@ -137,4 +137,13 @@ class NewClientForm extends Model {
 
         return $arr;
     }
+
+    public function getUnqStyles(){
+        $arr = NULL;
+
+        $arr = $this->db_conn->createCommand("SELECT distinct style FROM lgc_clients WHERE length(style) > 0")
+            ->queryAll();
+
+        return $arr;
+    }
 }

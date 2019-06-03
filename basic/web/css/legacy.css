@@ -36,25 +36,27 @@
     text-align: center;
 }
 
-.lgc_searchform label {
+.lgc_searchform .input-group {
     width: 100%;
-    display: inline-flex;
 }
 
-.lgc_searchform label i {
-    line-height: 2;
-    border: 1px solid #f0dbe4;
-    border-radius: 5px;
-    width: 42px;
-    margin-right: -5px;
-    height: 32px;
+.lgc_searchform button {
     background-color: #f0dbe4;
+    cursor: default !important;
+    border: 1px solid #f0dbe4;
+    opacity: 1 !important;
 }
+
+.lgc_searchform button:hover, .lgc_searchform button:focus {
+    background-color: #f0dbe4 !important;
+    border: 1px solid #f0dbe4 !important;
+}
+
 .lgc_searchform input {
     text-align: right;
     width: 100%;
-    margin-left: auto;
-    height: 32px;
+    margin-left: -4px;
+    height: 34px;
     display: initial;
     border-radius: 4px;
     border: 1px solid #f0dbe4;
