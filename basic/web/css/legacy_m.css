@@ -60,7 +60,7 @@
 #transactions_list {
     width: 105%;
     font-size: 11px;
-    margin-left: -2%;
+    margin-left: -3%;
 }
 
 .modal-dialog-centered {
@@ -86,4 +86,8 @@
 
 #login-form {
     margin-left: -32%;
+}
+
+.lgc_tform input {
+    width: 100%;
 }
