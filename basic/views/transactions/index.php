@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = [
         'removeButton' => false,
         'pluginOptions' => [
             'format' => 'dd.mm.yyyy',
-            'orientation' => 'bottom right',
+            'orientation' => 'bottom left',
             'autoclose'=>true,
             'todayHighlight' => true,
         ]
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = [
         'removeButton' => false,
         'pluginOptions' => [
             'format' => 'dd.mm.yyyy',
-            'orientation' => 'bottom right',
+            'orientation' => 'bottom left',
             'autoclose'=>true,
             'todayHighlight' => true,
         ]

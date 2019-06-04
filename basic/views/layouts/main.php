@@ -27,6 +27,7 @@ if ( null !== Yii::$app->user->id) {
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="stylesheet" media="screen and (max-width: 812px)" href="css/legacy_m.css">
 </head>
 <body>
 <?php $this->beginBody() ?>

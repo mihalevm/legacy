@@ -141,7 +141,7 @@ class NewClientForm extends Model {
     public function getUnqStyles(){
         $arr = NULL;
 
-        $arr = $this->db_conn->createCommand("SELECT distinct style FROM lgc_clients WHERE length(style) > 0")
+        $arr = $this->db_conn->createCommand("SELECT DISTINCT LOWER(style) as style FROM lgc_clients WHERE length(style) > 0 ORDER BY style")
             ->queryAll();
 
         return $arr;

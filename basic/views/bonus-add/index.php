@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = [
     ?>
     <div id="list_transaction" class="lgc_searchresult" style="display: <?=$list_isnot_empty?'block':'none'?>">
         <label>Последние покупки клиента</label><br>
-        <table class="table table-hover lgc_searchresulttable">
+        <table class="table table-hover lgc_searchresulttable lgc_searchresulttable_m">
             <thead>
             <tr>
                 <th scope="col">Дата</th>

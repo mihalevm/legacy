@@ -20,12 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <tr>
                 <th scope="col">ФИО</th>
                 <th scope="col">Телефон</th>
-                <th scope="col">Номер карты</th>
+                <th scope="col">Карта</th>
                 <th scope="col">Баланс</th>
                 <th scope="col" style="text-align: center"><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             </thead>
             <tbody>
+                <tr><td colspan="5" style="text-align: center;">Для поиска введите ФИО, номер телефона либо номер карты</td></tr>
             </tbody>
         </table>
         <div class="lgc_search_pager"></div>

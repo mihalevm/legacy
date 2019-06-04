@@ -1,0 +1,89 @@
+.lgc_searchform {
+    width: 100%;
+}
+
+.lgc_searchresult {
+    width: 100%;
+    font-size: 12px;
+}
+
+.breadcrumb {
+    margin-bottom: -32px;
+}
+
+.lgc_search_control {
+    display: none;
+}
+
+.lgc_searchresulttable > thead > tr > th:last-child {
+    display: none;
+}
+
+.lgc_searchresulttable_m > thead > tr > th:last-child {
+    display: block !important;
+    display: revert !important;
+}
+
+.lgc_mainform {
+    width: 100%;
+    line-height: 1;
+    margin-top: 5%;
+}
+
+.lgc_mainform input, select {
+   /*margin-top: -15px;*/
+}
+
+.lgc_mainform button {
+    float: right;
+    margin-left: 3%;
+}
+
+.lgc_form_control {
+    margin-top: 10%;
+    margin-left: -3%;
+}
+
+.lgc_form_control span {
+    margin-left: 0;
+}
+
+.filter button {
+    margin-top: 50px;
+    margin-right: -200px;
+}
+
+.filter {
+    margin-bottom: 100px;
+}
+
+#transactions_list {
+    width: 105%;
+    font-size: 11px;
+    margin-left: -2%;
+}
+
+.modal-dialog-centered {
+   margin-top: 15vh;
+}
+
+.lgc_deleteclient {
+    margin-bottom: 10px;
+}
+
+.lgc_tedit {
+    display: table;
+    line-height: 2.5;
+    font-size: 12px;
+    padding: 0px;
+    margin: -1px;
+}
+
+.site-login {
+    margin-top: 25%;
+    width: 100%;
+}
+
+#login-form {
+    margin-left: -32%;
+}
