@@ -88,6 +88,6 @@
     margin-left: -32%;
 }
 
-.lgc_tform input {
+.lgc_tform input[type="text"] {
     width: 100%;
 }
