@@ -63,6 +63,10 @@
     margin-left: -3%;
 }
 
+#transactions_list th {
+    padding: 3px;
+}
+
 .modal-dialog-centered {
    margin-top: 15vh;
 }
