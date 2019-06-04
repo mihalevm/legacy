@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <span class="input-group-btn">
                 <button class="btn btn-default disabled" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
             </span>
-            <?=Html::textInput('spattern', null, ['placeholder' => 'ФИО, номер тел., номер карты', 'onkeyup' => 'search.newsearch()']); ?>
+            <?=Html::textInput('spattern', null, ['placeholder' => 'ФИО, номер тел., номер карты', 'onkeyup' => 'search.newsearch()', 'autofocus'=>'']); ?>
         </div>
     </div>
     <div class="lgc_searchresult">

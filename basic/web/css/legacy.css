@@ -62,6 +62,10 @@
     border: 1px solid #f0dbe4;
 }
 
+.lgc_searchform input:focus {
+    border: 1px solid #f0dbe4;
+}
+
 .lgc_mainform input, select {
     text-align: right;
     width: 300px;
@@ -279,4 +283,8 @@
 
 .modal-dialog-centered {
     margin-top: 25vh;
+}
+
+.nav i {
+    margin-right: 5px;
 }

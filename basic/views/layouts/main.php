@@ -10,6 +10,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\assets\LegacyAsset;
+use rmrevin\yii\fontawesome\FAS;
 
 AppAsset::register($this);
 
@@ -46,13 +47,13 @@ if ( null !== Yii::$app->user->id) {
 
     if ( null !== Yii::$app->user->id) {
         $items = [
-            ['label' => 'Поиск', 'url' => ['/search']],
-            ['label' => 'Новый клиент', 'url' => ['/new-client']],
-            ['label' => 'Создать карты', 'url' => ['/create-card']],
+            ['label' => FAS::icon('search').'Поиск', 'url' => ['/search']],
+            ['label' => FAS::icon('user-plus').'Новый клиент', 'url' => ['/new-client']],
+            ['label' => FAS::icon('credit-card').'Создать карты', 'url' => ['/create-card']],
             '<li>'
             . Html::beginForm(['/login/logout'], 'post')
             . Html::submitButton(
-                'Выход (' . Yii::$app->user->identity->username . ')',
+                FAS::icon('sign-out-alt').'Выход (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
@@ -60,13 +61,14 @@ if ( null !== Yii::$app->user->id) {
         ];
     } else {
         $items = [
-            ['label' => 'Вход', 'url' => ['/login']]
+            ['label' => FAS::icon('sign-in-alt').'Вход', 'url' => ['/login']]
         ];
     }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $items,
+        'encodeLabels' => false,
     ]);
     NavBar::end();
     ?>
