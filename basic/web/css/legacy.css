@@ -233,6 +233,7 @@
 
 .navbar-inverse {
     background: linear-gradient(45deg, #c36f92, #7e3553);
+    background-color: #c36f92;
     border-color: transparent;
 }
 
