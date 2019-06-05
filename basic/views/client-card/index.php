@@ -8,6 +8,11 @@ $this->title = 'Редактирование клиента';
 $this->params['breadcrumbs'][] = $this->title;
 
 $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
+
+if (\Yii::getAlias('@device') != 'desktop') {
+    $dates = str_split($client_params['birthday'], 2);
+    $client_params['birthday'] = $dates[0].'.'.$dates[1].'.'.$dates[2].$dates[3];
+}
 ?>
 <div>
     <br/>
