@@ -6,6 +6,7 @@ use yii\bootstrap\Button;
 
 $this->title = 'Создание клиента';
 $this->params['breadcrumbs'][] = $this->title;
+
 $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
 ?>
 <div>

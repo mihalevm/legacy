@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = [
     'url'      => ['/client-card?u='.$client_params['uid']]
 ];
 
+$field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
 ?>
 <div>
     <br/>
@@ -114,8 +115,8 @@ $this->params['breadcrumbs'][] = [
             <div class="modal-body">
                 <div class="lgc_tform">
                     <div><label>Дата покупки:</label><?=Html::textInput('pay_date', '', ['disabled' => 'true', "class" => "lgc_ro_input"]); ?></div>
-                    <div><label>Сумма покупки:</label><?=MaskedInput::widget(['name' => 'summ','mask' => '999999']); ?></div>
-                    <div><label>Бонусных баллов:</label><?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?></div>
+                    <div><label>Сумма покупки:</label><?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['type'=>$field_type]]); ?></div>
+                    <div><label>Бонусных баллов:</label><?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999', 'options'=>['type'=>$field_type]]); ?></div>
                     <div><label>Описание покупки:</label><?=Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?></div>
                     <div class="lgc_ttype">
                         <label>Бонусы:</label>

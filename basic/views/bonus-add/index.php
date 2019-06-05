@@ -10,6 +10,8 @@ $this->params['breadcrumbs'][] = [
         'label'    => "Клиент ".$client_params['fio'],
         'url'      => ['/client-card?u='.$client_params['uid']]
         ];
+
+$field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
 ?>
 <div>
     <br/>
@@ -17,9 +19,9 @@ $this->params['breadcrumbs'][] = [
     <div class="lgc_mainform">
         <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Доступно бонусов: </label> <?= Html::textInput('cur_bcumm', $client_params['bsumm'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
-        <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['onkeyup' => 'bonus.addcalc()']]); ?><br/>
+        <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['type'=>$field_type, 'onkeyup' => 'bonus.addcalc()']]); ?><br/>
         <label>Бонусный процент: </label> <?= Html::dropDownList('bprcnt', '5', ['5' => '5%', '10' => '10%', '15' => '15%', '20' => '20%'] , ['onchange' => 'bonus.addcalc()']) ?><br/>
-        <label>Сумма бонусных баллов: </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999']); ?><br/>
+        <label>Сумма бонусных баллов: </label> <?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999', 'options'=>['type'=>$field_type]]); ?><br/>
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
         <div class="lgc_form_control">
             <span>
