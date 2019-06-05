@@ -8,7 +8,8 @@ $config = [
     'name' => 'Бонусные карты Legacy',
     'language' => 'ru',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+//    'bootstrap' => ['log'],
+    'bootstrap' => ['devicedetect'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -28,11 +29,11 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'search/error',
         ],
+        'devicedetect' => [
+            'class' => 'alexandernst\devicedetect\DeviceDetect'
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
         'log' => [
@@ -54,7 +55,7 @@ $config = [
     ],
     'params' => $params,
 ];
-/*
+
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
@@ -71,6 +72,5 @@ if (YII_ENV_DEV) {
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
-*/
 
 return $config;
