@@ -8,7 +8,6 @@ $config = [
     'name' => 'Бонусные карты Legacy',
     'language' => 'ru',
     'basePath' => dirname(__DIR__),
-//    'bootstrap' => ['log'],
     'bootstrap' => ['devicedetect'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

@@ -466,3 +466,105 @@ var transaction = function() {
         }
     };
 }();
+
+var sending = function() {
+    var edit_tid = null;
+
+    return {
+        refresh: function () {
+            $.pjax({url: window.location.origin+window.location.pathname, container:"#sending_list", timeout:2e3});
+        },
+        save : function () {
+            var sdate = $("input[name='SendingForm[sdate]']").val();
+            var sname = $("input[name='sname']").val();
+            var msg   = $("textarea[name='message']").val();
+
+            $("input[name='sname']").removeClass('lgc_haserror');
+            $("textarea[name='message']").removeClass('lgc_haserror');
+
+            if (sname.length == 0){
+                $("input[name='sname']").addClass('lgc_haserror');
+                return;
+            }
+
+            if (msg.length == 0){
+                $("textarea[name='message']").addClass('lgc_haserror');
+                return;
+            }
+
+            if (edit_tid) {
+                $.post(
+                    window.location.origin + window.location.pathname + '/savesend',
+                    {s: edit_tid, d: sdate, n: sname, m: msg},
+                    function (data) {
+                        $('#editSendItem').modal('hide');
+                        sending.refresh();
+                    }
+                ).fail(function () {
+                    window.location.href = 'search/error';
+                });
+            } else {
+                $.post(
+                    window.location.origin + window.location.pathname + '/newsend',
+                    {d: sdate, n: sname, m: msg},
+                    function (data) {
+                        $('#editSendItem').modal('hide');
+                        sending.refresh();
+                    }
+                ).fail(function () {
+                    window.location.href = 'search/error';
+                });
+            }
+        },
+        edit: function (slid) {
+            edit_tid = slid;
+            $("input[name='sname']").removeClass('lgc_haserror');
+            $("textarea[name='message']").removeClass('lgc_haserror');
+
+            $('#editSendItem').on('hidden.bs.modal', function (e) {
+                sending.refresh();
+                edit_tid = null;
+            });
+
+            if (slid) {
+                $.post(
+                    window.location.origin + window.location.pathname + '/getsend',
+                    {s: slid},
+                    function (data) {
+                        $("input[name='SendingForm[sdate]']").val(data.sdate);
+                        $("input[name='sname']").val(data.sname);
+                        $("textarea[name='message']").val(data.message);
+                        $('#editSendItem').modal('show');
+                    }
+                ).fail(function () {
+                    window.location.href = 'search/error';
+                });
+            } else {
+                $('#editSendItem').modal('show');
+            }
+        },
+        show_confirm_dialog: function (slid) {
+            $('#confirm_delete').modal('show');
+            edit_tid = slid;
+        },
+        delete: function () {
+            $.post(
+                window.location.origin+window.location.pathname+'/delsend',
+                {s:edit_tid},
+                function () {
+                    sending.refresh();
+                    edit_tid = null;
+                }
+            ).fail(function() {
+                edit_tid = null;
+                window.location.href = 'search/error';
+            });
+        },
+        create: function () {
+            var now = new Date();
+            var sdate = now.getDate()+'.'+now.getMonth()+'.'+now.getFullYear();
+            $("input[name='SendingForm[sdate]']").val(sdate);
+            sending.edit(null);
+        },
+    };
+}();

@@ -147,7 +147,7 @@
     display: grid;
 }
 
-.lgc_tform input {
+.lgc_tform input, .lgc_tform textarea{
     float: right;
     width: 300px;
     text-align: right;
