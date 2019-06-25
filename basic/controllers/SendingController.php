@@ -9,13 +9,18 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\Cors;
 use yii\web\Controller;
 use yii\data\ArrayDataProvider;
 use app\models\SendingForm;
 
 class SendingController extends Controller {
 
+    public $enableCsrfValidation = false;
+
     private function _sendJSONAnswer($res){
+        header('Access-Control-Allow-Origin: *');
+
         $response = Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;
         $response->data = $res;
@@ -118,6 +123,39 @@ class SendingController extends Controller {
                 $r->post('n'),
                 $r->post('m')
             );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
+/*
+ * REST Itnterface
+ * */
+    public function actionRest_sms_get_list (){
+        $model = new SendingForm();
+
+        return $this->_sendJSONAnswer($model->rest_getSMSSending());
+    }
+
+    public function actionRest_sms_get_items(){
+        $model = new SendingForm();
+        $res   = null;
+        $r     = Yii::$app->request;
+
+        if (null !== $r->post('s')){
+            $res = $model->rest_getSMSSendingItems($r->post('s'));
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
+    public function actionRest_sms_set_sended(){
+        $model = new SendingForm();
+        $res   = null;
+        $r     = Yii::$app->request;
+
+        if (null !== $r->post('s')){
+            $res = $model->rest_setSMSSendedItem($r->post('s'));
         }
 
         return $this->_sendJSONAnswer($res);

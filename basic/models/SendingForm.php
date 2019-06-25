@@ -76,4 +76,27 @@ class SendingForm extends Model {
 
         return 1;
     }
+
+    public function rest_getSMSSending () {
+        $arr = $this->db_conn->createCommand("select slid as id, sname as title, message as msg from lgc_smssendlist where prc<>100 and sdate <= CURRENT_DATE()")
+            ->queryAll();
+
+        return $arr;
+    }
+
+    public function rest_getSMSSendingItems($slid) {
+        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND s.sended='N' LIMIT 10")
+            ->bindValue(':slid', $slid)
+            ->queryAll();
+
+        return $arr;
+    }
+
+    public function rest_setSMSSendedItem($ssid) {
+        $arr = $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid")
+            ->bindValue(':ssid', $ssid)
+            ->queryAll();
+
+        return $arr;
+    }
 }
