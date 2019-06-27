@@ -146,7 +146,7 @@ class SendingForm extends Model {
             ':prc' => 0,
             ':slid' => 0
         ])
-            ->bindValue(':ssid', $slid)
+            ->bindValue(':slid', $slid)
             ->bindValue(':prc',   $prc)
             ->execute();
 
