@@ -28,7 +28,7 @@ class SendingForm extends Model {
             ->bindValue(':s', $slid)
             ->queryAll())[0]['cnt_all'];
 
-        $cnt_sended = ($this->db_conn->createCommand("SELECT COUNT(*) as cnt_sended FROM lgc_smssendstat WHERE slid=:s AND sended<>'N'")
+        $cnt_sended = ($this->db_conn->createCommand("SELECT COUNT(*) as cnt_sended FROM lgc_smssendstat WHERE slid=:s AND sended='Y'")
             ->bindValue(':s', $slid)
             ->queryAll())[0]['cnt_sended'];
 
