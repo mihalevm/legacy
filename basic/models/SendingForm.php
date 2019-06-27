@@ -51,7 +51,12 @@ class SendingForm extends Model {
     }
 
     public function getSMSSendUpdate ($slid, $sdate, $sname, $msg) {
-        $this->db_conn->createCommand("update lgc_smssendlist set sname=:sname, sdate=str_to_date(:sdate, '%d.%m.%Y'), message=:msg where slid=:slid")
+        $this->db_conn->createCommand("update lgc_smssendlist set sname=:sname, sdate=str_to_date(:sdate, '%d.%m.%Y'), message=:msg where slid=:slid", [
+            ':sname' => '',
+            ':sdate' => '',
+            ':msg' => '',
+            ':slid' => ''
+        ])
             ->bindValue(':sname', $sname)
             ->bindValue(':sdate', $sdate)
             ->bindValue(':msg',     $msg)
@@ -64,7 +69,11 @@ class SendingForm extends Model {
     public function getSMSSendInsert ($sdate, $sname, $msg) {
         $slid = null;
 
-        $this->db_conn->createCommand("insert into lgc_smssendlist (sdate, sname, message) values (str_to_date(:sdate, '%d.%m.%Y'), :sname, :msg)")
+        $this->db_conn->createCommand("insert into lgc_smssendlist (sdate, sname, message) values (str_to_date(:sdate, '%d.%m.%Y'), :sname, :msg)", [
+            ':sdate' => '',
+            ':sname' => '',
+            ':msg' => ''
+        ])
             ->bindValue(':sname', $sname)
             ->bindValue(':sdate', $sdate)
             ->bindValue(':msg',     $msg)
@@ -73,7 +82,7 @@ class SendingForm extends Model {
         $slid = $this->db_conn->getLastInsertID();
 
         if ($slid) {
-            $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'")
+            $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'", [':slid' => ''])
                 ->bindValue(':slid', $slid)
                 ->execute();
         }
@@ -82,11 +91,11 @@ class SendingForm extends Model {
     }
 
     public function getSMSSendDelete ($slid) {
-        $this->db_conn->createCommand("delete from lgc_smssendlist where slid=:slid")
+        $this->db_conn->createCommand("delete from lgc_smssendlist where slid=:slid", [':slid' => ''])
             ->bindValue(':slid',   $slid)
             ->execute();
 
-        $this->db_conn->createCommand("delete from lgc_smssendstat where slid=:slid")
+        $this->db_conn->createCommand("delete from lgc_smssendstat where slid=:slid", [':slid' => ''])
             ->bindValue(':slid',   $slid)
             ->execute();
 
@@ -103,12 +112,18 @@ class SendingForm extends Model {
     public function rest_getSMSSendingItems($slid) {
         $pattern = $this->generateRandomString();
 
-        $this->db_conn->createCommand("UPDATE lgc_smssendstat SET sended=:pattern WHERE ssid IN (select ssid  FROM (SELECT ssid FROM lgc_smssendstat WHERE sended='N' AND slid=:slid LIMIT 10) tmp )")
+        $this->db_conn->createCommand("UPDATE lgc_smssendstat SET sended=:pattern WHERE ssid IN (select ssid  FROM (SELECT ssid FROM lgc_smssendstat WHERE sended='N' AND slid=:slid LIMIT 10) tmp )", [
+            ':pattern' => '',
+            ':slid' => ''
+        ])
             ->bindValue(':pattern', $pattern)
             ->bindValue(':slid',   $slid)
             ->execute();
 
-        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND c.disabled='N' AND s.sended=:pattern ")
+        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND c.disabled='N' AND s.sended=:pattern ", [
+            ':slid' => '',
+            ':pattern' => ''
+        ])
             ->bindValue(':slid', $slid)
             ->bindValue(':pattern', $pattern)
             ->queryAll();
@@ -117,14 +132,23 @@ class SendingForm extends Model {
     }
 
     public function rest_setSMSSendedItem($ssid) {
-        $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid")
+        $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid", [':ssid' => ''])
             ->bindValue(':ssid', $ssid)
             ->queryAll();
 
-        $prc = getFinished();
+        $slid = ($this->db_conn->createCommand("select slid from lgc_smssendstat where ssid=:s")
+            ->bindValue(':s', $ssid)
+            ->queryAll())[0];
 
-        $this->db_conn->createCommand("update lgc_smssendlist set prc=:prc where ssid=:ssid")
-            ->bindValue(':ssid', $ssid)
+
+
+        $prc = getFinished($slid);
+
+        $this->db_conn->createCommand("update lgc_smssendlist set prc=:prc where slid=:slid", [
+            ':prc' => '',
+            ':slid' => ''
+        ])
+            ->bindValue(':ssid', $slid)
             ->bindValue(':prc',   $prc)
             ->queryAll();
 
