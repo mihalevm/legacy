@@ -19,6 +19,22 @@ class SendingForm extends Model {
         $this->db_conn = Yii::$app->db;
     }
 
+    private function generateRandomString($length = 30) {
+        return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+    }
+
+    private function getFinished ($slid) {
+        $cnt_all = ($this->db_conn->createCommand("SELECT COUNT(*) FROM lgc_smssendstat WHERE slid=:s")
+            ->bindValue(':s', $slid)
+            ->queryAll())[0];
+
+        $cnt_sended = ($this->db_conn->createCommand("SELECT COUNT(*) FROM lgc_smssendstat WHERE slid=:s AND sended<>'N'")
+            ->bindValue(':s', $slid)
+            ->queryAll())[0];
+
+        return intval(100*$cnt_sended/$cnt_all);
+    }
+
     public function getSMSSending () {
         $arr = $this->db_conn->createCommand("select slid, sname, message, date_format(cdate,'%d.%m.%Y') as cdate, date_format(sdate,'%d.%m.%Y') as sdate, prc from lgc_smssendlist")
             ->queryAll();
@@ -85,18 +101,33 @@ class SendingForm extends Model {
     }
 
     public function rest_getSMSSendingItems($slid) {
-        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND s.sended='N' LIMIT 10")
+        $pattern = $this->generateRandomString();
+
+        $this->db_conn->createCommand("UPDATE lgc_smssendstat SET sended=:pattern WHERE ssid IN (select ssid  FROM (SELECT ssid FROM lgc_smssendstat WHERE sended='N' AND slid=:slid LIMIT 10) tmp )")
+            ->bindValue(':pattern', $pattern)
+            ->bindValue(':slid',   $slid)
+            ->execute();
+
+        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND c.disabled='N' AND s.sended=:pattern ")
             ->bindValue(':slid', $slid)
+            ->bindValue(':pattern', $pattern)
             ->queryAll();
 
         return $arr;
     }
 
     public function rest_setSMSSendedItem($ssid) {
-        $arr = $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid")
+        $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid")
             ->bindValue(':ssid', $ssid)
             ->queryAll();
 
-        return $arr;
+        $prc = getFinished();
+
+        $this->db_conn->createCommand("update lgc_smssendlist set prc=:prc where ssid=:ssid")
+            ->bindValue(':ssid', $ssid)
+            ->bindValue(':prc',   $prc)
+            ->queryAll();
+
+        return $prc;
     }
 }
