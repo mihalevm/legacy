@@ -535,6 +535,8 @@ var sending = function() {
                         $("input[name='sname']").val(data.sname);
                         $("textarea[name='message']").val(data.message);
                         $('#editSendItem').modal('show');
+
+                        sending.smslengthcounter($("textarea[name='message']"));
                     }
                 ).fail(function () {
                     window.location.href = 'search/error';
@@ -564,7 +566,15 @@ var sending = function() {
             var now = new Date();
             var sdate = now.getDate()+'.'+now.getMonth()+'.'+now.getFullYear();
             $("input[name='SendingForm[sdate]']").val(sdate);
+            $("input[name='sname']").val('');
+            $("textarea[name='message']").val('');
+
             sending.edit(null);
+        },
+        smslengthcounter: function (obj) {
+            var t = $(obj).val();
+            var sms_length =  parseInt(t.length/70);
+            $('#text_count').text(sms_length+'/'+t.length);
         },
     };
 }();

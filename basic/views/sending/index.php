@@ -86,7 +86,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             ?>
                         </div>
                         <div><label>Название:</label><?=Html::textInput('sname', '', ['placeholder' => 'Описание рассылки']); ?></div>
-                        <div><label>Текст:</label><?=Html::textarea('message', '', ['placeholder' => 'Текст рассылки']); ?></div>
+                        <div><label>Текст:</label><?=Html::textarea('message', '', ['placeholder' => 'Текст рассылки', 'onkeydown'=>'sending.smslengthcounter(this)']); ?></div>
+                        <div><label>Кол-во СМС(смс/симв):</label><span id="text_count">0/0</span></div>
                     </div>
                 </div>
                 <div class="modal-footer">

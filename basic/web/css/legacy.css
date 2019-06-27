@@ -156,6 +156,10 @@
     border-radius: 4px;
 }
 
+.lgc_tform textarea {
+    line-height: 1.4 !important;
+}
+
 .lgc_tform label {}
 
 .lgc_ttype {}
@@ -288,4 +292,9 @@
 
 .nav i {
     margin-right: 5px;
+}
+
+#text_count {
+    float: right;
+    text-align: right;
 }
