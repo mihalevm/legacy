@@ -24,13 +24,13 @@ class SendingForm extends Model {
     }
 
     private function getFinished ($slid) {
-        $cnt_all = ($this->db_conn->createCommand("SELECT COUNT(*) FROM lgc_smssendstat WHERE slid=:s")
+        $cnt_all = ($this->db_conn->createCommand("SELECT COUNT(*) as cnt_all FROM lgc_smssendstat WHERE slid=:s")
             ->bindValue(':s', $slid)
-            ->queryAll())[0];
+            ->queryAll())[0]['cnt_all'];
 
-        $cnt_sended = ($this->db_conn->createCommand("SELECT COUNT(*) FROM lgc_smssendstat WHERE slid=:s AND sended<>'N'")
+        $cnt_sended = ($this->db_conn->createCommand("SELECT COUNT(*) as cnt_sended FROM lgc_smssendstat WHERE slid=:s AND sended<>'N'")
             ->bindValue(':s', $slid)
-            ->queryAll())[0];
+            ->queryAll())[0]['cnt_sended'];
 
         return intval(100*$cnt_sended/$cnt_all);
     }
@@ -55,7 +55,7 @@ class SendingForm extends Model {
             ':sname' => '',
             ':sdate' => '',
             ':msg' => '',
-            ':slid' => ''
+            ':slid' => 0
         ])
             ->bindValue(':sname', $sname)
             ->bindValue(':sdate', $sdate)
@@ -82,7 +82,7 @@ class SendingForm extends Model {
         $slid = $this->db_conn->getLastInsertID();
 
         if ($slid) {
-            $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'", [':slid' => ''])
+            $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'", [':slid' => 0])
                 ->bindValue(':slid', $slid)
                 ->execute();
         }
@@ -91,11 +91,11 @@ class SendingForm extends Model {
     }
 
     public function getSMSSendDelete ($slid) {
-        $this->db_conn->createCommand("delete from lgc_smssendlist where slid=:slid", [':slid' => ''])
+        $this->db_conn->createCommand("delete from lgc_smssendlist where slid=:slid", [':slid' => 0])
             ->bindValue(':slid',   $slid)
             ->execute();
 
-        $this->db_conn->createCommand("delete from lgc_smssendstat where slid=:slid", [':slid' => ''])
+        $this->db_conn->createCommand("delete from lgc_smssendstat where slid=:slid", [':slid' => 0])
             ->bindValue(':slid',   $slid)
             ->execute();
 
@@ -114,14 +114,14 @@ class SendingForm extends Model {
 
         $this->db_conn->createCommand("UPDATE lgc_smssendstat SET sended=:pattern WHERE ssid IN (select ssid  FROM (SELECT ssid FROM lgc_smssendstat WHERE sended='N' AND slid=:slid LIMIT 10) tmp )", [
             ':pattern' => '',
-            ':slid' => ''
+            ':slid' => 0
         ])
             ->bindValue(':pattern', $pattern)
             ->bindValue(':slid',   $slid)
             ->execute();
 
         $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND c.disabled='N' AND s.sended=:pattern ", [
-            ':slid' => '',
+            ':slid' => 0,
             ':pattern' => ''
         ])
             ->bindValue(':slid', $slid)
@@ -132,25 +132,23 @@ class SendingForm extends Model {
     }
 
     public function rest_setSMSSendedItem($ssid) {
-        $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid", [':ssid' => ''])
+        $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid", [':ssid' => 0])
             ->bindValue(':ssid', $ssid)
-            ->queryAll();
+            ->execute();
 
         $slid = ($this->db_conn->createCommand("select slid from lgc_smssendstat where ssid=:s")
             ->bindValue(':s', $ssid)
-            ->queryAll())[0];
+            ->queryAll())[0]['slid'];
 
-
-
-        $prc = getFinished($slid);
+        $prc = $this->getFinished($slid);
 
         $this->db_conn->createCommand("update lgc_smssendlist set prc=:prc where slid=:slid", [
-            ':prc' => '',
-            ':slid' => ''
+            ':prc' => 0,
+            ':slid' => 0
         ])
             ->bindValue(':ssid', $slid)
             ->bindValue(':prc',   $prc)
-            ->queryAll();
+            ->execute();
 
         return $prc;
     }
