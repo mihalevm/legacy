@@ -131,8 +131,14 @@ class SendingForm extends Model {
         return $arr;
     }
 
-    public function rest_setSMSSendedItem($ssid) {
-        $this->db_conn->createCommand("update lgc_smssendstat set sended='Y' where ssid=:ssid", [':ssid' => 0])
+    public function rest_setSMSSendedItem($ssid, $is_send) {
+        $is_send = $is_send == 's' ? 'Y' : 'N';
+
+        $this->db_conn->createCommand("update lgc_smssendstat set sended=:is_send where ssid=:ssid", [
+            ':is_send' => 'N',
+            ':ssid' => 0
+        ])
+            ->bindValue(':is_send', $is_send)
             ->bindValue(':ssid', $ssid)
             ->execute();
 

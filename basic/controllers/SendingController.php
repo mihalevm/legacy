@@ -154,8 +154,11 @@ class SendingController extends Controller {
         $res   = null;
         $r     = Yii::$app->request;
 
-        if (null !== $r->post('s')){
-            $res = $model->rest_setSMSSendedItem($r->post('s'));
+        if (null !== $r->post('s') && null !== $r->post('t')){
+            $res = $model->rest_setSMSSendedItem(
+                $r->post('s'),
+                $r->post('t')
+            );
         }
 
         return $this->_sendJSONAnswer($res);

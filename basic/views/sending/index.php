@@ -11,6 +11,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
     <div class="lgc_mainform">
+        <div>
+            <label>Скачать программу рассылки</label>
+            <a href="/download/sender.apk" class="btn-sm btn-primary btn-lg active" role="button" aria-pressed="true" style="float: right;" target="_blank">Скачать</a>
+        </div>
         <?php
         Pjax::begin(['id' => 'sending_list', 'timeout' => false, 'enablePushState' => false, 'clientOptions' => ['method' => 'POST']]);
         echo \yii\grid\GridView::widget([
