@@ -128,6 +128,24 @@ class SendingController extends Controller {
         return $this->_sendJSONAnswer($res);
     }
 
+    public function actionRestart(){
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
+
+        $model = new SendingForm();
+        $r = Yii::$app->request;
+        $res = null;
+
+        if (null !== $r->post('s')){
+            $res = $model->restartSMSSend(
+                $r->post('s')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
 /*
  * REST Itnterface
  * */

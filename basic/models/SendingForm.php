@@ -102,6 +102,22 @@ class SendingForm extends Model {
         return 1;
     }
 
+    public function restartSMSSend ($slid) {
+        $this->db_conn->createCommand("update lgc_smssendlist set prc=0 where slid=:slid", [':slid' => 0])
+            ->bindValue(':slid', $slid)
+            ->execute();
+
+        $this->db_conn->createCommand("delete from lgc_smssendstat where slid=:slid", [':slid' => 0])
+            ->bindValue(':slid', $slid)
+            ->execute();
+
+        $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'", [':slid' => 0])
+            ->bindValue(':slid', $slid)
+            ->execute();
+
+        return 1;
+    }
+
     public function rest_getSMSSending () {
         $arr = $this->db_conn->createCommand("select slid as id, sname as title, message as msg from lgc_smssendlist where prc<>100 and sdate <= CURRENT_DATE()")
             ->queryAll();
@@ -120,7 +136,7 @@ class SendingForm extends Model {
             ->bindValue(':slid',   $slid)
             ->execute();
 
-        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND c.disabled='N' AND s.sended=:pattern ", [
+        $arr = $this->db_conn->createCommand("SELECT s.ssid as id, c.phone AS ph from lgc_smssendstat s, lgc_clients c WHERE s.slid=:slid and s.uid=c.uid AND c.disabled='N' AND s.sended=:pattern", [
             ':slid' => 0,
             ':pattern' => ''
         ])

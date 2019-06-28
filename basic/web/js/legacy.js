@@ -562,6 +562,24 @@ var sending = function() {
                 window.location.href = 'search/error';
             });
         },
+
+        show_confirm_dialog_restart: function (slid) {
+            $('#confirm_restart').modal('show');
+            edit_tid = slid;
+        },
+        restart: function (){
+            $.post(
+                window.location.origin+window.location.pathname+'/restart',
+                {s:edit_tid},
+                function () {
+                    sending.refresh();
+                    edit_tid = null;
+                }
+            ).fail(function() {
+                edit_tid = null;
+                window.location.href = 'search/error';
+            });
+        },
         create: function () {
             var now = new Date();
             var sdate = now.getDate()+'.'+now.getMonth()+'.'+now.getFullYear();

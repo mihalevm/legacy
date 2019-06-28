@@ -132,7 +132,7 @@
 }
 
 .lgc_tedit {
-    width: 100%;
+    width: 10%;
     text-align: center;
     cursor: pointer;
     color: #7e3553;
@@ -297,4 +297,11 @@
 #text_count {
     float: right;
     text-align: right;
+}
+
+.lgc_download_bar {
+    float: left;
+    line-height: 32px;
+    width: 100%;
+    margin-top: 10px;
 }

@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
     <div class="lgc_mainform">
-        <div>
+        <div class="lgc_download_bar">
             <label>Скачать программу рассылки</label>
             <a href="/download/sender.apk" class="btn-sm btn-primary btn-lg active" role="button" aria-pressed="true" style="float: right;" target="_blank">Скачать</a>
         </div>
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label'       => '<i class="fa fa-cog" aria-hidden="true"></i>',
                     'encodeLabel' => false,
                     'value'       => function($data){
-                        return '<div class="lgc_tedit" title="Редактирование рассылки" onclick="sending.edit('.$data['slid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div><div class="lgc_tedit" title="Удаление рассылки" onclick="sending.show_confirm_dialog('.$data['slid'].')"><i class="fa fa-times" aria-hidden="true"></i></div>';
+                        return '<div class="lgc_tedit" title="Редактирование рассылки" onclick="sending.edit('.$data['slid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div><div class="lgc_tedit" title="Перезапуск" onclick="sending.show_confirm_dialog_restart('.$data['slid'].')"><i class="fa fa-sync" aria-hidden="true"></i></div><div class="lgc_tedit" title="Удаление рассылки" onclick="sending.show_confirm_dialog('.$data['slid'].')"><i class="fa fa-times" aria-hidden="true"></i></div>';
                     }
                 ],
             ],
@@ -115,4 +115,18 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
+    <div class="modal fade" id="confirm_restart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center">
+                    Сбросить статистику и перезапустить рассылку?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="sending.restart()">Перезапустить</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
