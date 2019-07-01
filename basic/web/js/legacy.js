@@ -542,6 +542,7 @@ var sending = function() {
                     window.location.href = 'search/error';
                 });
             } else {
+                sending.smslengthcounter($("textarea[name='message']"));
                 $('#editSendItem').modal('show');
             }
         },
