@@ -67,6 +67,16 @@
     padding: 3px;
 }
 
+#sending_list {
+    width: 105%;
+    font-size: 11px;
+    margin-left: -3%;
+}
+
+#sending_list th {
+    padding: 3px;
+}
+
 .modal-dialog-centered {
    margin-top: 15vh;
 }

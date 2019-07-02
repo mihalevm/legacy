@@ -36,7 +36,7 @@ class SendingForm extends Model {
     }
 
     public function getSMSSending () {
-        $arr = $this->db_conn->createCommand("select slid, sname, message, date_format(cdate,'%d.%m.%Y') as cdate, date_format(sdate,'%d.%m.%Y') as sdate, prc from lgc_smssendlist")
+        $arr = $this->db_conn->createCommand("SELECT l.slid, l.sname, l.message, DATE_FORMAT(l.cdate,'%d.%m.%Y') as cdate, DATE_FORMAT(l.sdate,'%d.%m.%Y') as sdate, l.prc, (SELECT COUNT(*) FROM lgc_smssendstat s WHERE s.slid=l.slid ) AS ucnt from lgc_smssendlist l")
             ->queryAll();
 
         return $arr;

@@ -37,8 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'format' => 'ntext',
+                    'attribute'=>'ucnt',
+                    'label'=>'Клиентов',
+                    'contentOptions' => ['style'=>'text-align:center'],
+                ],
+                [
+                    'format' => 'ntext',
                     'attribute'=>'prc',
                     'label'=>'Статус(%)',
+                    'contentOptions' => ['style'=>'text-align:center'],
                 ],
                 [
                     'format'      => 'raw',
