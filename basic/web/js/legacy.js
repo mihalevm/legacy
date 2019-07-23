@@ -592,7 +592,7 @@ var sending = function() {
         },
         smslengthcounter: function (obj) {
             var t = $(obj).val();
-            var sms_length =  parseInt(t.length/70);
+            var sms_length =  parseInt(t.length/70)+(t.length?1:0);
             $('#text_count').text(sms_length+'/'+t.length);
         },
     };

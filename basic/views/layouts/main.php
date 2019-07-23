@@ -49,7 +49,7 @@ if ( null !== Yii::$app->user->id) {
         $items = [
             ['label' => FAS::icon('search').'Поиск', 'url' => ['/search']],
             ['label' => FAS::icon('user-plus').'Новый клиент', 'url' => ['/new-client']],
-            ['label' => FAS::icon('credit-card').'Создать карты', 'url' => ['/create-card']],
+//            ['label' => FAS::icon('credit-card').'Создать карты', 'url' => ['/create-card']],
             ['label' => FAS::icon('comment-alt').'Рассылки', 'url' => ['/sending']],
             '<li>'
             . Html::beginForm(['/login/logout'], 'post')
