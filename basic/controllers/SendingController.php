@@ -80,7 +80,8 @@ class SendingController extends Controller {
                 $r->post('s'),
                 $r->post('d'),
                 $r->post('n'),
-                $r->post('m')
+                $r->post('m'),
+                $r->post('spoint')
             );
         }
 
@@ -100,7 +101,8 @@ class SendingController extends Controller {
             $res = $model->getSMSSendInsert(
                 $r->post('d'),
                 $r->post('n'),
-                $r->post('m')
+                $r->post('m'),
+                $r->post('spoint')
             );
         }
 

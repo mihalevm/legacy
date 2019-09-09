@@ -10,6 +10,7 @@ var newclient = function(){
             var phone = $("input[name='phone']").inputmask('unmaskedvalue');
             var birth = $("input[name='birth']").val();
             var sex   = $("select[name='sex']").val();
+            var sell_point = $("select[name='sell_point']").val();
             var ctype = $("input[name='ctype']").val();
             var csize = $("select[name='csize']").val();
             var fsize = $("select[name='fsize']").val();
@@ -28,7 +29,7 @@ var newclient = function(){
                 if ( uid > 0 ){
                     $.post(
                         window.location.origin+window.location.pathname+'/update',
-                        {uid:uid, cnum:cnum, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize },
+                        {uid:uid, cnum:cnum, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint:sell_point },
                         function (uid) {
                             if ( parseInt(uid) > 0 ) {
                                 $("input[name='uid']").val(uid);
@@ -42,7 +43,7 @@ var newclient = function(){
                 } else {
                     $.post(
                         window.location.href+'/create',
-                        { cnum:cnum, bb:bblnc, nc:nCard, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize },
+                        { cnum:cnum, bb:bblnc, nc:nCard, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint:sell_point },
                         function (uid) {
                             if ( parseInt(uid) > 0 ) {
                                 $("input[name='uid']").val(uid);
@@ -427,9 +428,10 @@ var sending = function() {
             $.pjax({url: window.location.origin+window.location.pathname, container:"#sending_list", timeout:2e3});
         },
         save : function () {
-            var sdate = $("input[name='SendingForm[sdate]']").val();
-            var sname = $("input[name='sname']").val();
-            var msg   = $("textarea[name='message']").val();
+            var sdate   = $("input[name='SendingForm[sdate]']").val();
+            var sname   = $("input[name='sname']").val();
+            var msg     = $("textarea[name='message']").val();
+            var spoints = $('#sell_point').val().toString();
 
             $("input[name='sname']").removeClass('lgc_haserror');
             $("textarea[name='message']").removeClass('lgc_haserror');
@@ -447,7 +449,7 @@ var sending = function() {
             if (edit_tid) {
                 $.post(
                     window.location.origin + window.location.pathname + '/savesend',
-                    {s: edit_tid, d: sdate, n: sname, m: msg},
+                    {s: edit_tid, d: sdate, n: sname, m: msg, spoint:spoints},
                     function (data) {
                         $('#editSendItem').modal('hide');
                         sending.refresh();
@@ -458,7 +460,7 @@ var sending = function() {
             } else {
                 $.post(
                     window.location.origin + window.location.pathname + '/newsend',
-                    {d: sdate, n: sname, m: msg},
+                    {d: sdate, n: sname, m: msg, spoint: spoints},
                     function (data) {
                         $('#editSendItem').modal('hide');
                         sending.refresh();
@@ -487,6 +489,11 @@ var sending = function() {
                         $("input[name='sname']").val(data.sname);
                         $("textarea[name='message']").val(data.message);
                         $('#editSendItem').modal('show');
+                        $('#sell_point').multiselect('deselectAll', false);
+                        $('#sell_point').multiselect('updateButtonText');
+                        if (data.spoints) {
+                            $('#sell_point').multiselect('select', data.spoints.split(','));
+                        }
 
                         sending.smslengthcounter($("textarea[name='message']"));
                     }

@@ -63,7 +63,8 @@ class ClientCardController extends Controller {
                 $r->post('sex'),
                 $r->post('ctype'),
                 $r->post('csize'),
-                $r->post('fsize')
+                $r->post('fsize'),
+                $r->post('spoint')
             );
         }
 

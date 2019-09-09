@@ -55,7 +55,8 @@ class NewClientController extends Controller {
                 $r->post('sex'),
                 $r->post('ctype'),
                 $r->post('csize'),
-                $r->post('fsize')
+                $r->post('fsize'),
+                $r->post('spoint')
             );
         }
 
@@ -81,7 +82,8 @@ class NewClientController extends Controller {
                 $r->post('sex'),
                 $r->post('ctype'),
                 $r->post('csize'),
-                $r->post('fsize')
+                $r->post('fsize'),
+                $r->post('spoint')
             );
         }
 

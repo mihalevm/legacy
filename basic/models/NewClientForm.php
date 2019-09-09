@@ -29,7 +29,11 @@ class NewClientForm extends Model {
     }
 
     public function addNewCard ($id, $balance, $days) {
-        $this->db_conn->createCommand("insert into lgc_bcards (cnum, bsumm, days) values (:cnum, :bsumm, :days)")
+        $this->db_conn->createCommand("insert into lgc_bcards (cnum, bsumm, days) values (:cnum, :bsumm, :days)", [
+            ':cnum' => '',
+            ':bsumm' => '',
+            ':days' => ''
+        ])
             ->bindValue(':cnum', $id)
             ->bindValue(':bsumm', $balance)
             ->bindValue(':days', $days)
@@ -64,7 +68,7 @@ class NewClientForm extends Model {
     }
 */
     private function getCardId ($cnum){
-        $arr = ($this->db_conn->createCommand("SELECT cid FROM lgc_bcards WHERE cnum=:cnum")
+        $arr = ($this->db_conn->createCommand("SELECT cid FROM lgc_bcards WHERE cnum=:cnum", [':cnum' => ''])
             ->bindValue(':cnum', $cnum)
             ->queryAll())[0];
 
@@ -72,12 +76,12 @@ class NewClientForm extends Model {
     }
 
     private function setCardUsed ($cid) {
-        $this->db_conn->createCommand("update lgc_bcards set is_used='Y' where cid=:cid")
+        $this->db_conn->createCommand("update lgc_bcards set is_used='Y' where cid=:cid", [':cid' => ''])
             ->bindValue(':cid', $cid)
             ->execute();
     }
 
-    public function createNewUser ($cnum, $bblnc, $nc, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
+    public function createNewUser ($cnum, $bblnc, $nc, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize, $spoint) {
         $cid = NULL;
         $birth = (strlen($birth) == 0 ? null: $birth);
         $new_card = new CreateCardForm();
@@ -88,7 +92,17 @@ class NewClientForm extends Model {
             $cid = $this->getCardId($cnum);
         }
 
-        $this->db_conn->createCommand("insert into lgc_clients (fio, phone, birthday, sex, style, did, fid, cid) values (:fio, :phone, str_to_date(:birthday, '%d.%m.%Y'), :sex, :style, :did, :fid, :cid)")
+        $this->db_conn->createCommand("insert into lgc_clients (fio, phone, birthday, sex, style, did, fid, cid, spoint) values (:fio, :phone, str_to_date(:birthday, '%d.%m.%Y'), :sex, :style, :did, :fid, :cid, :spoint)", [
+            ':fio' => '',
+            ':phone' => '',
+            ':birthday' => '',
+            ':sex' => '',
+            ':style' => '',
+            ':did' => '',
+            ':fid' => '',
+            ':cid' => '',
+            ':spoint' => ''
+        ])
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
             ->bindValue(':birthday', $birth)
@@ -97,6 +111,7 @@ class NewClientForm extends Model {
             ->bindValue(':did', $csize)
             ->bindValue(':fid', $fsize)
             ->bindValue(':cid', $cid)
+            ->bindValue(':spoint', $spoint)
             ->execute();
 
         $uid = $this->db_conn->getLastInsertID();
@@ -107,10 +122,20 @@ class NewClientForm extends Model {
         return $uid;
     }
 
-    public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
+    public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize, $spoint) {
         $birth = (strlen($birth) == 0 ? null: $birth);
 
-        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%d.%m.%Y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
+        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%d.%m.%Y'), sex=:sex, style=:style, did=:did, fid=:fid, spoint=:spoint where uid=:uid", [
+            ':fio' => '',
+            ':phone' => '',
+            ':birthday' => '',
+            ':sex' => '',
+            ':style' => '',
+            ':did' => '',
+            ':fid' => '',
+            ':spoint' => '',
+            ':uid' => ''
+        ])
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
             ->bindValue(':birthday', $birth)
@@ -119,13 +144,14 @@ class NewClientForm extends Model {
             ->bindValue(':did', $csize)
             ->bindValue(':fid', $fsize)
             ->bindValue(':uid', $uid)
+            ->bindValue(':spoint', $spoint)
             ->execute();
     }
 
     public function checkNewCard($cnum) {
         $arr = NULL;
 
-        $arr = $this->db_conn->createCommand("SELECT bsumm, is_used, disabled, days FROM lgc_bcards WHERE cnum=:cnum")
+        $arr = $this->db_conn->createCommand("SELECT bsumm, is_used, disabled, days FROM lgc_bcards WHERE cnum=:cnum", [':cnum' => ''])
             ->bindValue(':cnum', $cnum)
             ->queryAll();
 

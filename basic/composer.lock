@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "58aff92cca64ad1f8e880b56f9d91b78",
+    "content-hash": "c772342b15eae697fc846c46d57562f6",
     "packages": [
+        {
+            "name": "2amigos/yii2-multi-select-widget",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-multi-select-widget.git",
+                "reference": "e9ae0b23aa5a96230f26a37b121efc726b635ed1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-multi-select-widget/zipball/e9ae0b23aa5a96230f26a37b121efc726b635ed1",
+                "reference": "e9ae0b23aa5a96230f26a37b121efc726b635ed1",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap-multiselect": "0.9.*",
+                "bower-asset/multiselect": "0.9.*",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "~6.0",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\multiselect\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "role": "Developer",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us"
+                }
+            ],
+            "description": "Multiselect Bootstrap widget for Yii2.",
+            "homepage": "https://github.com/2amigos/yii2-multi-select-widget",
+            "keywords": [
+                "extension",
+                "multiselect",
+                "widget",
+                "yii"
+            ],
+            "time": "2017-12-10T12:35:01+00:00"
+        },
         {
             "name": "alexandernst/yii2-device-detect",
             "version": "0.0.12",
@@ -93,6 +152,26 @@
             ]
         },
         {
+            "name": "bower-asset/bootstrap-multiselect",
+            "version": "v0.9.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davidstutz/bootstrap-multiselect.git",
+                "reference": "4749da211e6d39644ef164cd709cfeae5ccba579"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davidstutz/bootstrap-multiselect/zipball/4749da211e6d39644ef164cd709cfeae5ccba579",
+                "reference": "4749da211e6d39644ef164cd709cfeae5ccba579",
+                "shasum": null
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=2.3.2",
+                "bower-asset/jquery": ">=1.11.0"
+            },
+            "type": "bower-asset"
+        },
+        {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
@@ -156,11 +235,33 @@
             ]
         },
         {
+            "name": "bower-asset/multiselect",
+            "version": "0.9.12",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:lou/multi-select.git",
+                "reference": "344dc6cfe0f9c3b3ee66e88bed7bfc7cc1adbb3a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lou/multi-select/zipball/344dc6cfe0f9c3b3ee66e88bed7bfc7cc1adbb3a",
+                "reference": "344dc6cfe0f9c3b3ee66e88bed7bfc7cc1adbb3a",
+                "shasum": null
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7.1"
+            },
+            "type": "bower-asset",
+            "license": [
+                "WTFPL"
+            ]
+        },
+        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
                 "type": "git",
-                "url": "git@github.com:bestiejs/punycode.js.git",
+                "url": "https://github.com/bestiejs/punycode.js.git",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "dist": {
@@ -176,7 +277,7 @@
             "version": "3.1.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mouse0270/bootstrap-notify.git",
+                "url": "git@github.com:mouse0270/bootstrap-notify.git",
                 "reference": "c6a3e3acafda0815cce3703103499b6262500cd7"
             },
             "dist": {

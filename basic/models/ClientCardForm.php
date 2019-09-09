@@ -37,10 +37,10 @@ class ClientCardForm extends Model {
         return $arr;
     }
 
-    public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize) {
+    public function updateNewUser ($uid, $cnum, $fio, $phone, $birth, $sex, $ctype, $csize, $fsize, $spoint) {
         $birth = (strlen($birth) == 0 ? null: $birth);
 
-        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%d.%m.%Y'), sex=:sex, style=:style, did=:did, fid=:fid where uid=:uid")
+        $this->db_conn->createCommand("update lgc_clients set fio=:fio, phone=:phone, birthday=str_to_date(:birthday, '%d.%m.%Y'), sex=:sex, style=:style, did=:did, fid=:fid, spoint=:spoint where uid=:uid")
             ->bindValue(':fio', $fio)
             ->bindValue(':phone', $phone)
             ->bindValue(':birthday', $birth)
@@ -49,11 +49,12 @@ class ClientCardForm extends Model {
             ->bindValue(':did', $csize)
             ->bindValue(':fid', $fsize)
             ->bindValue(':uid', $uid)
+            ->bindValue(':spoint', $spoint)
             ->execute();
     }
 
     public function getClientParams ($uid) {
-        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, c.phone, date_format(c.birthday,'%d%m%Y') as birthday, c.sex, c.style, c.did, c.fid, b.cnum, b.bsumm from lgc_clients c, lgc_bcards b where c.cid=b.cid and c.uid=:uid")
+        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, c.phone, date_format(c.birthday,'%d%m%Y') as birthday, c.sex, c.style, c.did, c.fid, b.cnum, b.bsumm, c.spoint from lgc_clients c, lgc_bcards b where c.cid=b.cid and c.uid=:uid")
             ->bindValue(':uid', $uid)
             ->queryAll())[0];
 

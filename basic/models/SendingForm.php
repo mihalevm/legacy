@@ -43,40 +43,44 @@ class SendingForm extends Model {
     }
 
     public function getSMSSend ($slid) {
-        $arr = $this->db_conn->createCommand("select slid, sname, message, date_format(cdate,'%d.%m.%Y') as cdate, date_format(sdate,'%d.%m.%Y') as sdate, prc from lgc_smssendlist where slid=:s")
+        $arr = $this->db_conn->createCommand("select slid, sname, message, date_format(cdate,'%d.%m.%Y') as cdate, date_format(sdate,'%d.%m.%Y') as sdate, prc, spoints from lgc_smssendlist where slid=:s")
             ->bindValue(':s', $slid)
             ->queryAll();
 
         return $arr[0];
     }
 
-    public function getSMSSendUpdate ($slid, $sdate, $sname, $msg) {
-        $this->db_conn->createCommand("update lgc_smssendlist set sname=:sname, sdate=str_to_date(:sdate, '%d.%m.%Y'), message=:msg where slid=:slid", [
+    public function getSMSSendUpdate ($slid, $sdate, $sname, $msg, $sell_points) {
+        $this->db_conn->createCommand("update lgc_smssendlist set sname=:sname, sdate=str_to_date(:sdate, '%d.%m.%Y'), message=:msg, spoints=:spoints where slid=:slid", [
             ':sname' => '',
             ':sdate' => '',
             ':msg' => '',
-            ':slid' => 0
+            ':spoints' => '',
+            ':slid' => 0,
         ])
-            ->bindValue(':sname', $sname)
-            ->bindValue(':sdate', $sdate)
+            ->bindValue(':sname',   $sname)
+            ->bindValue(':sdate',   $sdate)
             ->bindValue(':msg',     $msg)
-            ->bindValue(':slid',   $slid)
+            ->bindValue(':slid',    $slid)
+            ->bindValue(':spoints', $sell_points)
             ->execute();
 
         return 1;
     }
 
-    public function getSMSSendInsert ($sdate, $sname, $msg) {
+    public function getSMSSendInsert ($sdate, $sname, $msg, $sell_points) {
         $slid = null;
 
-        $this->db_conn->createCommand("insert into lgc_smssendlist (sdate, sname, message) values (str_to_date(:sdate, '%d.%m.%Y'), :sname, :msg)", [
+        $this->db_conn->createCommand("insert into lgc_smssendlist (sdate, sname, message, spoints) values (str_to_date(:sdate, '%d.%m.%Y'), :sname, :msg, :spoints)", [
             ':sdate' => '',
             ':sname' => '',
-            ':msg' => ''
+            ':msg' => '',
+            ':spoints' => '',
         ])
-            ->bindValue(':sname', $sname)
-            ->bindValue(':sdate', $sdate)
-            ->bindValue(':msg',     $msg)
+            ->bindValue(':sname',         $sname)
+            ->bindValue(':sdate',         $sdate)
+            ->bindValue(':msg',             $msg)
+            ->bindValue(':spoints', $sell_points)
             ->execute();
 
         $slid = $this->db_conn->getLastInsertID();

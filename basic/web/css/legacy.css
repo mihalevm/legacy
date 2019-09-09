@@ -162,6 +162,14 @@
 
 .lgc_tform label {}
 
+.multiselect-native-select {
+    float: right;
+}
+
+.multiselect-container > li > a > label > input[type="checkbox"]{
+    width: 0;
+}
+
 .lgc_ttype {}
 
 .lgc_ttype div {

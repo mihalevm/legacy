@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\bootstrap\Button;
 use yii\widgets\Pjax;
 use kartik\date\DatePicker;
+use dosamigos\multiselect\MultiSelect;
+
 
 $this->title = 'СМС рассылки';
 $this->params['breadcrumbs'][] = $this->title;
@@ -96,6 +98,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                             ?>
                         </div>
+                        <div><label>Точки продажи:</label>
+                            <?php
+                            echo MultiSelect::widget([
+                                    "id"=>"sell_point",
+                                    "options" => ['multiple'=>"multiple", 'class'=>'input-group'],
+                                    'data' => ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТРЦ Арена'],
+                                    'value' => [],
+                                    'name' => 'sell_points',
+                                    "clientOptions" =>
+                                        [
+                                            "includeSelectAllOption" => true,
+                                            'numberDisplayed' => 2
+                                        ],
+                            ]);
+                            ?>
+                        </div>
                         <div><label>Название:</label><?=Html::textInput('sname', '', ['placeholder' => 'Описание рассылки']); ?></div>
                         <div><label>Текст:</label><?=Html::textarea('message', '', ['placeholder' => 'Текст рассылки', 'onkeyup'=>'sending.smslengthcounter(this)']); ?></div>
                         <div><label>Кол-во СМС(смс/симв):</label><span id="text_count">0/0</span></div>
@@ -135,5 +153,4 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-
 </div>
