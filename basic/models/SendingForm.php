@@ -85,8 +85,12 @@ class SendingForm extends Model {
 
         $slid = $this->db_conn->getLastInsertID();
 
+        if ($sell_points) {
+            $sell_points = ' and spoint in ('.$sell_points.')';
+        }
+
         if ($slid) {
-            $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'", [':slid' => 0])
+            $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'".$sell_points, [':slid' => 0])
                 ->bindValue(':slid', $slid)
                 ->execute();
         }
@@ -111,11 +115,19 @@ class SendingForm extends Model {
             ->bindValue(':slid', $slid)
             ->execute();
 
+        $sell_points = ($this->db_conn->createCommand("SELECT spoints FROM lgc_smssendlist WHERE slid=:s")
+            ->bindValue(':s', $slid)
+            ->queryAll())[0]['spoints'];
+
+        if ($sell_points){
+            $sell_points = ' and spoint in('.$sell_points.')';
+        }
+
         $this->db_conn->createCommand("delete from lgc_smssendstat where slid=:slid", [':slid' => 0])
             ->bindValue(':slid', $slid)
             ->execute();
 
-        $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'", [':slid' => 0])
+        $this->db_conn->createCommand("insert into lgc_smssendstat (slid, uid) select :slid, uid from lgc_clients where disabled='N'".$sell_points, [':slid' => 0])
             ->bindValue(':slid', $slid)
             ->execute();
 
