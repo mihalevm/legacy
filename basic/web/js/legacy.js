@@ -189,10 +189,10 @@ var search = function() {
                 }, 1000);
             } else {
                 setTimeout(function () {
+                    $('.table-hover > tbody:last-child').empty();
                     $('.table-hover > tbody:last-child').append('<tr><td colspan="5" style="text-align: center;">Для поиска введите ФИО, номер телефона либо номер карты</td></tr>');
                     $('.table-hover > tbody:last-child').fadeIn();
-                },500);
-
+                }, 500);
             }
         },
         setPage: function(obj, pid) {
