@@ -542,7 +542,7 @@ var sending = function() {
         },
         create: function () {
             var now = new Date();
-            var sdate = now.getDate()+'.'+now.getMonth()+'.'+now.getFullYear();
+            var sdate = now.getDate()+'.'+(now.getMonth()+1)+'.'+now.getFullYear();
             $("input[name='SendingForm[sdate]']").val(sdate);
             $("input[name='sname']").val('');
             $("textarea[name='message']").val('');

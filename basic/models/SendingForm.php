@@ -85,7 +85,7 @@ class SendingForm extends Model {
 
         $slid = $this->db_conn->getLastInsertID();
 
-        if ($sell_points) {
+        if ($sell_points != NULL) {
             $sell_points = ' and spoint in ('.$sell_points.')';
         }
 
@@ -119,7 +119,7 @@ class SendingForm extends Model {
             ->bindValue(':s', $slid)
             ->queryAll())[0]['spoints'];
 
-        if ($sell_points){
+        if ($sell_points != NULL){
             $sell_points = ' and spoint in('.$sell_points.')';
         }
 
