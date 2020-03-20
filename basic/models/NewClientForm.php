@@ -43,7 +43,7 @@ class NewClientForm extends Model {
     }
 
     public function getNextFreeCard (){
-        $arr = ($this->db_conn->createCommand("SELECT MIN(t1.cid + 1) AS cid FROM lgc_bcards t1 LEFT JOIN lgc_bcards t2 ON t1.cid + 1 = t2.cid WHERE t2.cid IS NULL")
+        $arr = ($this->db_conn->createCommand("SELECT MIN(t1.cnum + 1) AS cid FROM lgc_bcards t1 LEFT JOIN lgc_bcards t2 ON t1.cnum + 1 = t2.cnum WHERE t2.cnum IS NULL")
             ->queryAll())[0];
 
         return $arr['cid'];
@@ -67,14 +67,7 @@ class NewClientForm extends Model {
 
         return $arr;
     }
-/*
-    public function getFirstFreeCard (){
-        $arr = ($this->db_conn->createCommand("SELECT cnum, bsumm FROM lgc_bcards WHERE is_used = 'N' LIMIT 1")
-            ->queryAll())[0];
 
-        return $arr;
-    }
-*/
     private function getCardId ($cnum){
         $arr = ($this->db_conn->createCommand("SELECT cid FROM lgc_bcards WHERE cnum=:cnum", [':cnum' => ''])
             ->bindValue(':cnum', $cnum)

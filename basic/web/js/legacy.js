@@ -18,9 +18,22 @@ var newclient = function(){
 
             var birth_test = birth.split('.');
             var birth_to_date = new Date(birth_test[2],birth_test[1]-1,birth_test[0]);
-            $("input[name='birth']").removeClass('lgc_haserror');
+//            $("input[name='birth']").removeClass('lgc_haserror');
             if (birth_test[2] != birth_to_date.getFullYear() || birth_test[1] != birth_to_date.getMonth()+1 || birth_test[0] != birth_to_date.getDate()){
-                $("input[name='birth']").addClass('lgc_haserror');
+//                $("input[name='birth']").addClass('lgc_haserror');
+//                return;
+                birth = '';
+            }
+
+            $("input[name='fio']").removeClass('lgc_haserror');
+            if (fio.length == 0) {
+                $("input[name='fio']").addClass('lgc_haserror');
+                return;
+            }
+
+            $("input[name='phone']").removeClass('lgc_haserror');
+            if (phone.length == 0) {
+                $("input[name='phone']").addClass('lgc_haserror');
                 return;
             }
 
