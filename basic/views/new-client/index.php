@@ -16,6 +16,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
         <label>Магазин: </label> <?= Html::dropDownList('sell_point', null, ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТРЦ Арена']) ?><br/>
         <label>Номер бонусной карты: </label><?=MaskedInput::widget(['name' => 'cnum', 'value' => $freeCid, 'mask' => '99999','options'=>['type'=>$field_type, 'autofocus'=>'', 'onkeyup'=>'newclient.newcard()']]);?><br/>
         <label>Доступно бонусов: </label><?=MaskedInput::widget(['name' => 'bblnc','mask' => '999999', 'value'=>'0', 'options'=>['type'=>$field_type]]);?><br/>
+        <label>Компания: </label><?= Html::dropDownList('company', 0, $company) ?><br/>
         <label>ФИО: </label> <?= Html::textInput('fio', null, ['placeholder' => 'ФИО Клиента']); ?><br/>
         <label>Номер телефона: </label> <?=MaskedInput::widget(['name' => 'phone','mask' => '9-999-999-99-99', 'options'=>['placeholder'=>'7-9XX-XXX-XX-XX', 'type'=>$field_type]]); ?><br/>
         <label>Дата рождения: </label><?= MaskedInput::widget(['name' => 'birth','mask' => '99.99.9999', 'options'=>['placeholder'=>'XX.XX.XXXX', 'type'=>$field_type]]);?><br/>

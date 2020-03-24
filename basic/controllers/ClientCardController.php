@@ -11,6 +11,7 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\ClientCardForm;
+use app\models\NewClientForm;
 
 class ClientCardController extends Controller {
 
@@ -29,6 +30,7 @@ class ClientCardController extends Controller {
 
         $r = Yii::$app->request;
         $model = new ClientCardForm();
+        $comodel = new NewClientForm();
         $client_params = null;
 
         if (null !== $r->get('u')){
@@ -41,6 +43,7 @@ class ClientCardController extends Controller {
             'fSize' => $model->getAllFSize(),
             'client_params' => $client_params,
             'dStyle' => $model->getUnqStyles(),
+            'company' => $comodel->getAllCompany(),
         ]);
     }
 
@@ -64,7 +67,8 @@ class ClientCardController extends Controller {
                 $r->post('ctype'),
                 $r->post('csize'),
                 $r->post('fsize'),
-                $r->post('spoint')
+                $r->post('spoint'),
+                $r->post('coid')
             );
         }
 

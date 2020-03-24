@@ -15,6 +15,7 @@ var newclient = function(){
             var csize = $("select[name='csize']").val();
             var fsize = $("select[name='fsize']").val();
             var uid   = parseInt($("input[name='uid']").val());
+            var coid  = $("select[name='company']").val();
 
             var birth_test = birth.split('.');
             var birth_to_date = new Date(birth_test[2],birth_test[1]-1,birth_test[0]);
@@ -42,7 +43,7 @@ var newclient = function(){
                 if ( uid > 0 ){
                     $.post(
                         window.location.origin+window.location.pathname+'/update',
-                        {uid:uid, cnum:cnum, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint:sell_point },
+                        {uid:uid, cnum:cnum, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint: sell_point, coid: coid },
                         function (uid) {
                             if ( parseInt(uid) > 0 ) {
                                 $("input[name='uid']").val(uid);
@@ -56,7 +57,7 @@ var newclient = function(){
                 } else {
                     $.post(
                         window.location.href+'/create',
-                        { cnum:cnum, bb:bblnc, nc:nCard, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint:sell_point },
+                        { cnum:cnum, bb:bblnc, nc:nCard, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint: sell_point, coid: coid },
                         function (uid) {
                             if ( parseInt(uid) > 0 ) {
                                 $("input[name='uid']").val(uid);
@@ -567,5 +568,49 @@ var sending = function() {
             var sms_length =  parseInt(t.length/70)+(t.length?1:0);
             $('#text_count').text(sms_length+'/'+t.length);
         },
+    };
+}();
+
+var company = function () {
+    return {
+        refresh: function () {
+            $.pjax({url: window.location.origin+window.location.pathname, container:"#company_list", timeout:2e3});
+        },
+
+        save: function () {
+
+            $("input[name='coname']").removeClass('lgc_haserror');
+
+            if ($("input[name='coname']").val().length == 0) {
+                $("input[name='coname']").addClass('lgc_haserror');
+                return;
+            }
+
+            $.post(
+                window.location.origin+window.location.pathname+'/save',
+                {
+                    id: $("input[name='coid']").val(),
+                    n:  $("input[name='coname']").val(),
+                    m:  $("input[name='manager']").val(),
+                    c:  $("textarea[name='contacts']").val(),
+                    d:  $("input[name='disabled']").val(),
+                },
+                function (data) {
+                    if (parseInt(data) > 0){
+                        company.refresh();
+                    }
+                }
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
+        },
+
+        setActiveItem : function (o) {
+            $("input[name='coid']").val($(o).data('coid'));
+            $("input[name='coname']").val($(o).data('name'));
+            $("input[name='manager']").val($(o).data('manager'));
+            $("textarea[name='contacts']").val($(o).data('contacts'));
+            $("input[name='disabled']").prop('checked', $(o).data('disabled')==='Y');
+        }
     };
 }();

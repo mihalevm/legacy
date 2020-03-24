@@ -33,6 +33,7 @@ class NewClientController extends Controller {
             'fSize'   => $model->getAllFSize(),
             'dStyle'  => $model->getUnqStyles(),
             'freeCid' => $model->getNextFreeCard(),
+            'company' => $model->getAllCompany(),
         ]);
     }
 
@@ -57,7 +58,9 @@ class NewClientController extends Controller {
                 $r->post('ctype'),
                 $r->post('csize'),
                 $r->post('fsize'),
-                $r->post('spoint')
+                $r->post('spoint'),
+                $r->post('coid')
+
             );
         }
 
