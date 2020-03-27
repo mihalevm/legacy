@@ -51,6 +51,7 @@ var newclient = function(){
                         }
                     ).always(function() {
                         $('.loader').css('visibility', 'hidden');
+                        location.reload();
                     }).fail(function() {
                         window.location.href = 'search/error';
                     });
@@ -64,10 +65,12 @@ var newclient = function(){
                                 $("button[name='newusersave']").text('Обновить');
                                 $("button[name='subbonus']").prop('disabled', false);
                                 $("button[name='addbonus']").prop('disabled', false);
+                                $("button[name='credit']").prop('disabled', false);
                             }
                         }
                     ).always(function() {
                         $('.loader').css('visibility', 'hidden');
+                        location.reload();
                     }).fail(function() {
                         window.location.href = 'search/error';
                     });
@@ -87,6 +90,10 @@ var newclient = function(){
         transactions : function () {
             var uid   = parseInt($("input[name='uid']").val());
             window.location.href = window.location.origin+'/transactions?u='+uid;
+        },
+        сtransactions : function () {
+            var uid   = parseInt($("input[name='uid']").val());
+            window.location.href = window.location.origin+'/ctransactions?u='+uid;
         },
         newcard : function () {
             var card_number = $("input[name='cnum']").inputmask('unmaskedvalue');
@@ -612,5 +619,95 @@ var company = function () {
             $("textarea[name='contacts']").val($(o).data('contacts'));
             $("input[name='disabled']").prop('checked', $(o).data('disabled')==='Y');
         }
+    };
+}();
+
+var ctransaction = function () {
+    function __creditCalculator(sum, payData, months) {
+        var list = [];
+        var s    = 0;
+        var s1   = sum;
+        var dt = payData.split('.');
+        dt     = new Date(dt[2], dt[1]-1, dt[0]);
+        var payPerMonth = Math.round(sum/(months*100))*100;
+
+        for (var i = 1; i<=months; i++) {
+            var item = {};
+            item.i = i;
+            if (s1 - payPerMonth >= payPerMonth){
+                item.sum = payPerMonth;
+            } else {
+                if (s1 - payPerMonth > 0) {
+                    item.sum = payPerMonth;
+                } else {
+                    item.sum = s1;
+                }
+            }
+            s1 = s1 - item.sum;
+            s = s + item.sum;
+            item.residue = sum-s;
+
+            if (i === months && item.residue !== 0) {
+                item.sum = item.sum + item.residue;
+                item.residue = 0;
+            }
+
+            dt = new Date(dt.setMonth(dt.getMonth()+1));
+            item.date = dt.toLocaleDateString();
+
+            list.push(item);
+        }
+
+        return list;
+    }
+
+    return {
+        creditListItems: function(){
+            var paySumm    = parseInt($("input[name='summ']").inputmask('unmaskedvalue'));
+            var creditSumm = parseInt($("input[name='cblnc']").val());
+            var firstPay   = parseInt($("input[name='firstPay']").val());
+
+            firstPay = isNaN(firstPay) ? 0 : firstPay;
+
+            $("#paymentPeriod").find('tbody:first').empty();
+
+            var payList = __creditCalculator(
+                paySumm + creditSumm - firstPay,
+                $("#ctransactionsform-sdate").val(),
+                parseInt($("select[name='months']").val())
+            );
+
+            if (firstPay !== 0) {
+                var dt = new Date();
+                payList.unshift({i:0,date:dt.toLocaleDateString(), sum:firstPay, residue:paySumm + creditSumm - firstPay});
+            }
+
+            $(payList).each(function (i, o) {
+                var prepayed = o.i === 0 ? 'lgc_credit_prepaid_item' : '';
+                $("#paymentPeriod").find('tbody:first').append('<tr class="'+prepayed+'"><th scope="row">'+o.i+'</th><td>'+o.date+'</td><td>'+o.sum+'</td><td>'+o.residue+'</td></tr>');
+            }).promise().done(function () {
+                $('#creditCalculateModal').modal('show');
+            });
+        },
+        creditCalculatorShow: function () {
+            var paySumm    = parseInt($("input[name='summ']").inputmask('unmaskedvalue'));
+            var creditSumm = parseInt($("input[name='cblnc']").val());
+            var firstPay   = parseInt($("input[name='firstPay']").val());
+
+            $("input[name='summ']").removeClass('lgc_haserror');
+            $("input[name='firstPay']").removeClass('lgc_haserror');
+
+            firstPay = isNaN(firstPay) ? 0 : firstPay;
+
+            if ( paySumm-firstPay > 0) {
+                $("input[name='creditSumm']").val(paySumm + creditSumm);
+                ctransaction.creditListItems();
+            } else {
+                $("input[name='summ']").addClass('lgc_haserror');
+                if ( paySumm === firstPay &&  firstPay !== 0 || firstPay > paySumm) {
+                    $("input[name='firstPay']").addClass('lgc_haserror');
+                }
+            }
+        },
     };
 }();

@@ -55,7 +55,7 @@ class ClientCardForm extends Model {
     }
 
     public function getClientParams ($uid) {
-        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, c.phone, date_format(c.birthday,'%d%m%Y') as birthday, c.sex, c.style, c.did, c.fid, b.cnum, b.bsumm, c.spoint, c.coid from lgc_clients c, lgc_bcards b where c.cid=b.cid and c.uid=:uid")
+        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, c.phone, date_format(c.birthday,'%d%m%Y') as birthday, c.sex, c.style, c.did, c.fid, b.cnum, b.bsumm, c.spoint, c.coid, c.cbalance from lgc_clients c, lgc_bcards b where c.cid=b.cid and c.uid=:uid")
             ->bindValue(':uid', $uid)
             ->queryAll())[0];
 

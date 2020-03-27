@@ -27,7 +27,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
         <label>Размер обуви: </label><?= Html::dropDownList('fsize', null, $fSize) ?><br/>
         <div class="lgc_form_control">
             <span>
-                <div style="width: 150px; display: table-cell"></div>
+        <?= Button::widget(['label' => 'Рассрочка','options' => ['disabled'=>'', 'name' => 'credit', 'class' => 'btn-sm btn-danger', 'onclick' => 'newclient.сtransactions()',],]);?>
             </span>
             <span>
         <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary', 'onclick' => 'newclient.create()',],]);?>
