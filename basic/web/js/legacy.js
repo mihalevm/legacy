@@ -601,6 +601,7 @@ var company = function () {
                     m:  $("input[name='manager']").val(),
                     c:  $("textarea[name='contacts']").val(),
                     d:  $("input[name='disabled']").val(),
+                    p:  $("select[name='paytype']").val(),
                 },
                 function (data) {
                     if (parseInt(data) > 0){
@@ -618,11 +619,14 @@ var company = function () {
             $("input[name='manager']").val($(o).data('manager'));
             $("textarea[name='contacts']").val($(o).data('contacts'));
             $("input[name='disabled']").prop('checked', $(o).data('disabled')==='Y');
+            $("select[name='paytype']").val($(o).data('ptype'));
         }
     };
 }();
 
 var ctransaction = function () {
+    var __perodList = null;
+
     function __creditCalculator(sum, payData, months) {
         var list = [];
         var s    = 0;
@@ -677,17 +681,26 @@ var ctransaction = function () {
                 parseInt($("select[name='months']").val())
             );
 
-            if (firstPay !== 0) {
-                var dt = new Date();
-                payList.unshift({i:0,date:dt.toLocaleDateString(), sum:firstPay, residue:paySumm + creditSumm - firstPay});
-            }
+            if (payList.length > 0) {
+                if (firstPay !== 0) {
+                    var dt = new Date();
+                    payList.unshift({
+                        i: 0,
+                        date: dt.toLocaleDateString(),
+                        sum: firstPay,
+                        residue: paySumm + creditSumm - firstPay
+                    });
+                }
 
-            $(payList).each(function (i, o) {
-                var prepayed = o.i === 0 ? 'lgc_credit_prepaid_item' : '';
-                $("#paymentPeriod").find('tbody:first').append('<tr class="'+prepayed+'"><th scope="row">'+o.i+'</th><td>'+o.date+'</td><td>'+o.sum+'</td><td>'+o.residue+'</td></tr>');
-            }).promise().done(function () {
-                $('#creditCalculateModal').modal('show');
-            });
+                $(payList).each(function (i, o) {
+                    var prepayed = o.i === 0 ? 'lgc_credit_prepaid_item' : '';
+                    $("#paymentPeriod").find('tbody:first').append('<tr class="' + prepayed + '"><th scope="row">' + o.i + '</th><td>' + o.date + '</td><td>' + o.sum + '</td><td>' + o.residue + '</td></tr>');
+                }).promise().done(function () {
+                    $('#creditCalculateModal').modal('show');
+                });
+
+                __perodList = payList;
+            }
         },
         creditCalculatorShow: function () {
             var paySumm    = parseInt($("input[name='summ']").inputmask('unmaskedvalue'));
@@ -709,5 +722,38 @@ var ctransaction = function () {
                 }
             }
         },
+        saveCreditPeriods: function () {
+            if (null !== __perodList) {
+                $.post(
+                    window.location.origin+window.location.pathname+'/saveperiods',
+                    {
+                        u: $("input[name='uid']").val(),
+                        p: JSON.stringify(__perodList),
+                    },
+                    function (data) {
+                        if (parseInt(data) === 1) {
+                            $.post(
+                                window.location.origin+window.location.pathname+'/savecorder',
+                                {
+                                    u: $("input[name='uid']").val(),
+                                    s: parseInt($("input[name='summ']").inputmask('unmaskedvalue')),
+                                    d: $("input[name='descr']").val()
+                                },
+                                function (data) {
+                                    if (parseInt(data) > 0) {
+                                        $('#creditCalculateModal').modal('hide');
+                                        location.reload();
+                                    }
+                                }
+                            ).fail(function() {
+                                window.location.href = 'search/error';
+                            });
+                        }
+                    }
+                ).fail(function() {
+                    window.location.href = 'search/error';
+                });
+            }
+        }
     };
 }();

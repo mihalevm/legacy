@@ -18,13 +18,14 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
     <br/>
     <?= Html::textInput('uid', $client_params['uid'], ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
-        <label>Кредитный баланс:<?php if (floatval($client_params['cbalance']) < 0) {echo('<i class="fa fa-exclamation-triangle lgc_hint_warning" aria-hidden="true"></i>');};?></label> <?= Html::textInput('cblnc', $client_params['cbalance'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
+        <label>Рекомендованый тип платежа: </label><?= Html::textInput('paytype', $client_params['paytype'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
+        <label>Кредитный баланс:<?php if (floatval($client_params['cbalance']) > 0) {echo('<i class="fa fa-exclamation-triangle lgc_hint_warning" aria-hidden="true"></i>');};?></label> <?= Html::textInput('cblnc', $client_params['cbalance'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Сумма покупки: </label> <?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['type'=>$field_type, 'onkeyup' => 'bonus.addcalc()']]); ?><br/>
         <label>Первоначальный взнос: </label> <?=MaskedInput::widget(['name' => 'firstPay','mask' => '999999','value' => '0', 'options'=>['type'=>$field_type,]]); ?><br/>
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
         <div class="lgc_form_control">
             <span>
-        <?= Button::widget(['label' => 'Погашение','options' => ['name' => 'addpay', 'class' => 'btn-sm btn-success', 'onclick' => '', 'data-toggle' =>'modal', 'data-target' => '#addpayModal',],]);?>
+        <?php if ($client_params['pay_period'] > 0) {echo (Button::widget(['label' => 'Погашение','options' => ['name' => 'addpay', 'class' => 'btn-sm btn-success', 'onclick' => '', 'data-toggle' =>'modal', 'data-target' => '#addpayModal',],]));};?>
             </span>
             <span>
         <?= Button::widget(['label' => 'Скидка','options' => ['name' => 'sale', 'class' => 'btn-sm btn-primary', 'onclick' => 'bonus.add()',],]);?>
@@ -43,6 +44,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             <thead>
             <tr>
                 <th scope="col">Дата</th>
+                <th scope="col">Тип</th>
                 <th scope="col">Сумма</th>
                 <th scope="col">Бонусы</th>
                 <th scope="col">Описание</th>
@@ -52,7 +54,18 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             <?php
             foreach ($client_last_transaction as $item){
                 $item['bsumm'] = $item['ttype'] == 'a' ? $item['bsumm'] : -$item['bsumm'];
-                echo '<tr><th scope="row">'.$item['tdate'].'</th><td>'.$item['summ'].'</td><td>'.$item['bsumm'].'</td><td>'.$item['tdesc'].'</td></tr>';
+                $order_ptype = '';
+                if ($item['ttype'] == 'a' || $item['ttype'] == 's'){
+                    $order_ptype = 'Бонусы';
+                }
+                if ($item['ttype'] == 'C'){
+                    $order_ptype = 'Рассрочка';
+                }
+                if ($item['ttype'] == 'P'){
+                    $order_ptype = 'Скидка';
+                }
+
+                echo '<tr><th scope="row">'.$item['tdate'].'</th><td>'.$order_ptype.'</td><td>'.$item['summ'].'</td><td>'.$item['bsumm'].'</td><td>'.$item['tdesc'].'</td></tr>';
             }
             ?>
             </tbody>
@@ -115,12 +128,12 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                <?php if ($client_params['pay_period'] > 0) {echo('<div class="lgc_credit_exist_warn"><label>Есть не погашенная задолженность</label></div>');}?>
+                <button type="button" class="btn btn-primary" onclick="ctransaction.saveCreditPeriods()">Сохранить</button>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="addpayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">

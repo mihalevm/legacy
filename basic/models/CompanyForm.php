@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 
 /**
@@ -22,41 +23,55 @@ class CompanyForm extends Model {
     }
 
     public function getAllCompany () {
-        $arr = $this->db_conn->createCommand("select coid, name, manager, contacts, disabled from lgc_company")
+        $arr = $this->db_conn->createCommand("select c.coid, c.name, c.manager, c.contacts, c.disabled, c.ptype, p.ptype as ptypename from lgc_company c, lgc_paytype p where c.ptype=p.pid")
             ->queryAll();
 
         return $arr;
     }
 
-    public function createCompany ($coname, $manager, $contacts, $disabled) {
-        $this->db_conn->createCommand("insert into lgc_company (name, manager, contacts, disabled) values (:coname, :manager, :contacts, :disabled)", [
+    public function getAllPayTypes (){
+        $arr = $this->db_conn->createCommand("select pid, ptype from lgc_paytype order by ptype")
+            ->queryAll();
+
+        $arr = ArrayHelper::map($arr,'pid','ptype');
+
+        return $arr;
+    }
+
+    public function createCompany ($coname, $manager, $contacts, $disabled, $ptype) {
+        $this->db_conn->createCommand("insert into lgc_company (name, manager, contacts, disabled, ptype) values (:coname, :manager, :contacts, :disabled, :ptype)", [
             ':coname' => '',
             ':manager' => '',
             ':contacts' => '',
-            ':disabled' => 'N'
+            ':disabled' => 'N',
+            ':ptype' => '0'
         ])
             ->bindValue(':coname', $coname)
             ->bindValue(':manager', $manager)
             ->bindValue(':contacts', $contacts)
             ->bindValue(':disabled', $disabled == 1 ? 'Y':'N')
+            ->bindValue(':ptype', $ptype)
             ->execute();
 
         return $this->db_conn->getLastInsertID();
     }
 
-    public function updateCompany ($coid, $coname, $manager, $contacts, $disabled) {
-        $this->db_conn->createCommand("update lgc_company set name=:name, manager=:manager, contacts=:contacts, disabled=:disabled where coid=:coid", [
+    public function updateCompany ($coid, $coname, $manager, $contacts, $disabled, $ptype) {
+        $this->db_conn->createCommand("update lgc_company set name=:name, manager=:manager, contacts=:contacts, disabled=:disabled, ptype=:ptype where coid=:coid", [
             ':name' => '',
             ':manager' => '',
             ':contacts' => '',
             ':disabled' => 'N',
-            ':coid' => ''
+            ':coid' => '',
+            ':ptype' => '0'
+
         ])
             ->bindValue(':name', $coname)
             ->bindValue(':manager', $manager)
             ->bindValue(':contacts', $contacts)
             ->bindValue(':disabled', $disabled === 1 ? 'Y':'N')
             ->bindValue(':coid', $coid)
+            ->bindValue(':ptype', $ptype)
             ->execute();
 
         return 1;

@@ -75,6 +75,7 @@
     border-radius: 4px;
     border: 1px dotted lightgray;
     float: right;
+    background-color: white;
 }
 
 .lgc_mainform textarea {
@@ -90,7 +91,9 @@
     max-width: 300px;
 }
 .lgc_mainform input[type="checkbox"]{
-    width: 32px;
+    width: 15px;
+    height: 15px;
+    margin-top: 10px;
 }
 
 .lgc_mainform input:focus, .lgc_mainform input:hover,
@@ -397,4 +400,10 @@
 
 .lgc_credit_prepaid_item {
     background-color: #c26e91;
+}
+
+.lgc_credit_exist_warn {
+    display: flex;
+    float: left;
+    color: #c26e91;
 }

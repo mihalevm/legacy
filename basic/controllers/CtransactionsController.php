@@ -44,7 +44,7 @@ class CtransactionsController extends Controller {
         ]);
     }
 
-    public function actionAddbonus(){
+    public function actionSaveperiods() {
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);
         }
@@ -53,18 +53,35 @@ class CtransactionsController extends Controller {
         $res = 0;
         $model = new CtransactionsForm();
 
-        if (null !== $r->post('u') && null != $r->post('s') && null != $r->post('bs')){
-            $res = $model->AddTransaction(
-                'a',
+        if (null !== $r->post('u') && null != $r->post('p') ){
+            $res = $model->AddCreditPeriods(
                 $r->post('u'),
-                $r->post('s'),
-                $r->post('bs'),
-                $r->post('d')
+                $r->post('p')
             );
         }
 
         return $this->_sendJSONAnswer($res);
     }
 
+    public function actionSavecorder() {
+        if ( null === Yii::$app->user->id) {
+            return $this->redirect(['/login']);
+        }
 
+        $r = Yii::$app->request;
+        $res = 0;
+        $model = new CtransactionsForm();
+
+        if (null !== $r->post('u') && null != $r->post('s') ){
+            $res = $model->AddOrder(
+                $r->post('u'),
+                $r->post('s'),
+                $r->post('d'),
+                'C'
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+
+    }
 }

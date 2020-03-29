@@ -41,7 +41,8 @@ class CompanyController extends Controller {
         ]);
 
         return $this->render('index',[
-            'allCompanyList' => $allCompanyList
+            'allCompanyList' => $allCompanyList,
+            'paytype' => $model->getAllPayTypes()
         ]);
     }
 
@@ -60,7 +61,8 @@ class CompanyController extends Controller {
                     $r->post('n'),
                     $r->post('m'),
                     $r->post('c'),
-                    $r->post('d')
+                    $r->post('d'),
+                    $r->post('p')
                 );
             } else {
                 $result = $model->updateCompany(
@@ -68,7 +70,9 @@ class CompanyController extends Controller {
                     $r->post('n'),
                     $r->post('m'),
                     $r->post('c'),
-                    intval($r->post('d'))
+                    intval($r->post('d')),
+                    $r->post('p')
+
                 );
             }
         }

@@ -14,8 +14,9 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
     <div class="lgc_mainform">
         <label>Название: </label> <?= Html::textInput('coname', null, ['placeholder' => 'Название компании']); ?><br/>
         <label>Руководитель: </label> <?= Html::textInput('manager', null, ['placeholder' => 'ФИО руководителя']); ?><br/>
+        <label>Расчет: </label><?= Html::dropDownList('paytype', 0, $paytype) ?><br/>
         <label>Контакты: </label> <?= Html::textarea('contacts', null, ['placeholder' => 'Описание']); ?><br/>
-        <label>Активна: </label> <?= Html::checkbox('disabled', false); ?><br/>
+        <label>Заблокирована: </label> <?= Html::checkbox('disabled', false); ?><br/>
         <div class="lgc_form_control">
             <span>
                 <div style="width: 150px; display: table-cell"></div>
@@ -39,6 +40,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 'data-manager'  => $model['manager'],
                 'data-contacts' => $model['contacts'],
                 'data-disabled' => $model['disabled'],
+                'data-ptype'    => $model['ptype'],
                 'onclick'       => 'company.setActiveItem(this);'
             ];
         },
@@ -52,6 +54,11 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 'format' => 'ntext',
                 'attribute'=>'name',
                 'label'=>'Название',
+            ],
+            [
+                'format' => 'ntext',
+                'attribute'=>'ptypename',
+                'label'=>'Расчет',
             ],
             [
                 'format' => 'ntext',
