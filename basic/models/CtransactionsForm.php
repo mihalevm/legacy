@@ -127,53 +127,46 @@ class CtransactionsForm extends Model {
         return $res;
     }
 
-// Bonus transaction part
-/*
-    private function getCardIdbyUid ($uid){
-        $arr = ($this->db_conn->createCommand("SELECT cid FROM lgc_clients WHERE uid=:uid")
+    public function getPayPeriods ($uid) {
+        return $this->db_conn->createCommand("select pid, date_format(pay_data, '%d.%m.%Y') as pay_data, pitem, pay_sum, pay_residue, payed from lgc_cperiods where uid=:uid")
             ->bindValue(':uid', $uid)
-            ->queryAll())[0];
-
-        return $arr['cid'];
+            ->queryAll();
     }
 
+    public function AddPaymentsFromCPeriods($pids) {
+        $arr_pids = json_decode($pids);
+        $uid = 0;
 
-    private function UpdateBonusBalace($cid, $bsumm) {
-        $arr = ($this->db_conn->createCommand("select bsumm from lgc_bcards where cid=:cid")
-            ->bindValue(':cid', $cid)
-            ->queryAll())[0];
+        foreach ($arr_pids as $pid ){
+            $cPeriods = ($this->db_conn->createCommand("select pid, uid, date_format(pay_data, '%d.%m.%Y') as pay_data, pay_sum, payed from lgc_cperiods where pid=:pid")
+                ->bindValue(':pid', $pid)
+                ->queryAll())[0];
 
-        $cur_bsumm = intval($arr['bsumm']);
+            if ($cPeriods['payed'] === 'N' && $this->addCPayment($cPeriods['uid'], $cPeriods['pay_sum'], 'Платеж по рассрочке от '.$cPeriods['pay_data'])){
+                $this->db_conn->createCommand("update lgc_cperiods set payed='Y' where pid=:pid")
+                    ->bindValue(':pid', $pid)
+                    ->execute();
+            }
 
-        $cur_bsumm = $cur_bsumm + $bsumm > 0 ? $cur_bsumm + $bsumm : 0;
-
-        $this->db_conn->createCommand("update lgc_bcards set bsumm=:bsumm where cid=:cid")
-            ->bindValue(':bsumm', $cur_bsumm)
-            ->bindValue(':cid', $cid)
-            ->execute();
-    }
-
-    public function AddTransaction($ttype, $uid, $summ, $bsumm, $descr){
-        $cid = $this->getCardIdbyUid($uid);
-
-        $this->db_conn->createCommand("insert into lgc_btransactions (cid, uid, ttype, summ, bsumm, tdesc) values (:cid, :uid, :ttype, :summ, :bsumm, :tdesc)")
-            ->bindValue(':cid', $cid)
-            ->bindValue(':uid', $uid)
-            ->bindValue(':ttype', $ttype)
-            ->bindValue(':summ', $summ)
-            ->bindValue(':bsumm', $bsumm)
-            ->bindValue(':tdesc', $descr)
-            ->execute();
-
-        $tid = $this->db_conn->getLastInsertID();
-
-        if ( $tid > 0 ) {
-            $bsumm = $ttype == 'a' ? $bsumm : -$bsumm;
-            $this->UpdateBonusBalace($cid, $bsumm);
+            $uid = $cPeriods['uid'];
         }
 
-        return $tid;
-    }
-*/
+        if ($uid > 0) {
+            $this->checkCloseAllPeriods($uid);
+        }
 
+        return 1;
+    }
+
+    private function checkCloseAllPeriods($uid) {
+        $hasOpenPeriods = ($this->db_conn->createCommand("select count(*) as cnt from lgc_cperiods where uid=:uid and payed='N'")
+            ->bindValue(':uid', $uid)
+            ->queryAll())[0];
+
+        if (intval($hasOpenPeriods['cnt']) === 0) {
+            $this->deleteCreditPeriods($uid);
+        }
+
+        return 1;
+    }
 }

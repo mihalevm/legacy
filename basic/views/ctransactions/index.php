@@ -25,7 +25,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
         <div class="lgc_form_control">
             <span>
-        <?php if ($client_params['pay_period'] > 0) {echo (Button::widget(['label' => 'Погашение','options' => ['name' => 'addpay', 'class' => 'btn-sm btn-success', 'onclick' => '', 'data-toggle' =>'modal', 'data-target' => '#addpayModal',],]));};?>
+        <?php if ($client_params['pay_period'] > 0) {echo (Button::widget(['label' => 'Погашение','options' => ['name' => 'addpay', 'class' => 'btn-sm btn-success', 'onclick' => 'ctransaction.showAddPayModal()',],]));};?>
             </span>
             <span>
         <?= Button::widget(['label' => 'Скидка','options' => ['name' => 'sale', 'class' => 'btn-sm btn-primary', 'onclick' => 'bonus.add()',],]);?>
@@ -136,13 +136,32 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
 </div>
 
 <div class="modal fade" id="addpayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-body" style="text-align: center">
-                Оплата кредита
+            <div class="modal-header">
+                <h4 class="modal-title">Погашение платежей по рассрочке</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="paymentPeriodForPay" class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">№</th>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Сумма</th>
+                        <th scope="col">Остаток</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col"><i class="fa fa-cog" aria-hidden="true"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot><th colspan="2">Задолженность:</th><th id="totalPostDue">0</th><th>К оплате:</th><th id="totalForPay">0</th><th></th></tfoot>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                <button type="button" class="btn btn-primary" onclick="ctransaction.AddPayments()">Сохранить</button>
             </div>
         </div>
     </div>

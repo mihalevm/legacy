@@ -754,6 +754,85 @@ var ctransaction = function () {
                     window.location.href = 'search/error';
                 });
             }
+        },
+        showAddPayModal: function () {
+            $.post(
+                window.location.origin+window.location.pathname+'/getperiods',
+                {
+                    u: $("input[name='uid']").val(),
+                },
+                function (data) {
+                    if (data.length > 0) {
+                        var tableContent = $('#paymentPeriodForPay').find('tbody:first');
+                        $(tableContent).empty();
+                        var currentDate = new Date();
+                        var totalPostDue = 0;
+
+                        $(data).each(function (i, o) {
+                            var payDate = o.pay_data.split('.');
+                            payDate = new Date(payDate[2], payDate[1] - 1, payDate[0]);
+                            var payed = '';
+                            var pastdue = '';
+                            var payControl = '';
+                            var payStatus  = '';
+
+                            if (o.payed === 'Y') {
+                                payed = 'lgc_credit_prepaid_item';
+                                payStatus = 'Оплачен';
+                                payControl = '<i class="fa fa-check" aria-hidden="true"></i>';
+                            } else {
+                                totalPostDue  += parseFloat(o.pay_sum);
+                                payControl = '<input type="checkbox" data-pid="'+o.pid+'" data-sum="'+o.pay_sum+'" onchange="ctransaction.calculateSubTotal(this)"/>';
+                                payStatus = 'Предстоящий';
+                                if (currentDate > payDate) {
+                                    pastdue = '<i class="fa fa-exclamation-triangle lgc_hint_warning" aria-hidden="true"></i>';
+                                    payStatus = 'Просрочен';
+                                }
+                            }
+
+                            $(tableContent).append('<tr class="'+payed+'"><th>'+o.pitem+'</th><td>'+o.pay_data+pastdue+'</td><td>'+o.pay_sum+'</td><td>'+o.pay_residue+'</td><td>'+payStatus+'</td><td>'+payControl+'</td></tr>');
+                            $('#totalPostDue').text(totalPostDue);
+                        }).promise().done(function () {
+                            $('#totalForPay').text('0');
+                            $('#addpayModal').modal('show');
+                        });
+                    }
+                }
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
+        },
+
+        calculateSubTotal: function (o) {
+            if ($(o).prop("checked")){
+                $('#totalForPay').text(parseFloat($('#totalForPay').text())+parseFloat($(o).data('sum')));
+            } else {
+                $('#totalForPay').text(parseFloat($('#totalForPay').text())-parseFloat($(o).data('sum')));
+            }
+        },
+
+        AddPayments: function () {
+            var tableContent = $('#paymentPeriodForPay').find('tbody:first');
+            var selected_pays = [];
+
+            $(tableContent).find('input:checked').each(function(i,o){
+                selected_pays.push($(o).data('pid'));
+            }).promise().done(function () {
+                $.post(
+                    window.location.origin+window.location.pathname+'/addpayments',
+                    {
+                        p: JSON.stringify(selected_pays)
+                    },
+                    function (data) {
+                        if (parseInt(data) === 1){
+                            $('#addpayModal').modal('hide');
+                            location.reload();
+                        }
+                    }
+                ).fail(function() {
+                    window.location.href = 'search/error';
+                });
+            });
         }
     };
 }();
