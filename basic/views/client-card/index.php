@@ -46,7 +46,7 @@ if (\Yii::getAlias('@device') != 'desktop') {
         </div>
         <div class="lgc_form_control">
         <?php if ($client_params['coid'] > 0){echo('<span>'); echo(Button::widget(['label' => 'Рассрочка','options' => ['name' => 'credit', 'class' => 'btn-sm btn-success', 'onclick' => 'newclient.сtransactions()',],])); echo("</span>");};?>
-        <?php if ($client_params['coid'] > 0){echo('<span>'); echo(Button::widget(['label' => 'Скидка','options' => ['name' => 'sell', 'class' => 'btn-sm btn-success', 'onclick' => '',],])); echo("</span>");};?>
+        <?php if ($client_params['coid'] > 0){echo('<span>'); echo(Button::widget(['label' => 'Скидка','options' => ['name' => 'sell', 'class' => 'btn-sm btn-success', 'onclick' => 'newclient.sell()',],])); echo("</span>");};?>
         </div>
         <div class="lgc_form_control">
             <span>

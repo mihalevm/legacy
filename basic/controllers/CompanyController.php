@@ -23,11 +23,15 @@ class CompanyController extends Controller {
         return $response;
     }
 
-    public function actionIndex() {
+    public function beforeAction($action) {
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);
         }
 
+        return parent::beforeAction($action);
+    }
+
+    public function actionIndex() {
         $model = new CompanyForm();
 
         $allCompanyList = new ArrayDataProvider([
@@ -47,10 +51,6 @@ class CompanyController extends Controller {
     }
 
     public function actionSave() {
-        if (null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $model = new CompanyForm();
         $r = Yii::$app->request;
         $result = null;

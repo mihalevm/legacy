@@ -22,11 +22,15 @@ class NewClientController extends Controller {
         return $response;
     }
 
-    public function actionIndex() {
+    public function beforeAction($action) {
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);
         }
 
+        return parent::beforeAction($action);
+    }
+
+    public function actionIndex() {
         $model = new NewClientForm();
         return $this->render('index',[
             'cSize'   => $model->getAllCSize(),
@@ -38,10 +42,6 @@ class NewClientController extends Controller {
     }
 
     public function actionCreate(){
-        if ( null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $r = Yii::$app->request;
         $res = 0;
         $model = new NewClientForm();
@@ -68,10 +68,6 @@ class NewClientController extends Controller {
     }
 
     public function actionUpdate(){
-        if ( null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $r = Yii::$app->request;
         $res = 0;
         $model = new NewClientForm();
@@ -95,10 +91,6 @@ class NewClientController extends Controller {
     }
 
     public function actionNewcard(){
-        if ( null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $r = Yii::$app->request;
         $res = 0;
         $model = new NewClientForm();
@@ -109,6 +101,4 @@ class NewClientController extends Controller {
 
         return $this->_sendJSONAnswer($res);
     }
-
-
 }

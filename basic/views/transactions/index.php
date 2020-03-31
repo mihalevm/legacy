@@ -98,7 +98,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                         $type = 'Скидка';
                     }
 
-                    return  $type;
+                    return $type;
                 }
             ],
             [

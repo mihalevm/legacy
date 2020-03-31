@@ -23,11 +23,15 @@ class ClientCardController extends Controller {
         return $response;
     }
 
-    public function actionIndex() {
+    public function beforeAction($action) {
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);
         }
 
+        return parent::beforeAction($action);
+    }
+
+    public function actionIndex() {
         $r = Yii::$app->request;
         $model = new ClientCardForm();
         $comodel = new NewClientForm();
@@ -48,10 +52,6 @@ class ClientCardController extends Controller {
     }
 
     public function actionUpdate(){
-        if ( null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $r = Yii::$app->request;
         $res = 0;
         $model = new ClientCardForm();
@@ -76,10 +76,6 @@ class ClientCardController extends Controller {
     }
 
     public function actionDelete(){
-        if ( null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $r = Yii::$app->request;
         $res = 0;
         $model = new ClientCardForm();

@@ -22,11 +22,16 @@ class BonusAddController extends Controller {
         return $response;
     }
 
-    public function actionIndex() {
+    public function beforeAction($action) {
         if ( null === Yii::$app->user->id) {
             return $this->redirect(['/login']);
         }
 
+        return parent::beforeAction($action);
+    }
+
+
+    public function actionIndex() {
         $r = Yii::$app->request;
         $model = new BonusForm();
         $client_params = null;
@@ -45,10 +50,6 @@ class BonusAddController extends Controller {
     }
 
     public function actionAddbonus(){
-        if ( null === Yii::$app->user->id) {
-            return $this->redirect(['/login']);
-        }
-
         $r = Yii::$app->request;
         $res = 0;
         $model = new BonusForm();

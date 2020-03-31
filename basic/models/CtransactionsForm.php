@@ -120,7 +120,7 @@ class CtransactionsForm extends Model {
 
         $res = $this->db_conn->getLastInsertID();
 
-        if ($res > 0 ) {
+        if ($res > 0 && $type === 'C') {
             $this->updateClientCBalance($uid, $sum);
         }
 

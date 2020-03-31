@@ -95,6 +95,11 @@ var newclient = function(){
             var uid   = parseInt($("input[name='uid']").val());
             window.location.href = window.location.origin+'/ctransactions?u='+uid;
         },
+        sell : function () {
+            var uid   = parseInt($("input[name='uid']").val());
+            window.location.href = window.location.origin+'/ctransactions/sell?u='+uid;
+        },
+
         newcard : function () {
             var card_number = $("input[name='cnum']").inputmask('unmaskedvalue');
             if (timerId) {clearTimeout(timerId);}
@@ -860,6 +865,49 @@ var ctransaction = function () {
             ).fail(function() {
                 window.location.href = 'search/error';
             });
+        },
+    };
+}();
+
+var sell = function () {
+    return {
+        calcsum : function () {
+            var psell = $("select[name='sprcnt']").val();
+            var sum   = parseFloat($("input[name='summ']").inputmask('unmaskedvalue'));
+            if (sum > 0) {
+                $("input[name='sellsum']").val(Math.round(sum * (1 - psell / 100)));
+            } else {
+                $("input[name='sellsum']").val(0);
+            }
+
+        },
+        saveOrder: function () {
+            $("input[name='summ']").removeClass('lgc_haserror');
+            var url = window.location.origin+window.location.pathname;
+            url = url.replace('/sell', '')+'/saveporder'
+
+            if (isNaN(parseFloat($("input[name='summ']").val()))) {
+                $("input[name='summ']").addClass('lgc_haserror');
+                return;
+            }
+
+            $.post(
+                url,
+                {
+                    u: $("input[name='uid']").val(),
+                    s: parseFloat($("input[name='sellsum']").val()),
+                    d: $("input[name='descr']").val()
+                },
+                function (data) {
+                    if (data) {
+                        location.reload();
+                    }
+                }
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
+
+
         },
     };
 }();
