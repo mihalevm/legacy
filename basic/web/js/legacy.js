@@ -833,6 +833,33 @@ var ctransaction = function () {
                     window.location.href = 'search/error';
                 });
             });
-        }
+        },
+
+        showPaysModal: function () {
+            $.post(
+                window.location.origin+window.location.pathname+'/getpayments',
+                {
+                    u: $("input[name='uid']").val(),
+                    s: $('#ctransactionsform-pays_sdate').val(),
+                    e: $('#ctransactionsform-pays_edate').val(),
+                },
+                function (data) {
+                    if (data) {
+                        var tableContent = $('#paymentsList').find('tbody:first');
+                        $(tableContent).empty();
+
+                        $(data).each(function (i, o) {
+                            $(tableContent).append('<tr><th>'+(i+1)+'</th><td>'+o.pdate+'</td><td>'+o.psum+'</td><td>'+o.pdesc+'</td></tr>');
+                        }).promise().done(function () {
+                            if (! ($("#paysModal").data('bs.modal') || {}).isShown){
+                                $('#paysModal').modal('show');
+                            }
+                        });
+                    }
+                }
+            ).fail(function() {
+                window.location.href = 'search/error';
+            });
+        },
     };
 }();

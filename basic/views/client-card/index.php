@@ -37,13 +37,16 @@ if (\Yii::getAlias('@device') != 'desktop') {
         <label>Размер обуви: </label><?= Html::dropDownList('fsize', $client_params['fid'], $fSize) ?><br/>
 
         <div class="lgc_form_control">
-        <?php if ($client_params['coid'] > 0){echo('<span>'); echo(Button::widget(['label' => 'Рассрочка','options' => ['name' => 'credit', 'class' => 'btn-sm btn-danger', 'onclick' => 'newclient.сtransactions()',],])); echo("</span>");};?>
             <span>
         <?= Button::widget(['label' => 'Покупки','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary', 'onclick' => 'newclient.transactions()',],]);?>
             </span>
             <span>
         <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newusersave', 'class' => 'btn-sm btn-primary', 'onclick' => 'newclient.create()',],]);?>
             </span>
+        </div>
+        <div class="lgc_form_control">
+        <?php if ($client_params['coid'] > 0){echo('<span>'); echo(Button::widget(['label' => 'Рассрочка','options' => ['name' => 'credit', 'class' => 'btn-sm btn-success', 'onclick' => 'newclient.сtransactions()',],])); echo("</span>");};?>
+        <?php if ($client_params['coid'] > 0){echo('<span>'); echo(Button::widget(['label' => 'Скидка','options' => ['name' => 'sell', 'class' => 'btn-sm btn-success', 'onclick' => '',],])); echo("</span>");};?>
         </div>
         <div class="lgc_form_control">
             <span>

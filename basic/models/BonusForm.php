@@ -75,7 +75,7 @@ class BonusForm extends Model {
     }
 
     public function getLastStat ($uid) {
-        $arr = $this->db_conn->createCommand("select date_format(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid order by tid desc limit 5")
+        $arr = $this->db_conn->createCommand("SELECT tdate, summ, bsumm, tdesc, ttype FROM (select DATE_FORMAT(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid UNION SELECT DATE_FORMAT(tdate,'%d.%m.%Y') as tdate, summ, 0, tdesc, type FROM lgc_ctransactions WHERE uid = :uid ) as t order BY t.tdate desc limit 5")
             ->bindValue(':uid', $uid)
             ->queryAll();
 

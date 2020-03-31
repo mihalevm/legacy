@@ -373,16 +373,16 @@
     margin-right: auto;
 }
 
-.lgc_column_element {
+.lgc_column_element, .lgc_column_element_right {
     display: table-cell;
     padding: 20px;
 }
 
-.lgc_column_element .input-group {
+.lgc_column_element .input-group, .lgc_column_element_right .input-group {
     width: 150px;
 }
 
-.lgc_column_element input, .lgc_column_element select{
+.lgc_column_element input, .lgc_column_element select, .lgc_column_element_right input, .lgc_column_element_right select{
     text-align: right;
     width: 150px;
     margin-left: auto;
@@ -390,6 +390,15 @@
     display: initial;
     border-radius: 4px;
     border: 1px dotted lightgray;
+    float: right;
+}
+
+.lgc_column_element_right label{
+    padding-top: 5px;
+    padding-right: 5px;
+}
+
+.lgc_column_element_right {
     float: right;
 }
 

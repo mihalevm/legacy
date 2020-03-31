@@ -25,10 +25,10 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
         <label>Описание покупки: </label><?= Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?><br/>
         <div class="lgc_form_control">
             <span>
-        <?php if ($client_params['pay_period'] > 0) {echo (Button::widget(['label' => 'Погашение','options' => ['name' => 'addpay', 'class' => 'btn-sm btn-success', 'onclick' => 'ctransaction.showAddPayModal()',],]));};?>
+        <?= Button::widget(['label' => 'Платежи','options' => ['name' => 'pays', 'class' => 'btn-sm btn-primary', 'onclick' => 'ctransaction.showPaysModal()',],]);?>
             </span>
             <span>
-        <?= Button::widget(['label' => 'Скидка','options' => ['name' => 'sale', 'class' => 'btn-sm btn-primary', 'onclick' => 'bonus.add()',],]);?>
+        <?php if ($client_params['pay_period'] > 0) {echo (Button::widget(['label' => 'Погашение','options' => ['name' => 'addpay', 'class' => 'btn-sm btn-success', 'onclick' => 'ctransaction.showAddPayModal()',],]));};?>
             </span>
             <span>
         <?= Button::widget(['label' => 'Кредит','options' => ['name' => 'credit', 'class' => 'btn-sm btn-danger', 'onclick' => 'ctransaction.creditCalculatorShow()',],]);?>
@@ -162,6 +162,71 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="ctransaction.AddPayments()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paysModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">История платежей по рассрочке</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="lgc_column_element_right">
+                    <label>По:</label>
+                    <?=DatePicker::widget(
+                        ['model' => $model,
+                            'attribute' => 'pays_edate',
+                            'options' => ['placeholder' => 'Конец периода',
+                                'value' => date('d.m.Y', strtotime(date('Y-m-d'))),
+                            ],
+                            'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                            'removeButton' => false,
+                            'pluginOptions' => [
+                                'format' => 'dd.mm.yyyy',
+                                'orientation' => 'bottom left',
+                                'autoclose'=>true,
+                                'todayHighlight' => true,
+                            ],
+                        ]);?>
+                </div>
+                <div class="lgc_column_element_right">
+                    <label>C:</label>
+                    <?=DatePicker::widget(
+                        ['model' => $model,
+                            'attribute' => 'pays_sdate',
+                            'options' => ['placeholder' => 'Начало периода',
+                                'value' => date('01.m.Y', strtotime(date('Y-m-d'))),
+                            ],
+                            'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                            'removeButton' => false,
+                            'pluginOptions' => [
+                                'format' => 'dd.mm.yyyy',
+                                'orientation' => 'bottom left',
+                                'autoclose'=>true,
+                                'todayHighlight' => true,
+                            ],
+                        ]);?>
+                </div>
+                <table id="paymentsList" class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">№</th>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Сумма</th>
+                        <th scope="col">Описание</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ctransaction.showPaysModal()">Обновить</button>
             </div>
         </div>
     </div>

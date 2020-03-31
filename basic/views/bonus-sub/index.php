@@ -41,6 +41,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             <thead>
             <tr>
                 <th scope="col">Дата</th>
+                <th scope="col">Тип</th>
                 <th scope="col">Сумма</th>
                 <th scope="col">Бонусы</th>
                 <th scope="col">Описание</th>
@@ -50,7 +51,18 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             <?php
             foreach ($client_last_transaction as $item){
                 $item['bsumm'] = $item['ttype'] == 'a' ? $item['bsumm'] : -$item['bsumm'];
-                echo '<tr><th scope="row">'.$item['tdate'].'</th><td>'.$item['summ'].'</td><td>'.$item['bsumm'].'</td><td>'.$item['tdesc'].'</td></tr>';
+                $order_ptype = '';
+                if ($item['ttype'] == 'a' || $item['ttype'] == 's'){
+                    $order_ptype = 'Бонусы';
+                }
+                if ($item['ttype'] == 'C'){
+                    $order_ptype = 'Рассрочка';
+                }
+                if ($item['ttype'] == 'P'){
+                    $order_ptype = 'Скидка';
+                }
+
+                echo '<tr><th scope="row">'.$item['tdate'].'</th><td>'.$order_ptype.'</td><td>'.$item['summ'].'</td><td>'.$item['bsumm'].'</td><td>'.$item['tdesc'].'</td></tr>';
             }
             ?>
             </tbody>

@@ -169,4 +169,15 @@ class CtransactionsForm extends Model {
 
         return 1;
     }
+
+    public function getPaymentsByPeriod($uid, $sdate, $edate) {
+        $sdate .= ' 00:00:00';
+        $edate .= ' 23:59:59';
+
+        return $this->db_conn->createCommand("select pdate, psum, pdesc from lgc_cpayments where uid=:uid and pdate >= str_to_date(:sdate, '%d.%m.%Y %H:%i:%s') and pdate<=str_to_date(:edate, '%d.%m.%Y %H:%i:%s')")
+            ->bindValue(':uid',   $uid)
+            ->bindValue(':sdate', $sdate)
+            ->bindValue(':edate', $edate)
+            ->queryAll();
+    }
 }

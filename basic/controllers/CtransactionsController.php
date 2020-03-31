@@ -102,6 +102,21 @@ class CtransactionsController extends Controller {
         }
 
         return $this->_sendJSONAnswer($res);
+    }
 
+    public function actionGetpayments(){
+        $r = Yii::$app->request;
+        $model = new CtransactionsForm();
+        $res = [1];
+
+        if (null !== $r->post('u') && null !== $r->post('s') && null !== $r->post('e')){
+            $res = $model->getPaymentsByPeriod(
+                $r->post('u'),
+                $r->post('s'),
+                $r->post('e')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
     }
 }

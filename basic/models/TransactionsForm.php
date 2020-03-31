@@ -30,10 +30,14 @@ class TransactionsForm extends Model {
     }
 
     public function getAllTransactions ($uid, $sdate, $edate) {
-        $arr = $this->db_conn->createCommand("select tid, date_format(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid and tdate >= timestamp(str_to_date(:sdate, '%d.%m.%Y')) and tdate <= timestamp(str_to_date(:edate, '%d.%m.%Y')) order by tid")
+//        $arr = $this->db_conn->createCommand("select tid, date_format(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid and tdate >= timestamp(str_to_date(:sdate, '%d.%m.%Y')) and tdate <= timestamp(str_to_date(:edate, '%d.%m.%Y')) order by tid")
+        $arr = $this->db_conn->createCommand("SELECT tid, tdate, summ, bsumm, tdesc, ttype FROM (select tid, DATE_FORMAT(tdate,'%d.%m.%Y') as tdate, summ, bsumm, tdesc, ttype from lgc_btransactions where uid=:uid and tdate >= timestamp(str_to_date(:sdate, '%d.%m.%Y')) and tdate <= timestamp(str_to_date(:edate, '%d.%m.%Y')) UNION SELECT cid, DATE_FORMAT(tdate,'%d.%m.%Y') as tdate, summ, 0, tdesc, type FROM lgc_ctransactions WHERE uid = :uid and tdate >= timestamp(str_to_date(:sdate, '%d.%m.%Y')) and tdate <= timestamp(str_to_date(:edate, '%d.%m.%Y')) ) as t order BY t.tid")
+            ->bindValue(':uid', $uid)
             ->bindValue(':sdate', $sdate)
             ->bindValue(':edate', $edate)
             ->bindValue(':uid', $uid)
+            ->bindValue(':sdate', $sdate)
+            ->bindValue(':edate', $edate)
             ->queryAll();
 
         return $arr;

@@ -84,6 +84,24 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 }
             ],
             [
+                'format'      => 'raw',
+                'headerOptions' => ['style'=>'text-align:center;',],
+                'label'       => 'Тип',
+                'encodeLabel' => false,
+                'value'       => function($data){
+                    $type = 'Бонусы';
+
+                    if ( $data['ttype'] === 'C' ) {
+                        $type = 'Рассрочка';
+                    }
+                    if ( $data['ttype'] === 'P' ) {
+                        $type = 'Скидка';
+                    }
+
+                    return  $type;
+                }
+            ],
+            [
                 'format' => 'ntext',
                 'attribute'=>'tdesc',
                 'label'=>'Описание',
@@ -94,9 +112,8 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 'label'       => '<i class="fa fa-cog" aria-hidden="true"></i>',
                 'encodeLabel' => false,
                 'value'       => function($data){
-                    return '<div class="lgc_tedit" title="Редактирование оплаты" onclick="transaction.edit('.$data['tid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div><div class="lgc_tedit" title="Удаление оплаты" onclick="transaction.show_confirm_dialog('.$data['tid'].')"><i class="fa fa-times" aria-hidden="true"></i></div>';
+                    return $data['ttype'] === 's' || $data['ttype'] === 'a' ? '<div class="lgc_tedit" title="Редактирование оплаты" onclick="transaction.edit('.$data['tid'].')"><i class="fa fa-edit" aria-hidden="true"></i></div><div class="lgc_tedit" title="Удаление оплаты" onclick="transaction.show_confirm_dialog('.$data['tid'].')"><i class="fa fa-times" aria-hidden="true"></i></div>' : '';
                 }
-
             ],
         ],
     ]);
