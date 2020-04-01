@@ -18,10 +18,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
         <label>Контакты: </label> <?= Html::textarea('contacts', null, ['placeholder' => 'Описание']); ?><br/>
         <label>Заблокирована: </label> <?= Html::checkbox('disabled', false); ?><br/>
         <div class="lgc_form_control">
-            <span>
-                <div style="width: 150px; display: table-cell"></div>
-            </span>
-            <span>
+            <span style="float: right">
     <?= Button::widget(['label' => 'Сохранить','options' => ['name' => 'newcompanysave', 'class' => 'btn-sm btn-primary', 'onclick' => 'company.save()',],]);?>
             </span>
         </div>
@@ -79,50 +76,4 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
     ]);
    Pjax::end();
 ?>
-</div>
-
-<div class="modal fade" id="editTransaction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Редактирование покупки</h4>
-            </div>
-            <div class="modal-body">
-                <div class="lgc_tform">
-                    <div><label>Дата покупки:</label><?=Html::textInput('pay_date', '', ['disabled' => 'true', "class" => "lgc_ro_input"]); ?></div>
-                    <div><label>Сумма покупки:</label><?=MaskedInput::widget(['name' => 'summ','mask' => '999999', 'options'=>['type'=>$field_type]]); ?></div>
-                    <div><label>Бонусных баллов:</label><?=MaskedInput::widget(['name' => 'bsumm','mask' => '999999', 'options'=>['type'=>$field_type]]); ?></div>
-                    <div><label>Описание покупки:</label><?=Html::textInput('descr', '', ['placeholder' => 'Описание покупки']); ?></div>
-                    <div class="lgc_ttype">
-                        <label>Бонусы:</label>
-                        <div class="radio">
-                            <label><input type="radio" name="bonus_op" value="a" checked>Зачисление</label>
-                        </div>
-                        <div class="radio">
-                            <label><input type="radio" name="bonus_op" value="s">Списание</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="transaction.save()">Сохранить</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-body" style="text-align: center">
-                Удалить оплату ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="transaction.delete()">Удалить</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
-            </div>
-        </div>
-    </div>
 </div>

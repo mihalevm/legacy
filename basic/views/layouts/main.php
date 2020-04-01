@@ -51,6 +51,7 @@ if ( null !== Yii::$app->user->id) {
             ['label' => FAS::icon('user-plus').'Новый клиент', 'url' => ['/new-client']],
             ['label' => FAS::icon('users').'Компании', 'url' => ['/company']],
             ['label' => FAS::icon('comment-alt').'Рассылки', 'url' => ['/sending']],
+            ['label' => FAS::icon('chart-bar').'Отчеты', 'url' => ['/report']],
             '<li>'
             . Html::beginForm(['/login/logout'], 'post')
             . Html::submitButton(
