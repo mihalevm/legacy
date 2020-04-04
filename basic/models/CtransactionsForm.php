@@ -139,15 +139,29 @@ class CtransactionsForm extends Model {
 
         foreach ($arr_pids as $pid ){
             $cPeriods = ($this->db_conn->createCommand("select pid, uid, date_format(pay_data, '%d.%m.%Y') as pay_data, pay_sum, payed from lgc_cperiods where pid=:pid")
-                ->bindValue(':pid', $pid)
+                ->bindValue(':pid', $pid->pid)
                 ->queryAll())[0];
 
-            if ($cPeriods['payed'] === 'N' && $this->addCPayment($cPeriods['uid'], $cPeriods['pay_sum'], 'Платеж по рассрочке от '.$cPeriods['pay_data'])){
-                $this->db_conn->createCommand("update lgc_cperiods set payed='Y' where pid=:pid")
-                    ->bindValue(':pid', $pid)
-                    ->execute();
-            }
+            $pid->sum = abs(floatval($pid->sum));
+            $cPeriods['pay_sum'] = floatval($cPeriods['pay_sum']);
 
+            if ($cPeriods['payed'] === 'N' && $cPeriods['pay_sum'] >= $pid->sum) {
+                if ($pid->sum == 0) {
+                    if ($this->addCPayment($cPeriods['uid'], $cPeriods['pay_sum'], 'Платеж по рассрочке от ' . $cPeriods['pay_data'])) {
+                        $this->db_conn->createCommand("update lgc_cperiods set payed='Y' where pid=:pid")
+                            ->bindValue(':pid', $pid->pid)
+                            ->execute();
+                    }
+                } else {
+                    if ($this->addCPayment($cPeriods['uid'], $cPeriods['pay_sum'] - $pid->sum, 'Платеж по рассрочке от ' . $cPeriods['pay_data'])) {
+                        $this->db_conn->createCommand("update lgc_cperiods set pay_sum=:psum, pay_residue=:presidue where pid=:pid")
+                            ->bindValue(':psum', $pid->sum)
+                            ->bindValue(':presidue', $pid->residue)
+                            ->bindValue(':pid', $pid->pid)
+                            ->execute();
+                    }
+                }
+            }
             $uid = $cPeriods['uid'];
         }
 

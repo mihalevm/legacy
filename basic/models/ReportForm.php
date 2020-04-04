@@ -26,7 +26,7 @@ class ReportForm extends Model {
     }
 
     public function getClientsSumm () {
-        $arr = $this->db_conn->createCommand("SELECT c.fio, c.cbalance, co.name, (SELECT SUM(p.pay_sum) FROM lgc_cperiods p WHERE c.uid=p.uid AND p.pay_data<NOW()) AS debitSum from lgc_clients c, lgc_company co WHERE c.disabled = 'N' AND c.coid=co.coid AND co.disabled = 'N'")
+        $arr = $this->db_conn->createCommand("SELECT c.uid, c.fio, c.cbalance, co.name, (SELECT SUM(p.pay_sum) FROM lgc_cperiods p WHERE c.uid=p.uid AND p.pay_data<NOW()) AS debitSum from lgc_clients c, lgc_company co WHERE c.disabled = 'N' AND c.coid=co.coid AND co.disabled = 'N'")
             ->queryAll();
 
         return $arr;

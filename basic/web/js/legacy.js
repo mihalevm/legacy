@@ -795,10 +795,10 @@ var ctransaction = function () {
                                 }
                             }
 
-                            $(tableContent).append('<tr class="'+payed+'"><th>'+o.pitem+'</th><td>'+o.pay_data+pastdue+'</td><td>'+o.pay_sum+'</td><td>'+o.pay_residue+'</td><td>'+payStatus+'</td><td>'+payControl+'</td></tr>');
+                            $(tableContent).append('<tr class="'+payed+'"><th>'+o.pitem+'</th><td>'+o.pay_data+pastdue+'</td><td name="payItem" data-sum="'+o.pay_sum+'">'+o.pay_sum+'</td><td name="payResidue" data-residue="'+o.pay_residue+'">'+o.pay_residue+'</td><td>'+payStatus+'</td><td>'+payControl+'</td></tr>');
                             $('#totalPostDue').text(totalPostDue);
                         }).promise().done(function () {
-                            $('#totalForPay').text('0');
+                            $("input[name=totalForPay]").val(0)
                             $('#addpayModal').modal('show');
                         });
                     }
@@ -810,9 +810,70 @@ var ctransaction = function () {
 
         calculateSubTotal: function (o) {
             if ($(o).prop("checked")){
-                $('#totalForPay').text(parseFloat($('#totalForPay').text())+parseFloat($(o).data('sum')));
+                $("input[name=totalForPay]").val(parseFloat($("input[name=totalForPay]").inputmask('unmaskedvalue'))+parseFloat($(o).data('sum')));
             } else {
-                $('#totalForPay').text(parseFloat($('#totalForPay').text())-parseFloat($(o).data('sum')));
+                $("input[name=totalForPay]").val(parseFloat($("input[name=totalForPay]").inputmask('unmaskedvalue'))-parseFloat($(o).data('sum')));
+            }
+            ctransaction.calculateCustomPaySum();
+        },
+
+        calculateCustomPaySum: function () {
+            var tableContent = $('#paymentPeriodForPay').find('tbody:first').find('tr');
+            var sumForPay = parseFloat($("input[name='totalForPay']").inputmask('unmaskedvalue'));
+            $("button[name=bnt_addpay]").prop('disabled', false);
+
+            if (!isNaN(sumForPay)) {
+                var flg_restore = false;
+
+                $(tableContent).each(function (i, o) {
+                    var el_sum = $(o).find('td').eq(1);
+                    var el_res = $(o).find('td').eq(2);
+                    var el_chk = $(o).find('input:first');
+
+                    var periodPayItem = parseFloat($(el_sum).data('sum'));
+                    var periodpayResidue  = parseFloat($(el_res).data('residue'));
+
+                    if (!flg_restore && !$(o).hasClass('lgc_credit_prepaid_item')) {
+                        if (periodPayItem > sumForPay) {
+                            el_sum.text(periodPayItem - sumForPay);
+                            el_res.text(periodpayResidue === 0 ? 0: periodpayResidue - sumForPay);
+                            el_chk.prop('checked', false);
+                            el_chk.data('sum', periodPayItem - sumForPay);
+
+                            flg_restore = true;
+                        } else {
+                            sumForPay = sumForPay - periodPayItem;
+
+                            el_sum.text($(el_sum).data('sum'));
+                            if (sumForPay > periodpayResidue && periodpayResidue === 0) {
+                                el_res.text('+'+Math.abs(periodpayResidue - sumForPay));
+                                $("button[name=bnt_addpay]").prop('disabled', true);
+                            } else {
+                                el_res.text($(el_res).data('residue'));
+                            }
+                            el_chk.prop('checked', true);
+                            el_chk.data('sum', $(el_sum).data('sum'));
+                        }
+                    } else {
+                        el_sum.text($(el_sum).data('sum'));
+                        el_res.text($(el_res).data('residue'));
+                        el_chk.data('sum', $(el_sum).data('sum'));
+
+                        el_chk.prop('checked', false);
+
+                    }
+                });
+            } else {
+                $(tableContent).each(function (i, o) {
+                    var el_sum = $(o).find('td').eq(1);
+                    var el_res = $(o).find('td').eq(2);
+                    var el_chk = $(o).find('input:first');
+
+                    el_sum.text($(el_sum).data('sum'));
+                    el_res.text($(el_res).data('residue'));
+                    el_chk.prop('checked', false);
+                    el_chk.data('sum', $(el_sum).data('sum'));
+                });
             }
         },
 
@@ -820,8 +881,18 @@ var ctransaction = function () {
             var tableContent = $('#paymentPeriodForPay').find('tbody:first');
             var selected_pays = [];
 
-            $(tableContent).find('input:checked').each(function(i,o){
-                selected_pays.push($(o).data('pid'));
+            $(tableContent).find('tr').each(function(i,o){
+                var el_sum = $(o).find('td').eq(1);
+                var el_chk = $(o).find('input:first');
+                var el_res = $(o).find('td').eq(2);
+
+                if (el_chk.prop('checked')){
+                    selected_pays.push({pid:$(el_chk).data('pid'), sum:0, residue:0});
+                }
+
+                if (parseFloat($(el_sum).data('sum')) !== parseFloat(el_sum.text())) {
+                    selected_pays.push({pid:$(el_chk).data('pid'), sum:parseFloat($(el_sum).text()), residue:parseFloat($(el_res).text())});
+                }
             }).promise().done(function () {
                 $.post(
                     window.location.origin+window.location.pathname+'/addpayments',
@@ -906,8 +977,6 @@ var sell = function () {
             ).fail(function() {
                 window.location.href = 'search/error';
             });
-
-
         },
     };
 }();

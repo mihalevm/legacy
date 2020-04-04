@@ -417,3 +417,18 @@
     float: left;
     color: #c26e91;
 }
+
+.lgc_subtotalpay {}
+
+.lgc_subtotalpay th {
+    vertical-align: middle !important;
+}
+
+.lgc_subtotalpay input {
+    text-align: right;
+    border-radius: 4px;
+    border: 1px dotted lightgray;
+    float: right;
+    background-color: white;
+    width: 100px;
+}

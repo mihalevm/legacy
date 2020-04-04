@@ -157,11 +157,11 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                     </tr>
                     </thead>
                     <tbody></tbody>
-                    <tfoot><th colspan="2">Задолженность:</th><th id="totalPostDue">0</th><th>К оплате:</th><th id="totalForPay">0</th><th></th></tfoot>
+                    <tfoot class="lgc_subtotalpay"><th colspan="2">Задолженность:</th><th id="totalPostDue">0</th><th>К оплате:</th><th colspan="2"><?=MaskedInput::widget(['name' => 'totalForPay','mask' => '999999','value' => '0', 'options' => ['onkeyup'=>'ctransaction.calculateCustomPaySum()']]); ?></th></tfoot>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="ctransaction.AddPayments()">Сохранить</button>
+                <button type="button" name="bnt_addpay" class="btn btn-primary" onclick="ctransaction.AddPayments()">Сохранить</button>
             </div>
         </div>
     </div>

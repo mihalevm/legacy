@@ -21,9 +21,12 @@ $this->params['breadcrumbs'][] = [
         },
         'columns' => [
             [
-                'format' => 'ntext',
-                'attribute'=>'fio',
-                'label'=>'Клиент',
+                'format'      => 'raw',
+                'label'       => 'Клиент',
+                'encodeLabel' => false,
+                'value'       => function($data){
+                    return '<a href="/client-card?u='.$data['uid'].'">'.$data['fio'].'</a>';
+                }
             ],
             [
                 'format' => 'ntext',
