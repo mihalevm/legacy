@@ -11,29 +11,41 @@ $this->params['breadcrumbs'][] = [
 ?>
 <div>
 <?php
+    $totalSum   = 0;
+    $totalDebit = 0;
+
     Pjax::begin(['id' => 'company_list', 'timeout' => false, 'enablePushState' => false, 'clientOptions' => ['method' => 'POST']]);
     echo \yii\grid\GridView::widget([
         'dataProvider' => $companySum,
+        'showFooter' => true,
         'layout' => "{items}<div align='right'>{pager}</div>",
-        'rowOptions' => function ($model, $key, $index, $grid) {
-            return [
-            ];
-        },
         'columns' => [
             [
                 'format' => 'ntext',
                 'attribute'=>'name',
                 'label'=>'Название компании',
+                'footer' => 'Итого:',
             ],
             [
-                'format' => 'ntext',
-                'attribute'=>'totalSum',
-                'label'=>'Кредит',
+                'format' => 'raw',
+                'encodeLabel' => false,
+                'label'=>'Кредитный баланс',
+                'value' => function ($data, $key, $index, $widget) use (&$totalSum) {
+                    $totalSum += floatval($data['totalSum']);
+                    $widget->footer = $totalSum;
+
+                    return $data['totalSum'];
+                },
             ],
             [
-                'format' => 'ntext',
-                'attribute'=>'debitSum',
+                'format' => 'raw',
+                'encodeLabel' => false,
                 'label'=>'Сумма просроченных платежей',
+                'value' => function ($data, $key, $index, $widget) use (&$totalDebit) {
+                    $totalDebit += floatval($data['debitSum']);
+                    $widget->footer = $totalDebit;
+                    return $data['debitSum'];
+                },
             ],
         ],
     ]);

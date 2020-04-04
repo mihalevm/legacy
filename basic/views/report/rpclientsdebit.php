@@ -11,14 +11,14 @@ $this->params['breadcrumbs'][] = [
 ?>
 <div>
 <?php
+    $totalSum   = 0;
+    $totalDebit = 0;
+
     Pjax::begin(['id' => 'clients_list', 'timeout' => false, 'enablePushState' => false, 'clientOptions' => ['method' => 'POST']]);
     echo \yii\grid\GridView::widget([
         'dataProvider' => $clientsSum,
+        'showFooter' => true,
         'layout' => "{items}<div align='right'>{pager}</div>",
-        'rowOptions' => function ($model, $key, $index, $grid) {
-            return [
-            ];
-        },
         'columns' => [
             [
                 'format'      => 'raw',
@@ -26,17 +26,29 @@ $this->params['breadcrumbs'][] = [
                 'encodeLabel' => false,
                 'value'       => function($data){
                     return '<a href="/client-card?u='.$data['uid'].'">'.$data['fio'].'</a>';
-                }
+                },
+                'footer' => 'Итого:',
             ],
             [
-                'format' => 'ntext',
-                'attribute'=>'cbalance',
+                'format' => 'raw',
+                'encodeLabel' => false,
                 'label'=>'Кредитный баланс',
+                'value' => function ($data, $key, $index, $widget) use (&$totalSum) {
+                    $totalSum += floatval($data['cbalance']);
+                    $widget->footer = $totalSum;
+
+                    return $data['cbalance'];
+                },
             ],
             [
-                'format' => 'ntext',
-                'attribute'=>'debitSum',
+                'format' => 'raw',
+                'encodeLabel' => false,
                 'label'=>'Сумма просроченных платежей',
+                'value' => function ($data, $key, $index, $widget) use (&$totalDebit) {
+                    $totalDebit += floatval($data['debitSum']);
+                    $widget->footer = $totalDebit;
+                    return $data['debitSum'];
+                },
             ],
             [
                 'format' => 'ntext',
