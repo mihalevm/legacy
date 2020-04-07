@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name' => 'Бонусные карты Legacy',
+    'name' => 'Legacy "Учет бонусов и рассрочки"',
     'language' => 'ru',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['devicedetect'],

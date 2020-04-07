@@ -105,3 +105,8 @@
 .lgc_tform input[type="text"], .lgc_tform input[type="number"] {
     width: 100%;
 }
+
+.navbar-brand {
+    font-size: 14px;
+    font-weight: 600;
+}

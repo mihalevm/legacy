@@ -61,8 +61,7 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
         'dataProvider' => $client_transactions,
         'layout' => "{items}<div align='right'>{pager}</div>",
         'rowOptions' => function ($model, $key, $index, $grid) {
-            return [
-            ];
+            return [];
         },
         'columns' => [
             [

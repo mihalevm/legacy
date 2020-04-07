@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = [
         'dataProvider' => $clientsSum,
         'showFooter' => true,
         'layout' => "{items}<div align='right'>{pager}</div>",
+        'footerRowOptions' => ['class' => 'lgc_report_footer'],
         'columns' => [
             [
                 'format'      => 'raw',

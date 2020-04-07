@@ -229,7 +229,7 @@ var search = function() {
                     $(obj).addClass('lgc_page_active');
                     $(requested_users).each(function (item, obj) {
                         if (item >= (pid-1)*item_per_page && item < (pid-1)*item_per_page+item_per_page) {
-                            $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected(' + obj.uid + ')"><td scope="row">' + obj.fio + '</td><td>' + obj.phone + '</td><td>' + obj.cnum + '</td><td>' + obj.bsumm + '</td><td class="lgc_search_control"><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd(' + obj.uid + ')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub(' + obj.uid + ')"/></td></tr>');
+                            $('.table-hover > tbody:last-child').append('<tr onclick="search.userselected(' + obj.uid + ')"><td scope="row">' + obj.fio + '</td><td>' + obj.phone + '</td><td>' + obj.cnum + '</td><td>' + obj.bsumm + '</td><td>' + obj.cbalance + '</td>><td class="lgc_search_control"><i class="fa fa-plus-square" title="Зачисление бонусов" style="color: green; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.goadd(' + obj.uid + ')"/>&nbsp;<i class="fa fa-minus-square" title="Списание бонусов" style="color: red; font-size: 25px;" aria-hidden="true" onclick="event.stopPropagation();search.gosub(' + obj.uid + ')"/></td></tr>');
                         }
                     });
                     $('.table-hover > tbody:last-child').fadeIn();

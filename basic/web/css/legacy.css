@@ -432,3 +432,21 @@
     background-color: white;
     width: 100px;
 }
+
+.lgc_report_footer {
+    background: #f9d7e5;
+    font-weight: 700;
+}
+
+.lgc_report_footer td {
+    border-color: #f9d7e5 !important;
+}
+
+.badge-warning {
+    color: #212529;
+    padding: 4px 7px;
+    background-color: #ffc107;
+    font-weight: 100;
+    margin-top: -25px;
+    margin-left: -5px;
+}

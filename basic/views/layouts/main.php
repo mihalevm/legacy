@@ -11,6 +11,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\assets\LegacyAsset;
 use rmrevin\yii\fontawesome\FAS;
+use app\models\ReportForm;
 
 AppAsset::register($this);
 
@@ -28,13 +29,14 @@ if ( null !== Yii::$app->user->id) {
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link rel="stylesheet" media="screen and (max-width: 812px)" href="css/legacy_m.css">
 </head>
 <body>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
     <?php
+    $model = new ReportForm();
+
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -51,7 +53,7 @@ if ( null !== Yii::$app->user->id) {
             ['label' => FAS::icon('user-plus').'Новый клиент', 'url' => ['/new-client']],
             ['label' => FAS::icon('users').'Компании', 'url' => ['/company']],
             ['label' => FAS::icon('comment-alt').'Рассылки', 'url' => ['/sending']],
-            ['label' => FAS::icon('chart-bar').'Отчеты', 'url' => ['/report']],
+            ['label' => FAS::icon('chart-bar').'Отчеты <span name="debitWarning" class="badge badge-warning" title="Есть просроченные платежи">'.$model->hasDebit().'</span>', 'url' => ['/report']],
             '<li>'
             . Html::beginForm(['/login/logout'], 'post')
             . Html::submitButton(

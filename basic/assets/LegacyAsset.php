@@ -21,6 +21,8 @@ class LegacyAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
+        'css/legacy.css',
+        ['css/legacy_m.css', 'media' => 'screen and (max-width: 812px)'],
     ];
 
     public $js = [

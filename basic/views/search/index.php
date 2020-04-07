@@ -21,7 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <th scope="col">ФИО</th>
                 <th scope="col">Телефон</th>
                 <th scope="col">Карта</th>
-                <th scope="col">Баланс</th>
+                <th scope="col">Бонусы</th>
+                <th scope="col">Кредт</th>
                 <th scope="col" style="text-align: center"><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             </thead>

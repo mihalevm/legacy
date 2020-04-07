@@ -31,4 +31,11 @@ class ReportForm extends Model {
 
         return $arr;
     }
+
+    public function hasDebit () {
+        $arr = ($this->db_conn->createCommand("SELECT count(*) as cnt FROM lgc_clients c, lgc_cperiods p WHERE c.uid = p.uid AND p.payed='N' AND p.pay_data<NOW()")
+            ->queryAll())[0];
+
+        return $arr['cnt'];
+    }
 }
