@@ -36,7 +36,7 @@ class ReportForm extends Model {
         $arr = ($this->db_conn->createCommand("SELECT count(*) as cnt FROM lgc_clients c, lgc_cperiods p WHERE c.uid = p.uid AND p.payed='N' AND p.pay_data<NOW() and p.notify='N'")
             ->queryAll())[0];
 
-        $arr['cnt'] = $arr['cnt'] ? $arr['cnt'] : '0';
+        $arr['cnt'] = $arr['cnt'] ? $arr['cnt'] : '';
 
         return $arr['cnt'];
     }
