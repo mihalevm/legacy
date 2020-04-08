@@ -809,11 +809,14 @@ var ctransaction = function () {
         },
 
         calculateSubTotal: function (o) {
-            if ($(o).prop("checked")){
-                $("input[name=totalForPay]").val(parseFloat($("input[name=totalForPay]").inputmask('unmaskedvalue'))+parseFloat($(o).data('sum')));
-            } else {
-                $("input[name=totalForPay]").val(parseFloat($("input[name=totalForPay]").inputmask('unmaskedvalue'))-parseFloat($(o).data('sum')));
-            }
+            var curVal = parseFloat($("input[name=totalForPay]").inputmask('unmaskedvalue'));
+            var sumVal = parseFloat($(o).data('sum'));
+
+            curVal = isNaN(curVal) ? 0 : curVal;
+            sumVal = $(o).prop("checked") ? sumVal : -sumVal;
+
+            $("input[name=totalForPay]").val(curVal + sumVal);
+
             ctransaction.calculateCustomPaySum();
         },
 

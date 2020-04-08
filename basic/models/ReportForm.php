@@ -33,9 +33,18 @@ class ReportForm extends Model {
     }
 
     public function hasDebit () {
-        $arr = ($this->db_conn->createCommand("SELECT count(*) as cnt FROM lgc_clients c, lgc_cperiods p WHERE c.uid = p.uid AND p.payed='N' AND p.pay_data<NOW()")
+        $arr = ($this->db_conn->createCommand("SELECT count(*) as cnt FROM lgc_clients c, lgc_cperiods p WHERE c.uid = p.uid AND p.payed='N' AND p.pay_data<NOW() and p.notify='N'")
             ->queryAll())[0];
 
+        $arr['cnt'] = $arr['cnt'] ? $arr['cnt'] : '0';
+
         return $arr['cnt'];
+    }
+
+    public function setNotifyChecked(){
+        $this->db_conn->createCommand("update lgc_cperiods set notify='Y'")
+            ->execute();
+
+        return 1;
     }
 }

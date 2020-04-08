@@ -48,6 +48,8 @@ class ReportController extends Controller {
             ],
         ]);
 
+        $model->setNotifyChecked();
+
         return $this->render('rpcompany',[
             'model' => $model,
             'companySum' => $companySum
@@ -66,6 +68,8 @@ class ReportController extends Controller {
                 'pageSize' => 5,
             ],
         ]);
+
+        $model->setNotifyChecked();
 
         return $this->render('rpclientsdebit',[
             'model' => $model,

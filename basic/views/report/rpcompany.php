@@ -22,6 +22,14 @@ $this->params['breadcrumbs'][] = [
         'footerRowOptions' => ['class' => 'lgc_report_footer'],
         'columns' => [
             [
+                'format' => 'raw',
+                'encodeLabel' => false,
+                'label'=>'№',
+                'value' => function ($data, $key, $index, $widget) {
+                    return $index+1;
+                },
+            ],
+            [
                 'format' => 'ntext',
                 'attribute'=>'name',
                 'label'=>'Название компании',

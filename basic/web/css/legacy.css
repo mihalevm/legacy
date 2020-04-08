@@ -447,6 +447,7 @@
     padding: 4px 7px;
     background-color: #ffc107;
     font-weight: 100;
-    margin-top: -25px;
+    margin-top: -14px;
     margin-left: -5px;
+    position: fixed;
 }
