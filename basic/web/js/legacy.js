@@ -1,6 +1,6 @@
 var newclient = function(){
     var timerId = null;
-    var nCard   = 0;
+    var nCard   = null;
 
     return {
         create : function () {
@@ -58,7 +58,7 @@ var newclient = function(){
                 } else {
                     $.post(
                         window.location.href+'/create',
-                        { cnum:cnum, bb:bblnc, nc:nCard, fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint: sell_point, coid: coid },
+                        { cnum:cnum, bb:bblnc, nc:(nCard === null ? 1: nCard), fio:fio, phone:phone, birth: birth, sex: sex, ctype: ctype, csize: csize, fsize: fsize, spoint: sell_point, coid: coid },
                         function (uid) {
                             if ( parseInt(uid) > 0 ) {
                                 $("input[name='uid']").val(uid);
