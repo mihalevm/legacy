@@ -605,7 +605,7 @@ var company = function () {
                     n:  $("input[name='coname']").val(),
                     m:  $("input[name='manager']").val(),
                     c:  $("textarea[name='contacts']").val(),
-                    d:  $("input[name='disabled']").val(),
+                    d:  $("input[name='disabled']:checked").val()?1:0,
                     p:  $("select[name='paytype']").val(),
                 },
                 function (data) {
