@@ -33,6 +33,9 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             <span>
         <?= Button::widget(['label' => 'Кредит','options' => ['name' => 'credit', 'class' => 'btn-sm btn-danger', 'onclick' => 'ctransaction.creditCalculatorShow()',],]);?>
             </span>
+            <span>
+        <?= Button::widget(['label' => 'Проверка ФССП','options' => ['name' => 'fssp_check', 'class' => 'btn-sm btn-warning', 'onclick' => 'ctransaction.fsspCheckShow()',],]);?>
+            </span>
         </div>
     </div>
     <?php
@@ -230,4 +233,42 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
             </div>
         </div>
     </div>
+</div>
+
+    <div class="modal fade" id="fsspcheckModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Проверка задолженностей по базе ФССП</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" name="fssp_params">
+                        <div class="col-lg-8 col-lg-offset-2 pb-10"><input name="fssp_param_fn" type="text" class="form-control" placeholder="Фамилия" value="<?= (explode(' ', $client_params['fio']))[0]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 pb-10"><input name="fssp_param_sn" type="text" class="form-control" placeholder="Имя" value="<?= (explode(' ', $client_params['fio']))[1]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 pb-10"><input name="fssp_param_mn" type="text" class="form-control" placeholder="Отчество" value="<?= (explode(' ', $client_params['fio']))[2]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 pb-10">
+                            <?= MaskedInput::widget(['name' => 'fssp_param_bd','mask' => '99.99.9999','value'=>$client_params['birthday'], 'options'=>['placeholder'=>'ДД.ММ.ГГГГ', 'type'=>'text', 'class'=>'form-control']]);?>
+                        </div>
+                    </div>
+                    <div class="row" name="fssp_captcha">
+                        <div class="col-lg-8 col-lg-offset-2 p-15 text-center"><img name="fssp_img_captcha" class="loader" style="visibility: visible"/></div>
+                        <div class="col-lg-4 col-lg-offset-4 col-sm-4 col-sm-offset-4 pb-10"><input name="fssp_str_captcha" type="text" class="form-control" placeholder="Значение с картинки" autofocus autocomplete="off"></div>
+                        <br/>
+                        <div class="col-lg-8 col-lg-offset-2 m-15 text-center"><label name="fssp_lbl_status"></label></div>
+                    </div>
+                    <div class="row" name="fssp_result">
+                        <div class="col-lg-12 pb-10 text-center" name="fssp_result_text"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button name="fssp_bnt_refresh" type="button" class="btn btn-warning" onclick="ctransaction.fsspReloadCaptcha()">Обновить</button>
+                    <button name="fssp_bnt_next" type="button" class="btn btn-primary" onclick="ctransaction.fsspNextStep()">Далее</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

@@ -12,14 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <br/>
 <div class="site-login">
+    <div class="row">
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'layout' => 'horizontal',
         'action' => '/login/login',
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+            'template' => "<div class='col-lg-6'>{label}</div><div class=\"col-lg-6\">{input}</div><div style='text-align: right; margin-right: 20px;'>{error}</div>"
         ],
     ]); ?>
 
@@ -28,8 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'password')->passwordInput()->label('Пароль:', ['class'=>"lgc_login_label"]) ?>
 
         <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'template' => "<div class=\"col-lg-offset-6 col-lg-6\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
         ])->label('Запомнить сессию') ?>
+    </div>
 
     <div class="lgc_form_control">
             <span>

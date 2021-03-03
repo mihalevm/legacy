@@ -11,6 +11,7 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\CtransactionsForm;
+use app\models\FsspForm;
 
 class CtransactionsController extends Controller {
 
@@ -154,4 +155,36 @@ class CtransactionsController extends Controller {
 
         return $this->_sendJSONAnswer($res);
     }
+
+    public function actionFsspcaptcha(){
+        $model = new FsspForm();
+
+        return $this->_sendJSONAnswer($model->GetCaptcha());
+    }
+    public function actionFsspresult(){
+        $r = Yii::$app->request;
+        $model = new FsspForm();
+        $res = null;
+
+        if (
+               null != $r->post('sid')
+            && null != $r->post('captcha')
+            && null != $r->post('fn')
+            && null != $r->post('sn')
+            && null != $r->post('mn')
+            && null != $r->post('bd')
+        ) {
+            $res = $model->Send_Grab(
+                $r->post('sid'),
+                $r->post('captcha'),
+                $r->post('fn'),
+                $r->post('sn'),
+                $r->post('mn'),
+                $r->post('bd')
+            );
+        }
+
+        return $this->_sendJSONAnswer($res);
+    }
+
 }

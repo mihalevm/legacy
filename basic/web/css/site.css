@@ -14,6 +14,34 @@ body {
     padding: 70px 15px 20px;
 }
 
+.lgc_login_label {
+    /*float: left;*/
+    line-height: 2;
+    width: 150px;
+}
+
+.site-login {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loader_right_top {
+    float: right;
+    margin-top: 0px;
+}
+
+.loader {
+    border: 4px solid #c36f92;
+    border-top: 4px solid #7e3553;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    visibility: hidden;
+    box-shadow: 0 0 5px #c36f92;
+}
+
 .footer {
     height: 60px;
     background-color: #f5f5f5;

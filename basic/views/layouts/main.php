@@ -57,7 +57,7 @@ if ( null !== Yii::$app->user->id) {
             '<li>'
             . Html::beginForm(['/login/logout'], 'post')
             . Html::submitButton(
-                FAS::icon('sign-out-alt').'Выход (' . Yii::$app->user->identity->username . ')',
+                FAS::icon('sign-out-alt').' Выход (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
@@ -65,7 +65,7 @@ if ( null !== Yii::$app->user->id) {
         ];
     } else {
         $items = [
-            ['label' => FAS::icon('sign-in-alt').'Вход', 'url' => ['/login']]
+            ['label' => FAS::icon('sign-in-alt').' Вход', 'url' => ['/login']]
         ];
     }
 

@@ -20,7 +20,7 @@ class CtransactionsForm extends Model {
     }
 
     public function getClientParams ($uid) {
-        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, c.cbalance, (select count(*) from lgc_cperiods where uid=:uid and payed='N') as pay_period, (select p.ptype from lgc_paytype p, lgc_company co where c.coid=co.coid and co.ptype=p.pid) as paytype from lgc_clients c where c.uid=:uid")
+        $arr = ($this->db_conn->createCommand("select c.uid, c.fio, c.birthday, c.cbalance, (select count(*) from lgc_cperiods where uid=:uid and payed='N') as pay_period, (select p.ptype from lgc_paytype p, lgc_company co where c.coid=co.coid and co.ptype=p.pid) as paytype from lgc_clients c where c.uid=:uid")
             ->bindValue(':uid', $uid)
             ->bindValue(':uid', $uid)
             ->queryAll())[0];
