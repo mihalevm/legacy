@@ -25,6 +25,8 @@ class CtransactionsForm extends Model {
             ->bindValue(':uid', $uid)
             ->queryAll())[0];
 
+        $arr['fio'] = mb_convert_case(preg_replace('/\s+/', ' ', $arr['fio']), MB_CASE_TITLE, 'UTF-8');
+
         return $arr;
     }
 

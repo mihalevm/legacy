@@ -741,7 +741,7 @@ var ctransaction = function () {
         },
 
         fsspReloadCaptcha:function(){
-            $("[name='fssp_img_captcha']").addClass('loader');
+            $("[name='fssp_loader']").addClass('loader');
             $("[name='fssp_img_captcha']").attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
             $("[name='fssp_bnt_refresh']").hide();
             $("[name='fssp_lbl_status']").html('');
@@ -754,7 +754,8 @@ var ctransaction = function () {
                         $("[name='fssp_img_captcha']").data('sid', r.cookies);
                     }
                 }).always(function () {
-                $("[name='fssp_img_captcha']").removeClass('loader');
+                $("[name='fssp_loader']").removeClass('loader');
+                $("[name='fssp_bnt_refresh']").show();
             });
         },
         fsspNextStep: function() {
@@ -798,11 +799,9 @@ var ctransaction = function () {
 
                     ctransaction.fsspReloadCaptcha();
                 }
-            }
-
-            if ($(body).data('status') == 'captcha') {
+            } else if ($(body).data('status') == 'captcha') {
                 $("[name='fssp_str_captcha']").removeClass('lgc_haserror');
-                $("[name='fssp_img_result']").addClass('loader');
+                $("[name='fssp_loader']").addClass('loader');
 
                 if( !$("[name='fssp_str_captcha']").val() ){
                     $("[name='fssp_str_captcha']").addClass('lgc_haserror');
@@ -826,6 +825,7 @@ var ctransaction = function () {
                                 $(body).find("[name='fssp_captcha']:first").hide();
                                 $(body).find("[name='fssp_result']:first").show();
                                 $(body).data('status', 'result');
+                                $("[name='fssp_bnt_refresh']").hide();
                                 $("[name='fssp_bnt_next']").text('Готово');
                             } else if(parseInt(r.error) == 500) {
                                 $("[name='fssp_lbl_status']").html(r.data);
@@ -835,12 +835,10 @@ var ctransaction = function () {
                                 $("[name='fssp_lbl_status']").html(r.data);
                             }
                     }).always(function () {
-                        $("[name='fssp_img_result']").removeClass('loader');
+                        $("[name='fssp_loader']").removeClass('loader');
                     });
                 }
-            }
-
-            if ($(body).data('status') == 'result') {
+            } else if ($(body).data('status') == 'result') {
                 $('#fsspcheckModal').modal('hide');
             }
         },

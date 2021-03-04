@@ -246,15 +246,15 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 </div>
                 <div class="modal-body">
                     <div class="row" name="fssp_params">
-                        <div class="col-lg-8 col-lg-offset-2 pb-10"><input name="fssp_param_fn" type="text" class="form-control" placeholder="Фамилия" value="<?= (explode(' ', $client_params['fio']))[0]; ?>"/></div>
-                        <div class="col-lg-8 col-lg-offset-2 pb-10"><input name="fssp_param_sn" type="text" class="form-control" placeholder="Имя" value="<?= (explode(' ', $client_params['fio']))[1]; ?>"/></div>
-                        <div class="col-lg-8 col-lg-offset-2 pb-10"><input name="fssp_param_mn" type="text" class="form-control" placeholder="Отчество" value="<?= (explode(' ', $client_params['fio']))[2]; ?>"/></div>
-                        <div class="col-lg-8 col-lg-offset-2 pb-10">
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_fn" type="text" class="form-control" placeholder="Фамилия" value="<?= (explode(' ', $client_params['fio']))[0]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_sn" type="text" class="form-control" placeholder="Имя" value="<?= (explode(' ', $client_params['fio']))[1]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_mn" type="text" class="form-control" placeholder="Отчество" value="<?= (explode(' ', $client_params['fio']))[2]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10">
                             <?= MaskedInput::widget(['name' => 'fssp_param_bd','mask' => '99.99.9999','value'=>$client_params['birthday'], 'options'=>['placeholder'=>'ДД.ММ.ГГГГ', 'type'=>'text', 'class'=>'form-control']]);?>
                         </div>
                     </div>
                     <div class="row" name="fssp_captcha">
-                        <div class="col-lg-8 col-lg-offset-2 p-15 text-center"><img name="fssp_img_captcha" class="loader" style="visibility: visible"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 p-15 text-center"><img name="fssp_img_captcha"/></div>
                         <div class="col-lg-4 col-lg-offset-4 col-sm-4 col-sm-offset-4 pb-10"><input name="fssp_str_captcha" type="text" class="form-control" placeholder="Значение с картинки" autofocus autocomplete="off"></div>
                         <br/>
                         <div class="col-lg-8 col-lg-offset-2 m-15 text-center"><label name="fssp_lbl_status"></label></div>
@@ -264,8 +264,9 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button name="fssp_bnt_refresh" type="button" class="btn btn-warning" onclick="ctransaction.fsspReloadCaptcha()">Обновить</button>
-                    <button name="fssp_bnt_next" type="button" class="btn btn-primary" onclick="ctransaction.fsspNextStep()">Далее</button>
+                    <label name="fssp_loader" class="pull-left" style="visibility: visible;"></label>
+                    <button name="fssp_bnt_next" type="button" class="btn btn-primary pull-right ml-10" onclick="ctransaction.fsspNextStep()">Далее</button>
+                    <button name="fssp_bnt_refresh" type="button" class="btn btn-warning pull-right ml-10" onclick="ctransaction.fsspReloadCaptcha()">Обновить</button>
                 </div>
             </div>
         </div>

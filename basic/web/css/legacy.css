@@ -462,3 +462,12 @@
 .m-15 {
     margin: 15px;
 }
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+img[name="fssp_img_captcha"] {
+    width: 200px;
+    height: 60px;
+}
