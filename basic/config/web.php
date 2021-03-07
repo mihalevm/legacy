@@ -8,13 +8,17 @@ $config = [
     'name' => 'Legacy "Учет бонусов и рассрочки"',
     'language' => 'ru',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['devicedetect'],
+    'bootstrap' => ['assetsAutoCompress'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'defaultRoute' => 'search',
     'components' => [
+        'assetsAutoCompress' =>
+        [
+            'class'         => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
+        ],
         'request' => [
             'cookieValidationKey' => 'dBq_AM2X1yrr_lW3jN3-Ark8_JIRoE36',
         ],

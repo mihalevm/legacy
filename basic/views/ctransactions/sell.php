@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = [
         'url'      => ['/client-card?u='.$client_params['uid']]
         ];
 
-$field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
+$field_type = \Yii::$app->devicedetect->isMobile() ? 'number':'';
 ?>
 <div>
     <br/>

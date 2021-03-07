@@ -22,7 +22,7 @@ class LegacyAsset extends AssetBundle
 
     public $css = [
         'css/legacy.css',
-        ['css/legacy_m.css', 'media' => 'screen and (max-width: 812px)'],
+        'css/legacy_m.css'
     ];
 
     public $js = [

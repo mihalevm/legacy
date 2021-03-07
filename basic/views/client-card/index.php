@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $field_type_phone = '';
 $field_type_birth = '';
 
-if (\Yii::getAlias('@device') != 'desktop') {
+if (\Yii::$app->devicedetect->isMobile()) {
     $field_type_phone = 'number';
     $field_type_birth = 'text';
 

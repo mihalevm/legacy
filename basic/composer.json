@@ -24,7 +24,8 @@
         "yii2mod/yii2-bootstrap-notify": "*",
         "alexandernst/yii2-device-detect": "^0.0.12",
         "2amigos/yii2-multi-select-widget": "*",
-        "yiisoft/yii2-httpclient": "*"
+        "yiisoft/yii2-httpclient": "*",
+        "skeeks/yii2-assets-auto-compress": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

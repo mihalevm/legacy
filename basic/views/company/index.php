@@ -8,7 +8,7 @@ use yii\widgets\MaskedInput;
 $this->title = 'Компании';
 $this->params['breadcrumbs'][] = $this->title;
 
-$field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
+$field_type = \Yii::$app->devicedetect->isMobile() ? 'number':'';
 ?>
 <?= Html::textInput('coid', '0', ['hidden' => 'true']); ?>
     <div class="lgc_mainform">
