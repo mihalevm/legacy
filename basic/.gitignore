@@ -1,5 +1,8 @@
 # phpstorm project files
-.idea
+../.idea
+
+/basic/composer.lock
+/basic/config/db.php
 
 # netbeans project files
 nbproject
