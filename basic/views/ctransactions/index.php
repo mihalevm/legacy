@@ -16,6 +16,11 @@ $field_type = \Yii::$app->devicedetect->isMobile() ? 'number':'';
 
 $fio = explode(' ', $client_params['fio']);
 
+if (null !== $client_params['birthday']){
+    $dates = explode('-', $client_params['birthday']);
+    $client_params['birthday'] = $dates[2].'.'.$dates[1].'.'.$dates[0];
+}
+
 ?>
 <div>
     <br/>
