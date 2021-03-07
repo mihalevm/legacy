@@ -14,8 +14,10 @@ if (\Yii::$app->devicedetect->isMobile()) {
     $field_type_phone = 'number';
     $field_type_birth = 'text';
 
-    $dates = str_split($client_params['birthday'], 2);
-    $client_params['birthday'] = $dates[0].'.'.$dates[1].'.'.$dates[2].$dates[3];
+    if (null !== $client_params['birthday']){
+        $dates = str_split($client_params['birthday'], 2);
+        $client_params['birthday'] = $dates[0].'.'.$dates[1].'.'.$dates[2].$dates[3];
+    }
 }
 ?>
 <div>
