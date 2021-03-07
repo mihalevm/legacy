@@ -13,6 +13,9 @@ $this->params['breadcrumbs'][] = [
         ];
 
 $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
+
+$fio = explode(' ', $client_params['fio']);
+
 ?>
 <div>
     <br/>
@@ -246,9 +249,9 @@ $field_type = \Yii::getAlias('@device') != 'desktop' ? 'number':'';
                 </div>
                 <div class="modal-body">
                     <div class="row" name="fssp_params">
-                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_fn" type="text" class="form-control" placeholder="Фамилия" value="<?= (explode(' ', $client_params['fio']))[0]; ?>"/></div>
-                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_sn" type="text" class="form-control" placeholder="Имя" value="<?= (explode(' ', $client_params['fio']))[1]; ?>"/></div>
-                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_mn" type="text" class="form-control" placeholder="Отчество" value="<?= (explode(' ', $client_params['fio']))[2]; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_fn" type="text" class="form-control" placeholder="Фамилия" value="<?= array_key_exists(0, $fio) ? $fio[0] : ''; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_sn" type="text" class="form-control" placeholder="Имя" value="<?= array_key_exists(1, $fio) ? $fio[1] : ''; ?>"/></div>
+                        <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10"><input name="fssp_param_mn" type="text" class="form-control" placeholder="Отчество" value="<?= array_key_exists(2, $fio) ? $fio[2] : ''; ?>"/></div>
                         <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 pb-10">
                             <?= MaskedInput::widget(['name' => 'fssp_param_bd','mask' => '99.99.9999','value'=>$client_params['birthday'], 'options'=>['placeholder'=>'ДД.ММ.ГГГГ', 'type'=>'text', 'class'=>'form-control']]);?>
                         </div>
