@@ -171,7 +171,7 @@ class CtransactionsController extends Controller {
             && null != $r->post('captcha')
             && null != $r->post('fn')
             && null != $r->post('sn')
-            && null != $r->post('mn')
+//            && null != $r->post('mn')
             && null != $r->post('bd')
         ) {
             $res = $model->Send_Grab(

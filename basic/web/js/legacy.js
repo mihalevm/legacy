@@ -768,7 +768,7 @@ var ctransaction = function () {
 
                 $("[name='fssp_param_fn']").removeClass('lgc_haserror');
                 $("[name='fssp_param_sn']").removeClass('lgc_haserror');
-                $("[name='fssp_param_mn']").removeClass('lgc_haserror');
+//                $("[name='fssp_param_mn']").removeClass('lgc_haserror');
                 $("[name='fssp_param_bd']").removeClass('lgc_haserror');
 
                 if (!$("[name='fssp_param_fn']").val()){
@@ -780,12 +780,12 @@ var ctransaction = function () {
                     $("[name='fssp_param_sn']").addClass('lgc_haserror');
                     vrf = false;
                 }
-
+/*
                 if (!$("[name='fssp_param_mn']").val()){
                     $("[name='fssp_param_mn']").addClass('lgc_haserror');
                     vrf = false;
                 }
-
+*/
                 if (!$("[name='fssp_param_bd']").val()){
                     $("[name='fssp_param_bd']").addClass('lgc_haserror');
                     vrf = false;
