@@ -127,7 +127,6 @@ class FsspForm extends Model {
                 $content = str_replace('  ', '', $content   );
                 $content = str_replace('\"', '"', $content  );
 
-
                 $answer['data']  = $this->parseContent($content);
                 $answer['error'] = 200;
             } else {

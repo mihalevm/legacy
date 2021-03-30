@@ -727,121 +727,6 @@ var ctransaction = function () {
                 }
             }
         },
-        fsspCheckShow: function () {
-            var body = $("#fsspcheckModal").find(".modal-body:first");
-
-            $(body).data('status', 'params');
-            $(body).find("[name='fssp_result']:first").hide();
-            $(body).find("[name='fssp_captcha']:first").hide();
-            $(body).find("[name='fssp_params']:first").show();
-            $("[name='fssp_bnt_refresh']").hide();
-            $("[name='fssp_bnt_next']").text('Далее');
-
-            $('#fsspcheckModal').modal('show');
-        },
-
-        fsspReloadCaptcha:function(){
-            $("[name='fssp_loader']").addClass('loader');
-            $("[name='fssp_img_captcha']").attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
-            $("[name='fssp_bnt_refresh']").hide();
-            $("[name='fssp_lbl_status']").html('');
-            $("[name='fssp_str_captcha']").val('')
-
-            $.post(window.location.origin + window.location.pathname + '/fsspcaptcha', {},
-                function (r) {
-                    if(parseInt(r.error) == 200){
-                        $("[name='fssp_img_captcha']").attr('src', r.captcha);
-                        $("[name='fssp_img_captcha']").data('sid', r.cookies);
-                    }
-                }).always(function () {
-                $("[name='fssp_loader']").removeClass('loader');
-                $("[name='fssp_bnt_refresh']").show();
-            });
-        },
-        fsspNextStep: function() {
-            var body = $("#fsspcheckModal").find(".modal-body:first");
-
-
-            if ($(body).data('status') == 'params') {
-                var vrf = true;
-                $(body).find("[name='fssp_params']:first");
-
-                $("[name='fssp_param_fn']").removeClass('lgc_haserror');
-                $("[name='fssp_param_sn']").removeClass('lgc_haserror');
-//                $("[name='fssp_param_mn']").removeClass('lgc_haserror');
-                $("[name='fssp_param_bd']").removeClass('lgc_haserror');
-
-                if (!$("[name='fssp_param_fn']").val()){
-                    $("[name='fssp_param_fn']").addClass('lgc_haserror');
-                    vrf = false;
-                }
-
-                if (!$("[name='fssp_param_sn']").val()){
-                    $("[name='fssp_param_sn']").addClass('lgc_haserror');
-                    vrf = false;
-                }
-/*
-                if (!$("[name='fssp_param_mn']").val()){
-                    $("[name='fssp_param_mn']").addClass('lgc_haserror');
-                    vrf = false;
-                }
-*/
-                if (!$("[name='fssp_param_bd']").val()){
-                    $("[name='fssp_param_bd']").addClass('lgc_haserror');
-                    vrf = false;
-                }
-
-                if (vrf) {
-                    $("[name='fssp_str_captcha']").removeClass('lgc_haserror');
-                    $(body).find("[name='fssp_params']:first").hide();
-                    $(body).find("[name='fssp_captcha']:first").show();
-                    $(body).data('status', 'captcha');
-
-                    ctransaction.fsspReloadCaptcha();
-                }
-            } else if ($(body).data('status') == 'captcha') {
-                $("[name='fssp_str_captcha']").removeClass('lgc_haserror');
-                $("[name='fssp_loader']").addClass('loader');
-
-                if( !$("[name='fssp_str_captcha']").val() ){
-                    $("[name='fssp_str_captcha']").addClass('lgc_haserror');
-                } else {
-                    $.post(window.location.origin + window.location.pathname + '/fsspresult', {
-                        captcha: $("[name='fssp_str_captcha']").val(),
-                        sid:     $("[name='fssp_img_captcha']").data('sid'),
-                        fn:      $("[name='fssp_param_sn']").val(),
-                        sn:      $("[name='fssp_param_fn']").val(),
-                        mn:      $("[name='fssp_param_mn']").val(),
-                        bd:      $("[name='fssp_param_bd']").val(),
-                        },
-                        function (r) {
-                            if(parseInt(r.error) == 200) {
-                                if (parseInt(r.data) > 0) {
-                                    $("[name='fssp_result_text']").html('Найдена общая сумма задолженности: <b>' + r.data + '</b>');
-                                } else {
-                                    $("[name='fssp_result_text']").text('Задолженностей по базе ФССП не найдено.');
-                                }
-
-                                $(body).find("[name='fssp_captcha']:first").hide();
-                                $(body).find("[name='fssp_result']:first").show();
-                                $(body).data('status', 'result');
-                                $("[name='fssp_bnt_refresh']").hide();
-                                $("[name='fssp_bnt_next']").text('Готово');
-                            } else if(parseInt(r.error) == 500) {
-                                $("[name='fssp_lbl_status']").html(r.data);
-                                $("[name='fssp_bnt_next']").text('Повторить');
-                            } else {
-                                $("[name='fssp_bnt_refresh']").show();
-                                $("[name='fssp_lbl_status']").html(r.data);
-                            }
-                    }).always(function () {
-                        $("[name='fssp_loader']").removeClass('loader');
-                    });
-                }
-            } else if ($(body).data('status') == 'result') {
-                $('#fsspcheckModal').modal('hide');
-            }
-        },
         saveCreditPeriods: function () {
             if (null !== __perodList) {
                 $.post(
@@ -1097,4 +982,218 @@ var sell = function () {
             });
         },
     };
+}();
+
+var check = function () {
+    return {
+        fsspCheckShow: function () {
+            var body = $("#fsspcheckModal").find(".modal-body:first");
+
+            $(body).data('status', 'params');
+            $(body).find("[name='fssp_result']:first").hide();
+            $(body).find("[name='fssp_captcha']:first").hide();
+            $(body).find("[name='fssp_params']:first").show();
+            $("[name='fssp_bnt_refresh']").hide();
+            $("[name='fssp_bnt_next']").text('Далее');
+
+            $('#fsspcheckModal').modal('show');
+        },
+
+        fsspReloadCaptcha:function(){
+            $("[name='fssp_loader']").addClass('loader');
+            $("[name='fssp_img_captcha']").attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
+            $("[name='fssp_bnt_refresh']").hide();
+            $("[name='fssp_lbl_status']").html('');
+            $("[name='fssp_str_captcha']").val('')
+
+            $.post(window.location.origin +  '/check/fsspcaptcha', {},
+                function (r) {
+                    if(parseInt(r.error) == 200){
+                        $("[name='fssp_img_captcha']").attr('src', r.captcha);
+                        $("[name='fssp_img_captcha']").data('sid', r.cookies);
+                    }
+                }).always(function () {
+                $("[name='fssp_loader']").removeClass('loader');
+                $("[name='fssp_bnt_refresh']").show();
+            });
+        },
+        fsspNextStep: function() {
+            var body = $("#fsspcheckModal").find(".modal-body:first");
+
+
+            if ($(body).data('status') == 'params') {
+                var vrf = true;
+                $(body).find("[name='fssp_params']:first");
+
+                $("[name='fssp_param_fn']").removeClass('lgc_haserror');
+                $("[name='fssp_param_sn']").removeClass('lgc_haserror');
+//                $("[name='fssp_param_mn']").removeClass('lgc_haserror');
+                $("[name='fssp_param_bd']").removeClass('lgc_haserror');
+
+                if (!$("[name='fssp_param_fn']").val()){
+                    $("[name='fssp_param_fn']").addClass('lgc_haserror');
+                    vrf = false;
+                }
+
+                if (!$("[name='fssp_param_sn']").val()){
+                    $("[name='fssp_param_sn']").addClass('lgc_haserror');
+                    vrf = false;
+                }
+                /*
+                                if (!$("[name='fssp_param_mn']").val()){
+                                    $("[name='fssp_param_mn']").addClass('lgc_haserror');
+                                    vrf = false;
+                                }
+                */
+                if (!$("[name='fssp_param_bd']").val()){
+                    $("[name='fssp_param_bd']").addClass('lgc_haserror');
+                    vrf = false;
+                }
+
+                if (vrf) {
+                    $("[name='fssp_str_captcha']").removeClass('lgc_haserror');
+                    $(body).find("[name='fssp_params']:first").hide();
+                    $(body).find("[name='fssp_captcha']:first").show();
+                    $(body).data('status', 'captcha');
+
+                    ctransaction.fsspReloadCaptcha();
+                }
+            } else if ($(body).data('status') == 'captcha') {
+                $("[name='fssp_str_captcha']").removeClass('lgc_haserror');
+                $("[name='fssp_loader']").addClass('loader');
+
+                if( !$("[name='fssp_str_captcha']").val() ){
+                    $("[name='fssp_str_captcha']").addClass('lgc_haserror');
+                } else {
+                    $.post(window.location.origin + '/check/fsspresult', {
+                            captcha: $("[name='fssp_str_captcha']").val(),
+                            sid:     $("[name='fssp_img_captcha']").data('sid'),
+                            fn:      $("[name='fssp_param_sn']").val(),
+                            sn:      $("[name='fssp_param_fn']").val(),
+                            mn:      $("[name='fssp_param_mn']").val(),
+                            bd:      $("[name='fssp_param_bd']").val(),
+                        },
+                        function (r) {
+                            if(parseInt(r.error) == 200) {
+                                if (parseInt(r.data) > 0) {
+                                    $("[name='fssp_result_text']").html('Найдена общая сумма задолженности: <b>' + r.data + '</b>');
+                                } else {
+                                    $("[name='fssp_result_text']").text('Задолженностей по базе ФССП не найдено.');
+                                }
+
+                                $(body).find("[name='fssp_captcha']:first").hide();
+                                $(body).find("[name='fssp_result']:first").show();
+                                $(body).data('status', 'result');
+                                $("[name='fssp_bnt_refresh']").hide();
+                                $("[name='fssp_bnt_next']").text('Готово');
+                            } else if(parseInt(r.error) == 500) {
+                                $("[name='fssp_lbl_status']").html(r.data);
+                                $("[name='fssp_bnt_next']").text('Повторить');
+                            } else {
+                                $("[name='fssp_bnt_refresh']").show();
+                                $("[name='fssp_lbl_status']").html(r.data);
+                            }
+                        }).always(function () {
+                        $("[name='fssp_loader']").removeClass('loader');
+                    });
+                }
+            } else if ($(body).data('status') == 'result') {
+                $('#fsspcheckModal').modal('hide');
+            }
+        },
+        PassportCheckShow: function () {
+
+            $("[name='passport_img_captcha']").data('uid', '');
+            $("[name='passport_img_captcha']").data('jid', '');
+            $("[name='passport_img_captcha']").attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
+            $("[name='passport_param_ps']").val('');
+            $("[name='passport_param_pn']").val('');
+            $("[name='passport_param_pc']").val('');
+            $("[name='passport_param_ps']").removeClass('lgc_haserror');
+            $("[name='passport_param_pn']").removeClass('lgc_haserror');
+            $("[name='passport_param_pc']").removeClass('lgc_haserror');
+            $("[name='passport_result']").hide();
+            $("[name='passport_params']").show();
+            $("[name='passport_bnt_refresh']").hide();
+            $("[name='passport_bnt_next']").text('Проверить');
+            $("[name='passport_bnt_next']").data('status', 'params');
+            $('#passportheckModal').modal('show');
+
+            check.PassportReloadCaptcha();
+        },
+        PassportReloadCaptcha: function(){
+            $("[name='passport_loader']").addClass('loader');
+            $("[name='passport_img_captcha']").attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
+            $("[name='passport_bnt_refresh']").hide();
+            $("[name='passport_lbl_status']").html('');
+            $("[name='passport_param_pc']").val('')
+
+            $.post(window.location.origin + '/check/passportcaptcha', {},
+                function (r) {
+                    if(parseInt(r.error) == 200){
+                        $("[name='passport_img_captcha']").attr('src', r.captcha);
+                        $("[name='passport_img_captcha']").data('uid', r.uid);
+                        $("[name='passport_img_captcha']").data('jid', r.jid);
+                    } else {
+                        $("[name='passport_lbl_status']").html(r.data);
+                    }
+                }).always(function () {
+                $("[name='passport_loader']").removeClass('loader');
+                $("[name='passport_bnt_refresh']").show();
+            });
+        },
+        PassportValidation: function () {
+            var body = $("#passportheckModal").find(".modal-body:first");
+
+            $("[name='passport_param_ps']").removeClass('lgc_haserror');
+            $("[name='passport_param_pn']").removeClass('lgc_haserror');
+            $("[name='passport_param_pc']").removeClass('lgc_haserror');
+
+
+            if ($("[name='passport_bnt_next']").data('status') === 'params') {
+                var flg = true;
+                if (! $("[name='passport_param_ps']").val() ){
+                    $("[name='passport_param_ps']").addClass('lgc_haserror');
+                    flg = false;
+                }
+                if (! $("[name='passport_param_pn']").val() ){
+                    $("[name='passport_param_pn']").addClass('lgc_haserror');
+                    flg = false;
+                }
+                if (! $("[name='passport_param_pc']").val() ){
+                    $("[name='passport_param_pc']").addClass('lgc_haserror');
+                    flg = false;
+                }
+
+                if (flg) {
+                    $("[name='passport_bnt_refresh']").hide();
+                    $("[name='passport_loader']").addClass('loader');
+                    $.post(window.location.origin + '/check/passportcheck', {
+                            s: $("[name='passport_param_ps']").val(),
+                            n: $("[name='passport_param_pn']").val(),
+                            c: $("[name='passport_param_pc']").val(),
+                            uid: $("[name='passport_img_captcha']").data('uid'),
+                            jid: $("[name='passport_img_captcha']").data('jid'),
+                        },
+                        function (r) {
+                            if (parseInt(r.error) == 200) {
+                                $("[name='passport_result_text']:first").text(r.data);
+                                $("[name='passport_params']:first").hide();
+                                $("[name='passport_result']:first").show();
+                                $("[name='passport_bnt_next']").text('Готово');
+                                $("[name='passport_bnt_next']").data('status', 'result');
+                            } else {
+                                $("[name='passport_lbl_status']").html(r.data);
+                                $("[name='passport_bnt_refresh']").show();
+                            }
+                        }).always(function () {
+                        $("[name='passport_loader']").removeClass('loader');
+                    });
+                }
+            } else {
+                $('#passportheckModal').modal('hide');
+            }
+
+        }
+    }
 }();
