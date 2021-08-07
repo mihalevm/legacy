@@ -823,12 +823,12 @@ var ctransaction = function () {
         calculateCustomPaySum: function () {
             var tableContent = $('#paymentPeriodForPay').find('tbody:first').find('tr');
             var sumForPay = parseFloat($("input[name='totalForPay']").inputmask('unmaskedvalue'));
-            $("button[name=bnt_addpay]").prop('disabled', false);
 
             if (!isNaN(sumForPay)) {
                 var flg_restore = false;
 
                 $(tableContent).each(function (i, o) {
+                    $("button[name=bnt_addpay]").prop('disabled', false);
                     var el_sum = $(o).find('td').eq(1);
                     var el_res = $(o).find('td').eq(2);
                     var el_chk = $(o).find('input:first');
