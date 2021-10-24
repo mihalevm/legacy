@@ -631,6 +631,7 @@ var company = function () {
 
 var ctransaction = function () {
     var __perodList = null;
+    var __cPaymentInProgress = false;
 
     function __creditCalculator(sum, payData, months) {
         var list = [];
@@ -884,34 +885,45 @@ var ctransaction = function () {
             var tableContent = $('#paymentPeriodForPay').find('tbody:first');
             var selected_pays = [];
 
-            $(tableContent).find('tr').each(function(i,o){
-                var el_sum = $(o).find('td').eq(1);
-                var el_chk = $(o).find('input:first');
-                var el_res = $(o).find('td').eq(2);
+            if ( !__cPaymentInProgress ) {
+                __cPaymentInProgress = true;
 
-                if (el_chk.prop('checked')){
-                    selected_pays.push({pid:$(el_chk).data('pid'), sum:0, residue:0});
-                }
+                $(tableContent).find('tr').each(function (i, o) {
+                    var el_sum = $(o).find('td').eq(1);
+                    var el_chk = $(o).find('input:first');
+                    var el_res = $(o).find('td').eq(2);
 
-                if (parseFloat($(el_sum).data('sum')) !== parseFloat(el_sum.text())) {
-                    selected_pays.push({pid:$(el_chk).data('pid'), sum:parseFloat($(el_sum).text()), residue:parseFloat($(el_res).text())});
-                }
-            }).promise().done(function () {
-                $.post(
-                    window.location.origin+window.location.pathname+'/addpayments',
-                    {
-                        p: JSON.stringify(selected_pays)
-                    },
-                    function (data) {
-                        if (parseInt(data) === 1){
-                            $('#addpayModal').modal('hide');
-                            location.reload();
-                        }
+                    if (el_chk.prop('checked')) {
+                        selected_pays.push({pid: $(el_chk).data('pid'), sum: 0, residue: 0});
                     }
-                ).fail(function() {
-                    window.location.href = 'search/error';
+
+                    if (parseFloat($(el_sum).data('sum')) !== parseFloat(el_sum.text())) {
+                        selected_pays.push({
+                            pid: $(el_chk).data('pid'),
+                            sum: parseFloat($(el_sum).text()),
+                            residue: parseFloat($(el_res).text())
+                        });
+                    }
+                }).promise().done(function () {
+                    $.post(
+                        window.location.origin + window.location.pathname + '/addpayments',
+                        {
+                            p: JSON.stringify(selected_pays)
+                        },
+                        function (data) {
+                            if (parseInt(data) === 1) {
+                                console.log('Credit payment add successful');
+                            }
+                        }
+                    ).fail(function () {
+                        window.location.href = 'search/error';
+                    }).always(function () {
+                        __cPaymentInProgress = false;
+                        $('#addpayModal').modal('hide');
+                        location.reload();
+                    });
                 });
-            });
+            }
         },
 
         showPaysModal: function () {
