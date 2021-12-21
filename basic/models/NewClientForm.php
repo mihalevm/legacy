@@ -69,7 +69,7 @@ class NewClientForm extends Model {
     }
 
     public function getAllCompany (){
-        $arr = $this->db_conn->createCommand("select coid, name from lgc_company order by name")
+        $arr = $this->db_conn->createCommand("select coid, name from lgc_company where disabled='N' order by name")
             ->queryAll();
 
         $arr = ArrayHelper::map($arr,'coid','name');
