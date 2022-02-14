@@ -28,7 +28,7 @@ if (\Yii::$app->devicedetect->isMobile()) {
         <label>Номер бонусной карты: </label> <?= Html::textInput('cnum', $client_params['cnum'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Доступно бонусов: </label> <?= Html::textInput('cnum', $client_params['bsumm'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
         <label>Кредитный баланс:<?php if (floatval($client_params['cbalance']) < 0) {echo('<i class="fa fa-exclamation-triangle lgc_hint_warning" aria-hidden="true"></i>');};?></label> <?= Html::textInput('cblnc', $client_params['cbalance'], ['disabled' => 'true', "class" => "lgc_ro_input"]); ?><br/>
-        <label>Магазин: </label> <?= Html::dropDownList('sell_point', $client_params['spoint'], ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТРЦ Арена']) ?><br/>
+        <label>Магазин: </label> <?= Html::dropDownList('sell_point', $client_params['spoint'], ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТЦ Азия']) ?><br/>
         <label>Компания: </label><?= Html::dropDownList('company', $client_params['coid'], $company) ?><br/>
         <label>ФИО: </label> <?= Html::textInput('fio', $client_params['fio'], ['placeholder' => 'ФИО Клиента']); ?><br/>
         <label>Номер телефона: </label> <?=MaskedInput::widget(['name' => 'phone','mask' => '9-999-999-99-99', 'value'=>$client_params['phone'], 'options'=>['placeholder'=>'7-9XX-XXX-XX-XX', 'type'=>$field_type_phone]]); ?><br/>

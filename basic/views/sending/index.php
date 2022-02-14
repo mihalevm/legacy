@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo MultiSelect::widget([
                                     "id"=>"sell_point",
                                     "options" => ['multiple'=>"multiple", 'class'=>'input-group'],
-                                    'data' => ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТРЦ Арена'],
+                                    'data' => ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТЦ Азия'],
                                     'value' => [],
                                     'name' => 'sell_points',
                                     "clientOptions" =>

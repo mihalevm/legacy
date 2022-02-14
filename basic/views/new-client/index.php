@@ -13,7 +13,7 @@ $field_type = \Yii::$app->devicedetect->isMobile() ? 'number':'';
     <br/>
     <?= Html::textInput('uid', null, ['hidden' => 'true']); ?><br/>
     <div class="lgc_mainform">
-        <label>Магазин: </label> <?= Html::dropDownList('sell_point', null, ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТРЦ Арена']) ?><br/>
+        <label>Магазин: </label> <?= Html::dropDownList('sell_point', null, ['1' => 'ТРЦ Ракета', '0' => 'ТЦ ЦУМ', '2' => 'ТЦ Азия']) ?><br/>
         <label>Номер бонусной карты: </label><?=MaskedInput::widget(['name' => 'cnum', 'value' => $freeCid, 'mask' => '99999','options'=>['type'=>$field_type, 'autofocus'=>'', 'onkeyup'=>'newclient.newcard()']]);?><br/>
         <label>Доступно бонусов: </label><?=MaskedInput::widget(['name' => 'bblnc','mask' => '999999', 'value'=>'0', 'options'=>['type'=>$field_type]]);?><br/>
         <label>Компания: </label><?= Html::dropDownList('company', 0, $company) ?><br/>
